@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Add Person</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+
+
+<div id='main'>
+    <h1>Register account:</h1>
+    <form class="new_user" id="new_user" th:action="@{/register}" th:object="${userForm}" method="POST" accept-charset="UTF-8">
+        <ul>
+        <li>
+            <label >
+                E-mail
+                <div class='hint'>
+                    E-mail będzie Twoim loginem
+                </div>
+            </label>
+            <input placeholder="anonimowy@gmail.com" type="email" th:field="*{name}" />
+        </li>
+        <li>
+            <label for='user_password'>
+                Hasło
+                <div class='hint'>
+                    minimum 6 znaków
+                </div>
+            </label>
+            <input type="password" th:field="*{password}" name="user[password]" id="user_password"/>
+        </li>
+        <li>
+            <label for='user_password_confirmation'>
+                Potwierdzenie hasła
+                <div class='hint'>
+                    ponownie wpisz powyższe hasło
+                </div>
+            </label>
+            <input type="password" name="user[password_confirmation]" th:field="*{confirmedPassword}" id="user_password_confirmation"/>
+        </li>
+        <li>
+            <label>
+                &nbsp;
+            </label>
+            <input name="user[terms_of_service]" type="hidden" value="0"/><input type="checkbox" value="1"
+                                                                                 name="user[terms_of_service]"
+                                                                                 id="user_terms_of_service"/>
+            <label class='inline-block' for='user_terms_of_service'>
+                Oświadczam, że zapoznałem(-am) się z regulaminem
+                , wyrażam zgodę na jego postanowienia i chcę korzystać z Usługi portalu opisanej w ww. regulaminie i w
+                polityce prywatności
+            </label>
+        </li>
+        </ul>
+        <button type='submit'>
+            Załóż konto
+        </button>
+    </form>
+</div>
+
+
+<!--&lt;!&ndash; Check if errorMessage is not null and not empty &ndash;&gt;-->
+
+<!--<div th:if="${errorMessage}" th:utext="${errorMessage}"-->
+<!--style="color:red;font-style:italic;">-->
+<!--...-->
+<!--</div>-->
+
+</body>
+</html>

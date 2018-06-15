@@ -1,22 +1,12 @@
 package com.mariusz.home_budget.service;
 
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import com.mariusz.home_budget.entity.entity_forms.UserForm;
 
-@Service
-public class ApplicationUserService implements UserDetailsService {
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
+public interface ApplicationUserService  {
 
-        return user;
-    }
+//    boolean checkUserByUsername(String name);
+
+    void saveUser(UserForm userForm);
+
+//    boolean checkUserEmail(String email);
 }
