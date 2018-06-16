@@ -2,11 +2,9 @@ package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.entity_forms.UserForm;
 
+import java.util.Optional;
+
 public interface ApplicationUserService  {
 
-//    boolean checkUserByUsername(String name);
-
-    void saveUser(UserForm userForm);
-
-//    boolean checkUserEmail(String email);
+    Optional<String> registerUser(UserForm userForm);
 }
