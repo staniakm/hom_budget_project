@@ -6,7 +6,11 @@
 </head>
 <body>
 <H1 style="text-align: center" th:utext="${'You are logged in '}">.</H1>
-
+<hr>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<hr>
 <p>Welcome screen for logged users</p>
 </body>
 </html>
