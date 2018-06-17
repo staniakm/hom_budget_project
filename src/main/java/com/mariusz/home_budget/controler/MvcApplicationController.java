@@ -32,11 +32,19 @@ public class MvcApplicationController {
         return "about";
     }
 
+    //user enter login page.
     @GetMapping("/login")
-    public String loginPage(){
+    public String getLoginPage(){
         return "login";
     }
 
+    //Verification process done by Spring security.
+    @GetMapping("/welcome")
+    public String loginProccess(){
+        return "welcome";
+    }
+
+    //page load while enters register page.
     @GetMapping("/register")
     public String registerPage(Model model){
         UserForm userForm = new UserForm();
@@ -44,6 +52,7 @@ public class MvcApplicationController {
         return "register";
     }
 
+    //user try to register new account. Validation and registration.
     @PostMapping("/register")
     public String registerUser(Model model,@ModelAttribute("userForm") UserForm userForm) {
 
