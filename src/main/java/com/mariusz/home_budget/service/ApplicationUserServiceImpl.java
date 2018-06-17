@@ -3,6 +3,8 @@ package com.mariusz.home_budget.service;
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.entity_forms.UserForm;
 import com.mariusz.home_budget.repository.UserRepository;
+import com.mariusz.home_budget.repository.VerificationTokenRepository;
+import com.mariusz.home_budget.entity.VerificationToken;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -11,22 +13,33 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 
 @Service
 public class ApplicationUserServiceImpl implements ApplicationUserService, UserDetailsService {
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+
+    public static final String TOKEN_INVALID = "invalidToken";
+    public static final String TOKEN_EXPIRED = "expired";
+    public static final String TOKEN_VALID = "valid";
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final EmailValidator emailValidator;
+    private final VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
-    public ApplicationUserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailValidator emailValidator) {
+    public ApplicationUserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, EmailValidator emailValidator, VerificationTokenRepository verificationTokenRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.emailValidator = emailValidator;
+        this.verificationTokenRepository = verificationTokenRepository;
     }
 
     @Override
@@ -42,6 +55,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService, UserD
         return User.builder()
                 .username(appUser.getName())
                 .password(appUser.getPassword())
+                .disabled(!appUser.isEnabled())
                 .authorities(Collections.emptyList())
                 .accountExpired(false)
                 .accountLocked(false)
@@ -50,6 +64,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService, UserD
     }
 
     @SuppressWarnings("ConstantConditions")
+    @Transactional
     public Optional<String> registerUser(UserForm userForm) {
 
         String name = userForm.getName().trim();
@@ -78,5 +93,47 @@ public class ApplicationUserServiceImpl implements ApplicationUserService, UserD
         return Optional.empty();
     }
 
+    @Override
+    public Optional<AppUser> getUserByName(String name) {
+       return userRepository.findByName(name);
+
+    }
+
+    @Override
+    public AppUser getUserByToken(String verificationToken) {
+        AppUser user = verificationTokenRepository.findByToken(verificationToken).getUser();
+        return user;
+    }
+
+    @Override
+    public void createVerificationToken(AppUser user, String token) {
+        VerificationToken myToken = new VerificationToken(token, user);
+        verificationTokenRepository.save(myToken);
+    }
+
+    @Override
+    public VerificationToken getVerificationToken(String VerificationToken) {
+        return null;
+    }
+
+
+    @Override
+    public String validateVerificationToken(String token) {
+        final VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        if (verificationToken == null) {
+            return TOKEN_INVALID;
+        }
+
+        final AppUser user = verificationToken.getUser();
+        if (verificationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+            verificationTokenRepository.delete(verificationToken);
+            return TOKEN_EXPIRED;
+        }
+
+        user.setEnabled(true);
+//        verificationTokenRepository.delete(verificationToken);
+        userRepository.save(user);
+        return TOKEN_VALID;
+    }
 
 }

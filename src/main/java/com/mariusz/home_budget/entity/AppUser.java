@@ -1,12 +1,10 @@
 package com.mariusz.home_budget.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
-@NoArgsConstructor
 @Entity
 @Table(name = "application_users")
 public class AppUser {
@@ -17,4 +15,10 @@ public class AppUser {
     @Column(name = "email")
     private String name;
     private String password;
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    public AppUser(){
+        this.enabled = false;
+    }
 }

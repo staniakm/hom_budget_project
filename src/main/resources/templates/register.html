@@ -6,7 +6,7 @@
     <title>Add Person</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
 </head>
-<body>
+<br>
 
 
 <div id='main'>
@@ -15,50 +15,53 @@
         <ul>
         <li>
             <label >
-                E-mail
+                <span th:text="#{label.user.email}"/>
                 <div class='hint'>
-                    E-mail będzie Twoim loginem
+                    <div th:text="#{hint.user.email}"/>
                 </div>
             </label>
             <input placeholder="anonimowy@gmail.com" type="email" th:field="*{name}" />
         </li>
         <li>
-            <label for='user_password'>
-                Hasło
+            <label for='user_password' >
+                <span th:text="#{label.user.password}"/>
                 <div class='hint'>
-                    minimum 6 znaków
+                    <div th:text="#{hint.user.password}"/>
                 </div>
             </label>
             <input type="password" th:field="*{password}" name="user[password]" id="user_password"/>
         </li>
         <li>
             <label for='user_password_confirmation'>
-                Potwierdzenie hasła
+                <span th:text="#{label.user.confirmPass}"/>
                 <div class='hint'>
-                    ponownie wpisz powyższe hasło
+                    <div th:text="#{hint.user.confirmPass}"/>
                 </div>
             </label>
             <input type="password" name="user[password_confirmation]" th:field="*{confirmedPassword}" id="user_password_confirmation"/>
         </li>
-        <li>
-            <label>
-                &nbsp;
-            </label>
-            <input name="user[terms_of_service]" type="hidden" value="0"/><input type="checkbox" value="1"
-                                                                                 name="user[terms_of_service]"
-                                                                                 id="user_terms_of_service"/>
-            <label class='inline-block' for='user_terms_of_service'>
-                Oświadczam, że zapoznałem(-am) się z regulaminem
-                , wyrażam zgodę na jego postanowienia i chcę korzystać z Usługi portalu opisanej w ww. regulaminie i w
-                polityce prywatności
-            </label>
-        </li>
+        <!--<li>-->
+            <!--<label>-->
+                <!--&nbsp;-->
+            <!--</label>-->
+            <!--<input name="user[terms_of_service]" type="hidden" value="0"/><input type="checkbox" value="1"-->
+                                                                                 <!--name="user[terms_of_service]"-->
+                                                                                 <!--id="user_terms_of_service"/>-->
+            <!--&lt;!&ndash;<label class='inline-block' for='user_terms_of_service'>&ndash;&gt;-->
+                <!--Oświadczam, że zapoznałem(-am) się z regulaminem-->
+                <!--, wyrażam zgodę na jego postanowienia i chcę korzystać z Usługi portalu opisanej w ww. regulaminie i w-->
+                <!--polityce prywatności-->
+            <!--</label>-->
+        <!--</li>-->
         </ul>
-        <button type='submit'>
-            Załóż konto
+        <button th:text="#{label.form.loginSignUp}" type='submit'>
+
         </button>
     </form>
 </div>
+<br>
+<a th:href="@{/login.html}" >Login</a>
+</br>
 <div th:if="${errorMessage}" th:utext="${errorMessage}"
      style="color:red;font-style:italic;">
     ...
