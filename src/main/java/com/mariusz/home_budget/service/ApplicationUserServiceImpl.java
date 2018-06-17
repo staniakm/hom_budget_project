@@ -23,11 +23,11 @@ import java.util.Optional;
 
 @Service
 public class ApplicationUserServiceImpl implements ApplicationUserService, UserDetailsService {
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public static final String TOKEN_INVALID = "invalidToken";
-    public static final String TOKEN_EXPIRED = "expired";
-    public static final String TOKEN_VALID = "valid";
+    private static final String TOKEN_INVALID = "invalidToken";
+    private static final String TOKEN_EXPIRED = "expired";
+    private static final String TOKEN_VALID = "valid";
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -46,7 +46,6 @@ public class ApplicationUserServiceImpl implements ApplicationUserService, UserD
     public UserDetails loadUserByUsername(String email) {
         AppUser appUser = userRepository.findByName(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
-
 
         return toUser(appUser);
     }
@@ -67,6 +66,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService, UserD
     @Transactional
     public Optional<String> registerUser(UserForm userForm) {
 
+        logger.info("User registration process");
         String name = userForm.getName().trim();
         String pass = userForm.getPassword().trim();
         String passConfirmation = userForm.getConfirmedPassword().trim();
@@ -101,19 +101,13 @@ public class ApplicationUserServiceImpl implements ApplicationUserService, UserD
 
     @Override
     public AppUser getUserByToken(String verificationToken) {
-        AppUser user = verificationTokenRepository.findByToken(verificationToken).getUser();
-        return user;
+        return verificationTokenRepository.findByToken(verificationToken).getUser();
     }
 
     @Override
     public void createVerificationToken(AppUser user, String token) {
         VerificationToken myToken = new VerificationToken(token, user);
         verificationTokenRepository.save(myToken);
-    }
-
-    @Override
-    public VerificationToken getVerificationToken(String VerificationToken) {
-        return null;
     }
 
 
@@ -131,7 +125,6 @@ public class ApplicationUserServiceImpl implements ApplicationUserService, UserD
         }
 
         user.setEnabled(true);
-//        verificationTokenRepository.delete(verificationToken);
         userRepository.save(user);
         return TOKEN_VALID;
     }

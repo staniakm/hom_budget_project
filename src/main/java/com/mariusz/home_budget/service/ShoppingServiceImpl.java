@@ -24,7 +24,7 @@ public class ShoppingServiceImpl implements ShoppingService {
         items.add(new ShoppingItem(3L, "Chleb",BigDecimal.valueOf(1.59)));
         items.add(new ShoppingItem(4L, "Wedlina",BigDecimal.valueOf(2.50)));
         shopingList.setItems(items);
-        BigDecimal result = items.stream().map(a->a.getPrice())
+        BigDecimal result = items.stream().map(ShoppingItem::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         shopingList.setTotalAmount(result);
         return shopingList;

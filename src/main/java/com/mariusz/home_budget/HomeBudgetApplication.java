@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.web.context.request.RequestContextListener;
 
 @SpringBootApplication
-@EnableGlobalMethodSecurity(securedEnabled = false, prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class HomeBudgetApplication {
 
     public static void main(String[] args) {

@@ -21,5 +21,4 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
         this.appUrl = appUrl;
     }
 
-    // standard getters and setters
 }

@@ -20,24 +20,21 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.security.Principal;
 import java.util.Locale;
 import java.util.Optional;
 
 @Controller
 public class MvcApplicationController {
-    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Qualifier("messageSource")
-    @Autowired
-    private MessageSource messages;
+    private final MessageSource messages;
 
     private final ApplicationUserService applicationUserService;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public MvcApplicationController(ApplicationUserService applicationUserService, ApplicationEventPublisher applicationEventPublisher) {
+    public MvcApplicationController(@Qualifier("messageSource") MessageSource messages, ApplicationUserService applicationUserService, ApplicationEventPublisher applicationEventPublisher) {
+        this.messages = messages;
         this.applicationUserService = applicationUserService;
         this.applicationEventPublisher = applicationEventPublisher;
     }
@@ -61,7 +58,7 @@ public class MvcApplicationController {
 
     //Verification process done by Spring security.
     @GetMapping("/welcome")
-    public String loginProccess(Model model, Authentication authentication){
+    public String loginProccess(){
         return "welcome";
     }
 
@@ -78,7 +75,7 @@ public class MvcApplicationController {
     @PostMapping("/register")
     public ModelAndView registerUser(Model model , @ModelAttribute("userForm") UserForm userAccount
                 , BindingResult result, HttpServletRequest request) {
-
+        logger.info("New account");
         Optional<String> errorOccur = applicationUserService.registerUser(userAccount);
 
         if (errorOccur.isPresent()){
@@ -103,15 +100,11 @@ public class MvcApplicationController {
     }
 
     @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
-    public String confirmRegistration(final HttpServletRequest request, final Model model, @RequestParam("token") final String token) throws UnsupportedEncodingException {
+    public String confirmRegistration(final HttpServletRequest request, final Model model, @RequestParam("token") final String token) {
         Locale locale = request.getLocale();
         final String result = applicationUserService.validateVerificationToken(token);
         if (result.equals("valid")) {
             final AppUser user = applicationUserService.getUserByToken(token);
-            // if (user.isUsing2FA()) {
-            // model.addAttribute("qr", userService.generateQRUrl(user));
-            // return "redirect:/qrcode.html?lang=" + locale.getLanguage();
-            // }
             authWithoutPassword(user);
             model.addAttribute("message", messages.getMessage("message.accountVerified", null, locale));
             return "redirect:/welcome";

@@ -2,7 +2,6 @@ package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.entity_forms.UserForm;
-import com.mariusz.home_budget.entity.VerificationToken;
 
 import java.util.Optional;
 
@@ -15,8 +14,6 @@ public interface ApplicationUserService  {
     AppUser getUserByToken(String verificationToken);
 
     void createVerificationToken(AppUser user, String token);
-
-    VerificationToken getVerificationToken(String VerificationToken);
 
     String validateVerificationToken(String token);
 }

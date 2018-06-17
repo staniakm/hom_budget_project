@@ -2,7 +2,6 @@ package com.mariusz.home_budget.listener;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.service.ApplicationUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
@@ -17,19 +16,21 @@ import java.util.UUID;
 public class RegistrationListener implements
         ApplicationListener<OnRegistrationCompleteEvent> {
 
-    @Autowired
-    private ApplicationUserService service;
+    private final ApplicationUserService service;
 
-    @Qualifier("messageSource")
-    @Autowired
-    private MessageSource messages;
+    private final MessageSource messages;
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
+    private final Environment env;
 
-    @Autowired
-    private Environment env;
+    public RegistrationListener(ApplicationUserService service, @Qualifier("messageSource") MessageSource messages, JavaMailSender mailSender, Environment env) {
+        this.service = service;
+        this.messages = messages;
+        this.mailSender = mailSender;
+        this.env = env;
+    }
+
 
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
@@ -45,7 +46,7 @@ public class RegistrationListener implements
         mailSender.send(email);
     }
 
-    private final SimpleMailMessage constructEmailMessage(final OnRegistrationCompleteEvent event, final AppUser user, final String token) {
+    private SimpleMailMessage constructEmailMessage(final OnRegistrationCompleteEvent event, final AppUser user, final String token) {
         final String recipientAddress = user.getName();
         final String subject = "Registration Confirmation";
         final String confirmationUrl = event.getAppUrl() + "/registrationConfirm?token=" + token;
