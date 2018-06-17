@@ -1,4 +1,116 @@
 
 .hint { font-size: 10px; color: #bbbbbb; font-weight: normal; padding-top: 2px; line-height: 1.2em; }
 
-article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary { display: block; }
+/*article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary { display: block; }*/
+
+div {
+    /*border: 1px solid black;*/
+}
+body {
+    background-color: #d4d4ef;
+}
+
+.blogShort{
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 15% auto;
+    grid-gap: 1px;
+    grid-column-gap: 5px;
+    height: 97vh;
+}
+
+.header {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    height: 10vh;
+    background-color: #2996c9;
+    color: #f1f1f1;
+    text-align: center;
+}
+
+.footer {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    height: 10vh;
+    background-color: #2996c9;
+    text-align: center;
+}
+
+.nav {
+    height: 77vh;
+    grid-row-start: 2;
+    grid-row-end: 4;
+    background-color: #2996c9;
+}
+
+.content {
+    grid-row-start: 2;
+    grid-row-end: 4;
+    overflow: auto;
+}
+
+.sidenav {
+    /*height: 100%;*/
+    width: 100%;
+    padding: 5px;
+    /*position: fixed;*/
+    /*z-index: 1;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*background-color: #111;*/
+    overflow-x: hidden;
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.author{
+    font-size: 11px;
+    margin: 1px;
+}
+
+.artTitle{
+    margin-bottom: 1px;
+}
+/*
+.inner-container {
+    display: grid;
+    grid-template-columns: 40% 20% 40%;
+}
+*/
+
+/*
+.left {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+*/
+
+/*
+.right {
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+*/
+
+/*@media only screen and (max-width: 700px) {*/
+    /*.nav {*/
+        /*width: 100%;*/
+    /*}*/
+    /*.content {*/
+        /*width: 100%;*/
+    /*}*/
+/*}*/
