@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<H1 style="text-align: center" th:utext="${'You are logged in '}">.</H1>
+<H1 style="text-align: center" th:utext="${'You are logged in as '+loggedUser}">.</H1>
 <hr>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>

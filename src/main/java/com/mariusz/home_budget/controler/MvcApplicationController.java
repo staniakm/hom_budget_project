@@ -2,6 +2,7 @@ package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.entity_forms.UserForm;
+import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.listener.OnRegistrationCompleteEvent;
 import com.mariusz.home_budget.service.ApplicationUserService;
 import org.slf4j.Logger;
@@ -13,6 +14,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -32,11 +36,14 @@ public class MvcApplicationController {
     private final ApplicationUserService applicationUserService;
     private final ApplicationEventPublisher applicationEventPublisher;
 
+    private final AuthenticationFacade authenticationFacade;
+
     @Autowired
-    public MvcApplicationController(@Qualifier("messageSource") MessageSource messages, ApplicationUserService applicationUserService, ApplicationEventPublisher applicationEventPublisher) {
+    public MvcApplicationController(@Qualifier("messageSource") MessageSource messages, ApplicationUserService applicationUserService, ApplicationEventPublisher applicationEventPublisher, AuthenticationFacade authenticationFacade) {
         this.messages = messages;
         this.applicationUserService = applicationUserService;
         this.applicationEventPublisher = applicationEventPublisher;
+        this.authenticationFacade = authenticationFacade;
     }
 
 
@@ -58,7 +65,10 @@ public class MvcApplicationController {
 
     //Verification process done by Spring security.
     @GetMapping("/welcome")
-    public String loginProccess(){
+    public String loginProccess(Model model){
+        Authentication authentication = authenticationFacade.getAuthentication();
+        String name = authentication.getName();
+        model.addAttribute("loggedUser", name);
         return "welcome";
     }
 
@@ -96,7 +106,7 @@ public class MvcApplicationController {
             }
         }
 
-        return new ModelAndView("login", "userForm", userAccount);
+        return new ModelAndView("main", "userForm", userAccount);
     }
 
     @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
@@ -121,7 +131,17 @@ public class MvcApplicationController {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 
-    public void authWithoutPassword(AppUser user) {
+    public void authWithoutPassword(AppUser appUser) {
+
+        UserDetails user = User.builder()
+                .username(appUser.getName())
+                .password(appUser.getPassword())
+                .disabled(!appUser.isEnabled())
+                .authorities(Collections.emptyList())
+                .accountExpired(false)
+                .accountLocked(false)
+                .credentialsExpired(false)
+                .build();
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, null);
 
