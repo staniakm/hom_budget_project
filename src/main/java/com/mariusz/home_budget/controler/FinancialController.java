@@ -31,6 +31,7 @@ public class FinancialController {
         String name = authentication.getName();
         model.addAttribute("loggedUser", name);
         Map<String, BigDecimal> balance = financialService.getBalance();
+        model.addAttribute("balance",balance.get("balance"));
         model.addAttribute("income",balance.get("income"));
         model.addAttribute("expense",balance.get("expense"));
 

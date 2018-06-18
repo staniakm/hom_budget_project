@@ -32,6 +32,7 @@ public class FinancialServiceImpl implements FinancialService {
         Map<String, BigDecimal> map = new HashMap<>();
         map.put("income",balance.getIncome());
         map.put("expense",balance.getExpense());
+        map.put("balance",balance.getIncome().subtract(balance.getExpense()));
         return map;
 
 

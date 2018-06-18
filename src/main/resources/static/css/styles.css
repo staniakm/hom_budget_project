@@ -85,6 +85,21 @@ body {
 .artTitle{
     margin-bottom: 1px;
 }
+
+.balance{
+    width:55%;
+    margin-right:2%;
+    float: left;
+}
+
+.buttons_balance {
+    width:30%;
+    float: right;
+
+}
+.clearfix{
+    clear:both
+}
 /*
 .inner-container {
     display: grid;

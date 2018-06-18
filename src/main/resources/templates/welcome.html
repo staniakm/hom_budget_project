@@ -41,7 +41,14 @@
         </div>
     </div>
     <div class="item content">
-        <div style="height: 15vh; border: 2px solid black">
+        <div >
+            <p class="balance" th:text="${'Balance: ' + balance}">...</p>
+            <div class="buttons_balance">
+                <button>Add income</button>
+                <button>Add expense</button>
+            </div>
+            <div class="clearfix"></div>
+            <hr>
             <p th:text="${'Income: '+income}"></p>
             <p th:text="${'Expense: '+ expense}"></p>
         </div>
