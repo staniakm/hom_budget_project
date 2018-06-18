@@ -63,14 +63,7 @@ public class MvcApplicationController {
         return "login";
     }
 
-    //Verification process done by Spring security.
-    @GetMapping("/welcome")
-    public String loginProccess(Model model){
-        Authentication authentication = authenticationFacade.getAuthentication();
-        String name = authentication.getName();
-        model.addAttribute("loggedUser", name);
-        return "welcome";
-    }
+
 
     //page load while enters register page.
     @GetMapping("/register")

@@ -12,8 +12,6 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
 
     @Override
     public Authentication getAuthentication() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        logger.info("AUTH info: " +auth.toString());
-        return auth;
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 }
