@@ -10,11 +10,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class FinancialRepository{
+public class FinancialCustomRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public FinancialRepository(JdbcTemplate jdbcTemplate) {
+    public FinancialCustomRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

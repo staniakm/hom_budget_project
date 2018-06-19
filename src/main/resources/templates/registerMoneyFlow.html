@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${operation.toUpperCase()}">Title</title>
+</head>
+<body>
+<p>Money flow</p>
+<form class="new_user" id="new_user" th:action="@{/registerMoneyFlow}" th:object="${operationForm}" method="POST" accept-charset="UTF-8">
+    <ul>
+        <li>
+            <label >
+                <span th:text="${'Date:'}"/>
+                <!--<div class='hint'>-->
+                    <!--<div th:text="#{hint.user.email}"/>-->
+                <!--</div>-->
+            </label>
+            <input  type="date" th:name="date" th:id="date" th:value="${currentDate}"  />
+        </li>
+        <li>
+            <label >
+                <span th:utext="${'Description:'}"/>
+                <!--<div class='hint'>-->
+                    <!--<div th:text="#{hint.user.password}"/>-->
+                <!--</div>-->
+            </label>
+            <input type="text" id="description" th:field="*{description}"/>
+        </li>
+        <li>
+            <label>
+                <span th:utext="${'Amount:'}"/>
+                <!--<div class='hint'>-->
+                    <!--<div th:text="#{hint.user.confirmPass}"/>-->
+                <!--</div>-->
+            </label>
+            <input type="text" th:field="*{amount}"/>
+        </li>
+    </ul>
+    <input th:hidden="true" type="text" th:name="operation" th:id="operation" th:value="${operation}" >
+    <button th:text="Save" type='submit'>
+
+    </button>
+</form>
+</body>
+</html>

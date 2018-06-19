@@ -20,7 +20,7 @@
                     <div th:text="#{hint.user.email}"/>
                 </div>
             </label>
-            <input placeholder="anonimowy@gmail.com" type="email" th:field="*{name}" />
+            <input placeholder="annonymus@gmail.com" type="email" th:field="*{name}" />
         </li>
         <li>
             <label for='user_password' >
@@ -40,19 +40,6 @@
             </label>
             <input type="password" name="user[password_confirmation]" th:field="*{confirmedPassword}" id="user_password_confirmation"/>
         </li>
-        <!--<li>-->
-            <!--<label>-->
-                <!--&nbsp;-->
-            <!--</label>-->
-            <!--<input name="user[terms_of_service]" type="hidden" value="0"/><input type="checkbox" value="1"-->
-                                                                                 <!--name="user[terms_of_service]"-->
-                                                                                 <!--id="user_terms_of_service"/>-->
-            <!--&lt;!&ndash;<label class='inline-block' for='user_terms_of_service'>&ndash;&gt;-->
-                <!--Oświadczam, że zapoznałem(-am) się z regulaminem-->
-                <!--, wyrażam zgodę na jego postanowienia i chcę korzystać z Usługi portalu opisanej w ww. regulaminie i w-->
-                <!--polityce prywatności-->
-            <!--</label>-->
-        <!--</li>-->
         </ul>
         <button th:text="#{label.form.loginSignUp}" type='submit'>
 
