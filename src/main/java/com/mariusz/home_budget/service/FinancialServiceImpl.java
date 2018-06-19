@@ -39,9 +39,9 @@ public class FinancialServiceImpl implements FinancialService {
 
 
     @Override
-    public Map<String, BigDecimal> getBalance() {
+    public Map<String, BigDecimal> getBalance(Long id) {
 
-       Balance balance = financialRepository.getBalance(1,2018,6);
+       Balance balance = financialRepository.getBalance(id,LocalDate.now().getYear(),LocalDate.now().getMonthValue());
         Map<String, BigDecimal> map = new HashMap<>();
         map.put("income",balance.getIncome());
         map.put("expense",balance.getExpense());

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface FinancialService {
 
-    Map<String, BigDecimal> getBalance();
+    Map<String, BigDecimal> getBalance(Long user_id);
 
     Optional<String> addOperation(MoneyFlowForm newOperation);
 }

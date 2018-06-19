@@ -1,13 +1,16 @@
 package com.mariusz.home_budget.controler;
 
 
+import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.entity_forms.MoneyFlowForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
+import com.mariusz.home_budget.repository.UserRepository;
 import com.mariusz.home_budget.service.FinancialService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,12 +29,14 @@ import java.util.Optional;
 public class FinancialController {
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
+    private final UserRepository userRepository;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public FinancialController(AuthenticationFacade authenticationFacade, FinancialService financialService) {
+    public FinancialController(AuthenticationFacade authenticationFacade, FinancialService financialService, UserRepository userRepository) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
+        this.userRepository = userRepository;
     }
 
 
@@ -39,9 +44,10 @@ public class FinancialController {
     @GetMapping("/welcome")
     public String loginProccess(Model model){
         Authentication authentication = authenticationFacade.getAuthentication();
+        AppUser user = userRepository.findByName(authentication.getName()).orElseThrow(()->new UsernameNotFoundException(""));
         String name = authentication.getName();
         model.addAttribute("loggedUser", name);
-        Map<String, BigDecimal> balance = financialService.getBalance();
+        Map<String, BigDecimal> balance = financialService.getBalance(user.getId());
         model.addAttribute("balance",balance.get("balance"));
         model.addAttribute("income",balance.get("income"));
         model.addAttribute("expense",balance.get("expense"));

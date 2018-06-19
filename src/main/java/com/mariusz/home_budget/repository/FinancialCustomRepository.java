@@ -18,7 +18,7 @@ public class FinancialCustomRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Balance getBalance(@Param("user_id")int user_id, @Param("year") int year, @Param("month") int month){
+    public Balance getBalance(@Param("user_id")Long user_id, @Param("year") int year, @Param("month") int month){
         String sql = "select ifnull((select sum(amount) as suma from income where user_id=? and year(date) = ? " +
                 "and month(date) = ?),0) as 'income',ifnull((\n" +
                 "select sum(amount) from expense where user_id=? and year(date) = ? " +
