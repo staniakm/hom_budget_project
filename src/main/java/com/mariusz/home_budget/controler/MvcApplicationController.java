@@ -36,14 +36,13 @@ public class MvcApplicationController {
     private final ApplicationUserService applicationUserService;
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    private final AuthenticationFacade authenticationFacade;
-
     @Autowired
-    public MvcApplicationController(@Qualifier("messageSource") MessageSource messages, ApplicationUserService applicationUserService, ApplicationEventPublisher applicationEventPublisher, AuthenticationFacade authenticationFacade) {
+    public MvcApplicationController(@Qualifier("messageSource") MessageSource messages
+            , ApplicationUserService applicationUserService
+            , ApplicationEventPublisher applicationEventPublisher) {
         this.messages = messages;
         this.applicationUserService = applicationUserService;
         this.applicationEventPublisher = applicationEventPublisher;
-        this.authenticationFacade = authenticationFacade;
     }
 
 

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Data
-public abstract class FinanceFlow {
+abstract class FinanceFlow {
 
     private LocalDateTime date;
     private String description;
