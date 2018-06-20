@@ -23,13 +23,17 @@ body {
     height: 97vh;
 }
 
+.buttons_menu {
+    text-align: left;
+}
+
 .header {
     grid-column-start: 1;
     grid-column-end: 3;
     height: 10vh;
     background-color: #2996c9;
     color: #f1f1f1;
-    text-align: center;
+    text-align: left;
 }
 
 .footer {

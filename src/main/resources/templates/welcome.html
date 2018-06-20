@@ -11,28 +11,58 @@
 <body>
 <div class="container">
     <div class="item header">
-        <H1 style="text-align: center" th:utext="${'You are logged in as '+loggedUser}">.</H1>
+        <p th:utext="${'You are logged in as '+loggedUser}">.</p>
+        <div>
+            <div style="float: left; width: 65%; overflow: hidden">
+                <a th:href="@{/welcome}" class="btn btn-secondary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.summary}">...</a>
+                <a th:href="@{/analyze}" class="btn btn-secondary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.analyze}">...</a>
+                <a th:href="@{/plan}" class="btn btn-secondary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.plan}">...</a>
+            </div>
+
+            <div style="float: right; overflow: hidden" >
+                <a href="javascript: document.logoutForm.submit()" class="btn btn-secondary btn-sm active" role="button"
+                   aria-pressed="true"> Logout</a>
+            </div>
+        </div>
     </div>
     <div class="item nav">
         <div class="sidenav">
-            <a href="javascript: document.logoutForm.submit()" class="btn btn-secondary btn-sm active" role="button"
-               aria-pressed="true"> Logout</a>
-
 
         </div>
     </div>
     <div class="item content">
         <div >
-            <p class="balance" th:text="${'Balance: ' + balance}">...</p>
+            <div style="float: left; width: 15%">
+                <p style="float: left" th:text="#{label.form.button.balance}" >... </p>
+            <p style="color: green; float: right;" th:if="${balance>=0}" th:text="${' +' + balance} ">...</p>
+            <p style="color: red; float: right" th:unless="${balance>=0}" th:text="${' '+balance}">...</p>
+            </div>
             <div class="buttons_balance">
-                <a th:href="@{/registerFlow(val='income')}">Add income</a>
-                <a th:href="@{/registerFlow(val='expense')}">Add expense</a>
+                <a  th:href="@{/registerFlow(val='income')}" class="btn btn-success btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.add_income}">...</a>
+                <a th:href="@{/registerFlow(val='expense')}" class="btn btn-success btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a>
             </div>
             <div class="clearfix"></div>
+            <!--<br>-->
             <hr>
-            <p th:text="${'Income: '+ income}"></p>
-            <p th:text="${'Expense: '+ expense}"></p>
+            <div style="width: 15%">
+                <p style="float: left">Income: </p>
+            <p  style="color: green; float: right" th:text="${' '+ income}"></p>
+            </div>
+            <div style=" width: 15%">
+            <p style="float: left">Expense:</p>
+                <p style="color: red; float: right;" th:text="${' '+ expense}"></p>
+            </div>
+            <div class="clearfix"></div>
+
         </div>
+
+        <hr>
+
     </div>
     <div class="item footer">Footer</div>
 
