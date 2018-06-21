@@ -23,9 +23,7 @@
                    aria-pressed="true" th:text="#{label.form.button.plan}">...</a>
                 <a th:href="@{/settings}" class="btn btn-secondary btn-sm active" role="button"
                    aria-pressed="true" th:text="#{label.form.button.settings}">...</a>
-
             </div>
-
             <div style="float: right; overflow: hidden" >
                 <a href="javascript: document.logoutForm.submit()" class="btn btn-secondary btn-sm active" role="button"
                    aria-pressed="true"> Logout</a>
@@ -34,12 +32,26 @@
     </div>
     <div class="item nav">
         <div class="sidenav">
+            <a th:href="@{/addWallet}" class="btn btn-secondary btn-sm active" role="button"
+               aria-pressed="true" th:text="#{label.form.button.wallet}">...</a>
+            <a th:href="@{/addAccount}" class="btn btn-secondary btn-sm active" role="button"
+               aria-pressed="true" th:text="#{label.form.button.account}">...</a>
+
         </div>
     </div>
-    <div class="item content">
- 
+    <!--<div class="item content" th:replace="${fragment}">...</div>-->
+    <div th:if="${fragmentHtml} == null">
+        <div class="item content"></div>
     </div>
-    <div class="item footer">Footer</div>
+    <div th:if="${fragmentHtml}!=null">
+        <div class="item content" th:replace="@{'fragments/' + ${fragmentHtml}} :: ${fragment}"></div>
+    </div>
+
+
+
+    <!--<div  th:insert="">Footer</div>-->
+    <div class="item footer" th:replace="fragments/footer :: footer">&copy; 2016 The Static Templates</div>
+
 
     <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
         <input hidden type="submit" value="Sign Out"/>

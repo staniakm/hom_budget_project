@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    ...
+</head>
+<body>
+<div class="item content" th:fragment="addWallet">
+        <h1>Add new wallet</h1>
+    <form class="new_wallet" id="new_wallet" th:action="@{/newWallet}" th:object="${walletForm}" method="POST" accept-charset="UTF-8">
+        <ul>
+            <li>
+                <label >
+                    <span th:text="#{label.wallet.name}"/>
+                    <div class='hint'>
+                        <div th:text="#{hint.wallet.name}"/>
+                    </div>
+                </label>
+                <input  type="text" th:field="*{name}" />
+            </li>
+            <li>
+                <label for='wallet_cash' >
+                    <span th:text="#{label.wallet.cash}"/>
+                    <div class='hint'>
+                        <div th:text="#{hint.wallet.cash}"/>
+                    </div>
+                </label>
+                <input type="text" th:field="*{cash}" name="wallet_cash" id="wallet_cash"/>
+            </li>
+        </ul>
+        <button th:text="#{label.wallet.save}" type='submit'>
+        </button>
+    </form>
+</div>
+
+<div class="item content" th:fragment="addAccount">
+    <h1>Add new account</h1>
+
+
+
+</div>
+</body>
+</html>

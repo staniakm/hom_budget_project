@@ -3,6 +3,7 @@ package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.entity_forms.MoneyFlowForm;
+import com.mariusz.home_budget.entity.entity_forms.WalletForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.repository.UserRepository;
 import com.mariusz.home_budget.service.FinancialService;
@@ -100,6 +101,33 @@ public class FinancialController {
     public String getSettingsPage (Model model){
         Authentication authentication = authenticationFacade.getAuthentication();
         model.addAttribute("loggedUser", authentication.getName());
+
+
         return "settings";
     }
+
+    @GetMapping("/addWallet")
+    public String addWallet (Model model){
+        Authentication authentication = authenticationFacade.getAuthentication();
+        model.addAttribute("loggedUser", authentication.getName());
+        model.addAttribute("fragmentHtml","header");
+        model.addAttribute("fragment","addWallet");
+
+        WalletForm walletForm = new WalletForm();
+        model.addAttribute("walletForm", walletForm);
+
+        return "settings";
+    }
+
+    @GetMapping("/addAccount")
+    public String addAccount (Model model){
+        Authentication authentication = authenticationFacade.getAuthentication();
+        model.addAttribute("loggedUser", authentication.getName());
+        model.addAttribute("fragmentHtml","header");
+        model.addAttribute("fragment","addAccount");
+
+        return "settings";
+    }
+
+
 }
