@@ -82,4 +82,24 @@ public class FinancialController {
         return "redirect:/welcome";
     }
 
+    @GetMapping("/analyze")
+    public String getAnalyzePage (Model model){
+        Authentication authentication = authenticationFacade.getAuthentication();
+        model.addAttribute("loggedUser", authentication.getName());
+        return "analyze";
+    }
+
+    @GetMapping("/plan")
+    public String getPlanPage (Model model){
+        Authentication authentication = authenticationFacade.getAuthentication();
+        model.addAttribute("loggedUser", authentication.getName());
+        return "plan";
+    }
+
+    @GetMapping("/settings")
+    public String getSettingsPage (Model model){
+        Authentication authentication = authenticationFacade.getAuthentication();
+        model.addAttribute("loggedUser", authentication.getName());
+        return "settings";
+    }
 }
