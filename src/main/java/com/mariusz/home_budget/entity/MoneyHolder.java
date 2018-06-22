@@ -7,9 +7,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@MappedSuperclass
+@Entity
+@Table(name = "money_container")
 @Data
-public abstract class MoneyHolder {
+public class MoneyHolder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

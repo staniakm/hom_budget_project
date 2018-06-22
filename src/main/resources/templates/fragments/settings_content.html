@@ -37,7 +37,7 @@
                 </label>
                 <div class="form-group blu-margin" style="width: 100%">
                     <select id="money_container" class="form-control" th:field="*{moneyHolderType}" name="money_holder" required>
-                        <option value="0" ></option>
+                        <option value="" selected disabled hidden ></option>
                         <option th:each="operator : ${operators}" th:value="${operator.name()}" th:text="${operator.getType()}"></option>
                     </select>
                 </div>

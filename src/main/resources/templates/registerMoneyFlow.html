@@ -30,6 +30,15 @@
             </label>
             <input type="text" th:field="*{amount}"/>
         </li>
+        <li>
+            <div class="form-group blu-margin" style="width: 100%">
+                <select id="money_container_selector" class="form-control" th:field="*{moneyHolder}" name="money_holder" required>
+                    <option value="" selected disabled hidden  ></option>
+                    <option th:each="operator : ${moneyHolders}" th:value="${operator.getId()}" th:text="${operator.getName()}"></option>
+                </select>
+            </div>
+        </li>
+
     </ul>
     <input th:hidden="true" type="text" th:name="operation" th:id="operation" th:value="${operation}" >
     <button th:text="Save" type='submit'></button>

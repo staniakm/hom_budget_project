@@ -47,13 +47,7 @@
             <p style="color: green; float: right;" th:if="${balance>=0}" th:text="${' +' + balance} ">...</p>
             <p style="color: red; float: right" th:unless="${balance>=0}" th:text="${' '+balance}">...</p>
             </div>
-            <div class="buttons_balance">
-                <a  th:href="@{/registerFlow(val='income')}" class="btn btn-success btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.add_income}">...</a>
-                <a th:href="@{/registerFlow(val='expense')}" class="btn btn-success btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a>
-            </div>
-            <div class="clearfix"></div>
+
             <!--<br>-->
             <hr>
             <div style="width: 15%">

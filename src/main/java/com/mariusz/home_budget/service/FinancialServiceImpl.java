@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -87,11 +88,33 @@ public class FinancialServiceImpl implements FinancialService {
             }
         }
 
+        logger.info(newOperation.getMoneyHolder());
+
         Optional<AppUser> user = userRepository.findByName(newOperation.getUser());
         if (!user.isPresent()){
             return Optional.of("User details are incorrect. Please login again.");
         }
 
+        Long holder_id;
+        if (newOperation.getMoneyHolder()==null || newOperation.getMoneyHolder().trim().length()==0){
+            logger.info("Incorrect holder");
+            return Optional.of("Incorrect money holder selected.");
+        }else {
+            try {
+                holder_id = Long.parseLong(newOperation.getMoneyHolder());
+            }catch (Exception ex){
+                logger.info("Incorrect holder - exception");
+                return Optional.of("Incorrect money holder.");
+            }
+        }
+
+        Optional<MoneyHolder> moneyHolder = moneyHoldersRepository
+                            .findByUserAndId(user.get().getId(),holder_id);
+
+        if (!moneyHolder.isPresent()){
+            logger.info("No holder");
+            return Optional.of("Incorrect money holder for logged user");
+        }
 
         logger.info("operation date: "+ operationDate);
         logger.info("Amount: "+ operationAmount);
@@ -103,6 +126,8 @@ public class FinancialServiceImpl implements FinancialService {
             income.setDate(operationDate.atStartOfDay());
             income.setDescription(newOperation.getDescription());
             income.setUser(user.get());
+            income.setMoneyHolder(moneyHolder.get());
+
             incomeRepository.save(income);
         }else if
             (newOperation.getOperation().equalsIgnoreCase("expense")){
@@ -111,8 +136,10 @@ public class FinancialServiceImpl implements FinancialService {
             expense.setDate(operationDate.atStartOfDay());
             expense.setDescription(newOperation.getDescription());
             expense.setUser(user.get());
+            expense.setMoneyHolder(moneyHolder.get());
             expenseRepository.save(expense);
-            }
+
+        }
 
         return Optional.empty();
     }
@@ -163,7 +190,7 @@ public class FinancialServiceImpl implements FinancialService {
 
 
         logger.info("Amount: "+ cashAmmount);
-        Wallet wallet = new Wallet();
+        MoneyHolder wallet = new MoneyHolder();
         wallet.setAmount(cashAmmount);
         wallet.setName(walletForm.getName());
         wallet.setType(moneyHolderType);
@@ -171,5 +198,11 @@ public class FinancialServiceImpl implements FinancialService {
         moneyHoldersRepository.save(wallet);
 
         return Optional.empty();
+    }
+
+    @Override
+    public List<MoneyHolder> getMoneyHolders(AppUser user) {
+       return moneyHoldersRepository.findAllByUser(user.getId());
+
     }
 }

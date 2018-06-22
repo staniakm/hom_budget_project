@@ -34,9 +34,17 @@
     </div>
     <div class="item nav">
         <div class="sidenav">
+            <div>
+                <a  th:href="@{/registerFlow(val='income')}" class="btn btn-primary btn-sm active" role="button"
+                    aria-pressed="true" th:text="#{label.form.button.add_income}">...</a>
+                <a th:href="@{/registerFlow(val='expense')}" class="btn btn-primary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a>
+            </div>
+            <div class="clearfix"></div>
         </div>
     </div>
     <div class="item content">
+
 
     </div>
     <div class="item footer">Footer</div>

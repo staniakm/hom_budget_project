@@ -16,4 +16,9 @@ public class Income extends FinanceFlow  {
     @JsonIgnore
     private AppUser user;
 
+
+    @JsonIgnore
+    @OneToOne
+    private MoneyHolder moneyHolder;
+
 }

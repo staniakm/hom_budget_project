@@ -1,6 +1,8 @@
 package com.mariusz.home_budget.controler;
 
 
+import com.mariusz.home_budget.entity.AppUser;
+import com.mariusz.home_budget.entity.MoneyHolder;
 import com.mariusz.home_budget.entity.entity_forms.MoneyFlowForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.repository.UserRepository;
@@ -9,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -24,11 +28,14 @@ public class FinancialController {
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final UserRepository userRepository;
 
     @Autowired
-    public FinancialController(AuthenticationFacade authenticationFacade, FinancialService financialService, UserRepository userRepository) {
+    public FinancialController(AuthenticationFacade authenticationFacade, FinancialService financialService
+            , UserRepository userRepository) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/registerFlow")
@@ -36,8 +43,18 @@ public class FinancialController {
         model.addAttribute("operation", operation);
         model.addAttribute("currentDate", LocalDate.now());
         if (operation.equalsIgnoreCase("income") || operation.equalsIgnoreCase("expense")){
+            Authentication authentication = authenticationFacade.getAuthentication();
+            AppUser user = userRepository.findByName(authentication.getName()).orElseThrow(()->new UsernameNotFoundException(""));
+
             MoneyFlowForm flowForm = new MoneyFlowForm();
             model.addAttribute("operationForm", flowForm);
+            List<MoneyHolder> holders = financialService.getMoneyHolders(user);
+            model.addAttribute("moneyHolders",holders);
+            for (MoneyHolder holder: holders
+                 ) {
+                logger.info(holder.getName()+" "+holder.getId());
+            }
+
         }
         return "registerMoneyFlow";
     }
@@ -48,6 +65,8 @@ public class FinancialController {
         Authentication authentication = authenticationFacade.getAuthentication();
 
         newOperation.setUser(authentication.getName());
+
+        logger.info("HOLDER:"+ newOperation.getMoneyHolder());
 
         Optional<String> errorOccur = financialService.addOperation(newOperation);
         if (errorOccur.isPresent()){

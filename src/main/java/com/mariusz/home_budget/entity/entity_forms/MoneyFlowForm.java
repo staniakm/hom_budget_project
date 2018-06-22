@@ -9,6 +9,7 @@ public class MoneyFlowForm {
     private String amount;
     private String operation;
     private String user;
+    private String moneyHolder;
 
     @Override
     public String toString() {
