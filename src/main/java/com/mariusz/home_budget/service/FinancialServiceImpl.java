@@ -125,15 +125,23 @@ public class FinancialServiceImpl implements FinancialService {
         BigDecimal cashAmmount;
 
         String amount = walletForm.getCash().replace(",",".").trim();
-
+        MoneyHolderType moneyHolderType;
 
         if (walletForm.getName()==null || walletForm.getName().length()==0){
             logger.info("Name must be valid");
             return Optional.of("Name must be valid");
         }
 
-        if (walletForm.getMoneyHolderType()==null ){
+
+
+        if (walletForm.getMoneyHolderType()==null || walletForm.getMoneyHolderType().trim().length()==0){
             return Optional.of("Incorrect type of money holder");
+        }else {
+            try {
+                moneyHolderType = MoneyHolderType.valueOf(walletForm.getMoneyHolderType());
+            }catch (IllegalArgumentException ex){
+                return Optional.of("Incorrect type for money holder.");
+            }
         }
 
         if (amount==null || amount.length()==0){
@@ -158,7 +166,7 @@ public class FinancialServiceImpl implements FinancialService {
         Wallet wallet = new Wallet();
         wallet.setAmount(cashAmmount);
         wallet.setName(walletForm.getName());
-        wallet.setType(walletForm.getMoneyHolderType());
+        wallet.setType(moneyHolderType);
         wallet.setUser(user.get());
         moneyHoldersRepository.save(wallet);
 

@@ -11,5 +11,5 @@ public class WalletForm {
     private String name;
     private String cash;
     private String user;
-    private MoneyHolderType moneyHolderType;
+    private String moneyHolderType;
 }
