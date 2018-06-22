@@ -7,27 +7,35 @@
 <div class="item content" th:fragment="addWallet">
         <h1>Add new wallet</h1>
     <form class="new_wallet" id="new_wallet" th:action="@{/addWallet}" th:object="${walletForm}" method="POST" accept-charset="UTF-8">
-        <ul>
-            <li>
-                <label >
+        <ul style="width: 40%">
+            <li >
+                <label for="holder_id">
                     <span th:text="#{label.wallet.name}"/>
                     <div class='hint'>
                         <div th:text="#{hint.wallet.name}"/>
                     </div>
                 </label>
-                <input  type="text" th:field="*{name}" />
+                <br>
+                <input style="width: 100%"  type="text" th:field="*{name}" id="holder_id"/>
             </li>
-            <li>
+            <li >
                 <label for='wallet_cash' >
                     <span th:text="#{label.wallet.cash}"/>
                     <div class='hint'>
                         <div th:text="#{hint.wallet.cash}"/>
                     </div>
                 </label>
-                <input type="text" th:field="*{cash}" name="wallet_cash" id="wallet_cash"/>
+                <br>
+                <input style="width: 100%" type="text" th:field="*{cash}" name="wallet_cash" id="wallet_cash"/>
             </li>
-            <li>
-                <div class="form-group blu-margin">
+            <li >
+                <label>
+                    <span th:text="#{label.wallet.holder}"/>
+                    <div class='hint'>
+                        <div th:text="#{hint.wallet.holder}"/>
+                    </div>
+                </label>
+                <div class="form-group blu-margin" style="width: 100%">
                     <select class="form-control" th:field="*{moneyHolderType}"  id="dropOperator">
                         <option value="0" ></option>
                         <option th:each="operator : ${operators}" th:value="${operator.name()}" th:text="${operator.getType()}"></option>
