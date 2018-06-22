@@ -5,6 +5,7 @@ import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.entity_forms.MoneyFlowForm;
 import com.mariusz.home_budget.entity.entity_forms.WalletForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
+import com.mariusz.home_budget.helpers.MoneyHolderType;
 import com.mariusz.home_budget.repository.UserRepository;
 import com.mariusz.home_budget.service.FinancialService;
 import org.slf4j.Logger;
@@ -14,15 +15,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -68,15 +69,13 @@ public class FinancialController {
     }
 
     @PostMapping("/registerMoneyFlow")
-    public String registerNewMoneyFlow(Model model , @ModelAttribute("operationForm") MoneyFlowForm newOperation
-            , BindingResult result, HttpServletRequest request) {
+    public String registerNewMoneyFlow(@ModelAttribute("operationForm") MoneyFlowForm newOperation
+    ) {
         Authentication authentication = authenticationFacade.getAuthentication();
 
         newOperation.setUser(authentication.getName());
 
         Optional<String> errorOccur = financialService.addOperation(newOperation);
-
-        //
         if (errorOccur.isPresent()){
         return "redirect:/registerFlow?val="+newOperation.getOperation();
         }
@@ -101,8 +100,6 @@ public class FinancialController {
     public String getSettingsPage (Model model){
         Authentication authentication = authenticationFacade.getAuthentication();
         model.addAttribute("loggedUser", authentication.getName());
-
-
         return "settings";
     }
 
@@ -115,9 +112,25 @@ public class FinancialController {
 
         WalletForm walletForm = new WalletForm();
         model.addAttribute("walletForm", walletForm);
+        List<MoneyHolderType> operators = Arrays.asList(MoneyHolderType.values());
+        model.addAttribute("operators", operators);
 
         return "settings";
     }
+
+    @PostMapping("/addWallet")
+    public String registerNewWallet(@ModelAttribute("walletForm") WalletForm walletForm) {
+        Authentication authentication = authenticationFacade.getAuthentication();
+
+        walletForm.setUser(authentication.getName());
+        Optional<String> errorOccur = financialService.addMoneyHolder(walletForm);
+
+        if (errorOccur.isPresent()){
+            return "redirect:/settings";
+        }
+        return "redirect:/welcome";
+    }
+
 
     @GetMapping("/addAccount")
     public String addAccount (Model model){

@@ -6,7 +6,7 @@
 <body>
 <div class="item content" th:fragment="addWallet">
         <h1>Add new wallet</h1>
-    <form class="new_wallet" id="new_wallet" th:action="@{/newWallet}" th:object="${walletForm}" method="POST" accept-charset="UTF-8">
+    <form class="new_wallet" id="new_wallet" th:action="@{/addWallet}" th:object="${walletForm}" method="POST" accept-charset="UTF-8">
         <ul>
             <li>
                 <label >
@@ -25,6 +25,14 @@
                     </div>
                 </label>
                 <input type="text" th:field="*{cash}" name="wallet_cash" id="wallet_cash"/>
+            </li>
+            <li>
+                <div class="form-group blu-margin">
+                    <select class="form-control" th:field="*{moneyHolderType}"  id="dropOperator">
+                        <option value="0" ></option>
+                        <option th:each="operator : ${operators}" th:value="${operator.name()}" th:text="${operator.getType()}"></option>
+                    </select>
+                </div>
             </li>
         </ul>
         <button th:text="#{label.wallet.save}" type='submit'>

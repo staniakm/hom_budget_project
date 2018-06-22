@@ -1,14 +1,10 @@
 package com.mariusz.home_budget.service;
 
-import com.mariusz.home_budget.entity.AppUser;
-import com.mariusz.home_budget.entity.Balance;
-import com.mariusz.home_budget.entity.Expense;
-import com.mariusz.home_budget.entity.Income;
+import com.mariusz.home_budget.entity.*;
 import com.mariusz.home_budget.entity.entity_forms.MoneyFlowForm;
-import com.mariusz.home_budget.repository.ExpenseRepository;
-import com.mariusz.home_budget.repository.FinancialCustomRepository;
-import com.mariusz.home_budget.repository.IncomeRepository;
-import com.mariusz.home_budget.repository.UserRepository;
+import com.mariusz.home_budget.entity.entity_forms.WalletForm;
+import com.mariusz.home_budget.helpers.MoneyHolderType;
+import com.mariusz.home_budget.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +24,15 @@ public class FinancialServiceImpl implements FinancialService {
     private final ExpenseRepository expenseRepository;
     private final FinancialCustomRepository financialRepository;
     private final UserRepository userRepository;
+    private final MoneyHoldersRepository moneyHoldersRepository;
 
     @Autowired
-    public FinancialServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository, FinancialCustomRepository financialRepository, UserRepository userRepository) {
+    public FinancialServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository, FinancialCustomRepository financialRepository, UserRepository userRepository, MoneyHoldersRepository moneyHoldersRepository) {
         this.incomeRepository = incomeRepository;
         this.expenseRepository = expenseRepository;
         this.financialRepository = financialRepository;
         this.userRepository = userRepository;
+        this.moneyHoldersRepository = moneyHoldersRepository;
     }
 
 
@@ -60,8 +58,6 @@ public class FinancialServiceImpl implements FinancialService {
 
         String date = newOperation.getDate().trim();
         String amount = newOperation.getAmount().replace(",",".").trim();
-
-
         if (date==null || date.length()==0 ){
             operationDate = LocalDate.now();
         }else {
@@ -117,6 +113,54 @@ public class FinancialServiceImpl implements FinancialService {
             expense.setUser(user.get());
             expenseRepository.save(expense);
             }
+
+        return Optional.empty();
+    }
+
+
+    @Override
+    public Optional<String> addMoneyHolder(WalletForm walletForm) {
+
+        logger.info("New wallet "+walletForm.getName()+' '+walletForm.getUser());
+        BigDecimal cashAmmount;
+
+        String amount = walletForm.getCash().replace(",",".").trim();
+
+
+        if (walletForm.getName()==null || walletForm.getName().length()==0){
+            logger.info("Name must be valid");
+            return Optional.of("Name must be valid");
+        }
+
+        if (walletForm.getMoneyHolderType()==null ){
+            return Optional.of("Incorrect type of money holder");
+        }
+
+        if (amount==null || amount.length()==0){
+            cashAmmount = BigDecimal.ZERO;
+        }else {
+            try {
+                logger.info("Parse string to amount "+amount);
+                cashAmmount = new BigDecimal(amount);
+            }catch (Exception ex){
+                logger.info("Amount must be in valid format");
+                return Optional.of("Amount must be in valid format");
+            }
+        }
+
+        Optional<AppUser> user = userRepository.findByName(walletForm.getUser());
+        if (!user.isPresent()){
+            return Optional.of("User details are incorrect. Please login again.");
+        }
+
+
+        logger.info("Amount: "+ cashAmmount);
+        Wallet wallet = new Wallet();
+        wallet.setAmount(cashAmmount);
+        wallet.setName(walletForm.getName());
+        wallet.setType(walletForm.getMoneyHolderType());
+        wallet.setUser(user.get());
+        moneyHoldersRepository.save(wallet);
 
         return Optional.empty();
     }
