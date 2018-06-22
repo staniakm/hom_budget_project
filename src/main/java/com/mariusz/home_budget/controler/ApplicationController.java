@@ -2,7 +2,6 @@ package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.entity_forms.UserForm;
-import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.listener.OnRegistrationCompleteEvent;
 import com.mariusz.home_budget.service.ApplicationUserService;
 import org.slf4j.Logger;
@@ -18,21 +17,17 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Optional;
 
 @Controller
-public class MvcApplicationController {
+public class ApplicationController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final MessageSource messages;
@@ -41,7 +36,7 @@ public class MvcApplicationController {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
-    public MvcApplicationController(@Qualifier("messageSource") MessageSource messages
+    public ApplicationController(@Qualifier("messageSource") MessageSource messages
             , ApplicationUserService applicationUserService
             , ApplicationEventPublisher applicationEventPublisher) {
         this.messages = messages;
@@ -51,7 +46,7 @@ public class MvcApplicationController {
 
 
     @GetMapping(value = {"/","/index","/main"})
-    public String getMain(HttpServletRequest request, HttpServletResponse response){
+    public String getMain(){
         return "main";
     }
 
