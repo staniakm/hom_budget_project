@@ -37,7 +37,6 @@
 
         </div>
     </div>
-    <!--<div class="item content" th:replace="${fragment}">...</div>-->
     <div th:if="${fragmentHtml} == null">
         <div class="item content"></div>
     </div>
@@ -47,7 +46,6 @@
 
 
 
-    <!--<div  th:insert="">Footer</div>-->
     <div class="item footer" th:replace="fragments/footer :: footer">&copy; 2016 The Static Templates</div>
 
 

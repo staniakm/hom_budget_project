@@ -35,7 +35,7 @@ public class MoneyContainerController {
     public String addWallet (Model model){
         Authentication authentication = authenticationFacade.getAuthentication();
         model.addAttribute("loggedUser", authentication.getName());
-        model.addAttribute("fragmentHtml","header");
+        model.addAttribute("fragmentHtml","settings_content");
         model.addAttribute("fragment","addWallet");
 
         WalletForm walletForm = new WalletForm();
