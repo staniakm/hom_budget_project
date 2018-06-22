@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    ...
+</head>
+<body>
+<div class="item content" th:fragment="addIncome">
+    <h1 th:text="${'Add new '+operation}">Add new income</h1>
+    <form onsubmit="return validateCombo()" class="new_user" id="new_user" th:action="@{/registerMoneyFlow}" th:object="${operationForm}" method="POST" accept-charset="UTF-8">
+        <ul style="width: 40%">
+            <li>
+                <label >
+                    <span th:text="${'Date:'}"/>
+                </label>
+                <input style="width: 100%" type="date" th:name="date" th:id="date" th:value="${currentDate}" required />
+            </li>
+            <li>
+                <label >
+                    <span th:utext="${'Description:'}"/>
+                </label>
+                <input style="width: 100%" type="text" id="description" th:field="*{description}" required/>
+            </li>
+            <li>
+                <label>
+                    <span th:utext="${'Amount:'}"/>
+                </label>
+                <input style="width: 100%" type="text" th:field="*{amount}" required/>
+            </li>
+            <li>
+                <label>
+                    <span th:text="#{label.wallet.holder}"/>
+                </label>
+                <div class="form-group blu-margin" style="width: 100%">
+                    <select id="money_container_selector" class="form-control" th:field="*{moneyHolder}" name="money_holder" required>
+                        <option value="" selected disabled hidden  ></option>
+                        <option th:each="operator : ${moneyHolders}" th:value="${operator.getId()}" th:text="${operator.getName()}"></option>
+                    </select>
+                </div>
+            </li>
+        </ul>
+        <!--<button th:text="#{label.wallet.save}" type='submit'>-->
+            <input th:hidden="true" type="text" th:name="operation" th:id="operation" th:value="${operation}" >
+            <button th:text="Save" type='submit'></button>
+
+        </button>
+    </form>
+</div>
+
+<div class="item content" th:fragment="addExpense">
+    <h1>Add new expense</h1>
+
+
+
+</div>
+</body>
+</html>

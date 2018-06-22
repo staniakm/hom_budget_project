@@ -43,8 +43,9 @@
             <div class="clearfix"></div>
         </div>
     </div>
-    <div class="item content">
-
+    <div th:if="${fragmentHtml}!=null">
+        <div class="item content" th:replace="@{'fragments/' + ${fragmentHtml}} :: ${fragment}"></div>
+    </div>
 
     </div>
     <div class="item footer">Footer</div>

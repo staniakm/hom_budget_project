@@ -50,13 +50,10 @@ public class FinancialController {
             model.addAttribute("operationForm", flowForm);
             List<MoneyHolder> holders = financialService.getMoneyHolders(user);
             model.addAttribute("moneyHolders",holders);
-            for (MoneyHolder holder: holders
-                 ) {
-                logger.info(holder.getName()+" "+holder.getId());
-            }
-
+            model.addAttribute("fragmentHtml","analyze_contents");
+            model.addAttribute("fragment","addIncome");
         }
-        return "registerMoneyFlow";
+        return "analyze";
     }
 
     @PostMapping("/registerMoneyFlow")
@@ -68,9 +65,11 @@ public class FinancialController {
 
         logger.info("HOLDER:"+ newOperation.getMoneyHolder());
 
+
+
         Optional<String> errorOccur = financialService.addOperation(newOperation);
         if (errorOccur.isPresent()){
-        return "redirect:/registerFlow?val="+newOperation.getOperation();
+            return "redirect:/registerFlow?val="+newOperation.getOperation();
         }
         return "redirect:/welcome";
     }
