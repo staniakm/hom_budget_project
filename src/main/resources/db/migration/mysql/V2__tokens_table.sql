@@ -1,4 +1,4 @@
-CREATE TABLE `HOME_BUDGET`.`verification_tokens` (
+CREATE TABLE `verification_tokens` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `token` VARCHAR(45) NULL,
   `user_id` INT NULL,

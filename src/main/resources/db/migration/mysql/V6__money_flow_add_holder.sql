@@ -1,5 +1,5 @@
-ALTER TABLE `HOME_BUDGET`.`expense`
+ALTER TABLE `expense`
   ADD COLUMN `money_holder_id` BIGINT(20) NOT NULL AFTER `amount`;
 
-ALTER TABLE `HOME_BUDGET`.`income`
+ALTER TABLE `income`
   ADD COLUMN `money_holder_id` BIGINT(20) NOT NULL AFTER `amount`;
