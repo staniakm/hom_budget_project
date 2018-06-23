@@ -45,9 +45,9 @@ public class ApplicationController {
     }
 
 
-    @GetMapping(value = {"/","/index"})
+    @GetMapping(value = {"/","/index","/main"})
     public String getMain(){
-        return "index";
+        return "main";
     }
 
     @GetMapping("/about")
