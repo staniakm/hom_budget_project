@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+
+<div class="item nav" th:fragment="plan_nav">
+    <div class="sidenav">
+        <a th:href="@{/planCashFlow}" class="btn btn-secondary btn-sm active" role="button"
+           aria-pressed="true" th:text="#{label.form.button.plan.cash.flow}">...</a>
+
+        <a th:href="@{/planBudget}" class="btn btn-secondary btn-sm active" role="button"
+           aria-pressed="true" th:text="#{label.form.button.plan.budget}">...</a>
+
+        <a th:href="@{/planExpenses}" class="btn btn-secondary btn-sm active" role="button"
+           aria-pressed="true" th:text="#{label.form.button.plan.expenses}">...</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -13,12 +13,9 @@
 <div class="container">
     <div class="item header" th:replace="fragments/header_content :: header_menu"></div>
 
-    <div class="item nav">
-        <div class="sidenav">
+    <div class="item nav" th:replace="fragments/sidenav_content :: plan_nav"></div>
 
-        </div>
-    </div>
-    <div class="item content">
+    <div class="item content" th:replace="@{'fragments/' + ${fragmentHtml}} :: ${fragment}">
 
     </div>
     <div class="item footer">Footer</div>

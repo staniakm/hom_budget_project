@@ -51,12 +51,7 @@ public class SiteLoaderController {
         return "analyze";
     }
 
-    @GetMapping("/plan")
-    public String getPlanPage (Model model){
-        Authentication authentication = authenticationFacade.getAuthentication();
-        model.addAttribute("loggedUser", authentication.getName());
-        return "plan";
-    }
+
 
     @GetMapping("/settings")
     public String getSettingsPage (Model model){

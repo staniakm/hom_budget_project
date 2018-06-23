@@ -14,4 +14,11 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
+
+    @Override
+    public String getAutinticatedUser() {
+        return "";
+    }
+
+
 }
