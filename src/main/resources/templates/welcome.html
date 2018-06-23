@@ -74,7 +74,7 @@
         </div>
 </div>
     </div>
-    <div class="item footer">Footer</div>
+    <div class="item footer" th:replace="fragments/footer::footer ">Footer</div>
 
     <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
         <input hidden type="submit" value="Sign Out"/>
