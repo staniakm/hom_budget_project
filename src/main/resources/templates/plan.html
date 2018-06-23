@@ -11,27 +11,8 @@
 </head>
 <body>
 <div class="container">
-    <div class="item header">
-        <p th:utext="${'You are logged in as '+loggedUser}">.</p>
-        <div>
-            <div style="float: left; width: 65%; overflow: hidden">
-                <a th:href="@{/welcome}" class="btn btn-secondary btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.summary}">...</a>
-                <a th:href="@{/analyze}" class="btn btn-secondary btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.analyze}">...</a>
-                <a th:href="@{/plan}" class="btn btn-secondary btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.plan}">...</a>
-                <a th:href="@{/settings}" class="btn btn-secondary btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.settings}">...</a>
+    <div class="item header" th:replace="fragments/header_content :: header_menu"></div>
 
-            </div>
-
-            <div style="float: right; overflow: hidden" >
-                <a href="javascript: document.logoutForm.submit()" class="btn btn-secondary btn-sm active" role="button"
-                   aria-pressed="true"> Logout</a>
-            </div>
-        </div>
-    </div>
     <div class="item nav">
         <div class="sidenav">
 
