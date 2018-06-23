@@ -7,6 +7,7 @@ CREATE TABLE `planned_operation` (
   `periodicity` varchar(255) CHARACTER SET utf8 NOT NULL,
   `planed_type` varchar(255) CHARACTER SET utf8 NOT NULL,
   `user_id` bigint(20) NOT NULL,
+  `money_holder_id` bigint(20) NOT NULL,
   `is_active` bit(1) NOT NULL,
   `is_finished` bit(1) NOT NULL,
   PRIMARY KEY (`id`),

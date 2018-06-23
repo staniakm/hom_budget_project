@@ -79,6 +79,20 @@
                     </select>
                 </div>
             </li>
+            <li >
+                <label>
+                    <span th:text="${'Money holder'}"/>
+                    <div class='hint'>
+                        <div th:text="${'money holder'}"/>
+                    </div>
+                </label>
+                <div class="form-group blu-margin" style="width: 100%">
+                    <select id="money_container_selector" class="form-control" th:field="*{moneyHolder}" name="money_holder" required>
+                        <option value="" selected disabled hidden  ></option>
+                        <option th:each="operator : ${moneyHolders}" th:value="${operator.getId()}" th:text="${operator.getName()}"></option>
+                    </select>
+                </div>
+            </li>
         </ul>
         <button th:text="#{label.wallet.save}" type='submit'>
         </button>

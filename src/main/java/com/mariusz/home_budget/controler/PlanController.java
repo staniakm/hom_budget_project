@@ -1,14 +1,19 @@
 package com.mariusz.home_budget.controler;
 
+import com.mariusz.home_budget.entity.AppUser;
+import com.mariusz.home_budget.entity.MoneyHolder;
 import com.mariusz.home_budget.entity.entity_forms.PlanForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
+import com.mariusz.home_budget.repository.UserRepository;
+import com.mariusz.home_budget.service.FinancialService;
 import com.mariusz.home_budget.service.PlannedService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,11 +36,15 @@ public class PlanController {
 
     private final PlannedService plannedService;
     private final AuthenticationFacade authenticationFacade;
+    private final FinancialService financialService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public PlanController(PlannedService plannedService, AuthenticationFacade authenticationFacade) {
+    public PlanController(PlannedService plannedService, AuthenticationFacade authenticationFacade, FinancialService financialService, UserRepository userRepository) {
         this.plannedService = plannedService;
         this.authenticationFacade = authenticationFacade;
+        this.financialService = financialService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/plan")
@@ -49,10 +58,13 @@ public class PlanController {
 
     @GetMapping("/planExpenses")
     public String planExpenses(Model model){
+
         model.addAttribute(FRAGMENT_HTML_FILE,"plan_contents");
         model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"planner");
         Authentication authentication = authenticationFacade.getAuthentication();
         model.addAttribute(LOGGED_USER, authentication.getName());
+
+        AppUser user = userRepository.findByName(authentication.getName()).orElseThrow(()->new UsernameNotFoundException(""));
 
         PlanForm planForm = new PlanForm();
         model.addAttribute("planForm", planForm);
@@ -60,6 +72,8 @@ public class PlanController {
         model.addAttribute("operators", operators);
         model.addAttribute("currentDate",LocalDate.now());
         model.addAttribute("moneyFlowType",Arrays.asList(MoneyFlowTypes.values()));
+        List<MoneyHolder> holders = financialService.getMoneyHolders(user);
+        model.addAttribute("moneyHolders",holders);
         return "plan";
     }
 

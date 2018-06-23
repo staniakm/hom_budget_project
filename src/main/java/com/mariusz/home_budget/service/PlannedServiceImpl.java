@@ -1,10 +1,12 @@
 package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.AppUser;
+import com.mariusz.home_budget.entity.MoneyHolder;
 import com.mariusz.home_budget.entity.PlannedOperation;
 import com.mariusz.home_budget.entity.entity_forms.PlanForm;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
+import com.mariusz.home_budget.repository.MoneyHoldersRepository;
 import com.mariusz.home_budget.repository.PlannedRepository;
 import com.mariusz.home_budget.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,13 @@ public class PlannedServiceImpl implements PlannedService {
 
     private final PlannedRepository plannedRepository;
     private  final UserRepository userRepository;
+    private final MoneyHoldersRepository moneyHoldersRepository;
 
     @Autowired
-    public PlannedServiceImpl(PlannedRepository plannedRepository, UserRepository userRepository) {
+    public PlannedServiceImpl(PlannedRepository plannedRepository, UserRepository userRepository, MoneyHoldersRepository moneyHoldersRepository) {
         this.plannedRepository = plannedRepository;
         this.userRepository = userRepository;
+        this.moneyHoldersRepository = moneyHoldersRepository;
     }
 
 
@@ -34,6 +38,7 @@ public class PlannedServiceImpl implements PlannedService {
         MoneyFlowTypes moneyFlowTypes;
         LocalDate operationDate;
         BigDecimal operationAmount;
+        Long holder_id;
 
         //enum verification
         if (planForm.getPeriodicity()==null || planForm.getPeriodicity().trim().length()==0){
@@ -56,6 +61,19 @@ public class PlannedServiceImpl implements PlannedService {
                 return Optional.of("Incorrect planed type.");
             }
         }
+
+
+        if (planForm.getMoneyHolder()==null || planForm.getMoneyHolder().trim().length()==0){
+            return Optional.of("Incorrect money holder selected.");
+        }else {
+            try {
+                holder_id = Long.parseLong(planForm.getMoneyHolder());
+            }catch (Exception ex){
+                return Optional.of("Incorrect money holder.");
+            }
+        }
+
+
 
         //planed date
         if (planForm.getDueDate()==null || planForm.getDueDate().trim().length()==0 ){
@@ -89,6 +107,13 @@ public class PlannedServiceImpl implements PlannedService {
             return Optional.of("User details are incorrect. Please login again.");
         }
 
+        Optional<MoneyHolder> moneyHolder = moneyHoldersRepository
+                .findByUserAndId(user.get().getId(),holder_id);
+
+        if (!moneyHolder.isPresent()){
+            return Optional.of("Incorrect money holder for logged user");
+        }
+
         PlannedOperation plannedOperation = PlannedOperation.builder()
                 .user(user.get())
                 .amount(operationAmount)
@@ -97,6 +122,7 @@ public class PlannedServiceImpl implements PlannedService {
                 .dueDate(operationDate)
                 .periodicity(periodic)
                 .planedType(moneyFlowTypes)
+                .moneyHolder(moneyHolder.get())
                 .isActive(true)
                 .isFinished(false)
                 .build();

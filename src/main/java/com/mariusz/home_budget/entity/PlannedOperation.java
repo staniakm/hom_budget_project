@@ -30,6 +30,10 @@ public class PlannedOperation {
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)
     private PeriodicTypes periodicity;
+
+    @OneToOne
+    @JsonIgnore
+    private MoneyHolder moneyHolder;
     private int days;
 
     @OneToOne

@@ -77,12 +77,9 @@ public class FinancialServiceImpl implements FinancialService {
             return Optional.of("Amount must be provided");
         }else {
             try {
-                logger.info("Parse string to amount "+amount);
-
                 operationAmount = new BigDecimal(amount);
 
             }catch (Exception ex){
-                logger.info("Amount must be in valid format");
                 return Optional.of("Amount must be in valid format");
             }
         }

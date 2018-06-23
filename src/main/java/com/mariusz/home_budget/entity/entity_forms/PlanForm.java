@@ -10,5 +10,6 @@ public class PlanForm {
     private String description;
     private String amount;
     private String periodicity;
+    private String moneyHolder;
 
 }
