@@ -24,7 +24,7 @@
             <div class="clearfix"></div>
         </div>
     </div>
-    <div class="item content" th:replace="@{'fragments/' + ${fragmentHtml}} :: ${fragment}"></div>
+    <div class="item content" th:replace="${'fragments/analyze_contents'} :: ${fragment}"></div>
 
     <div class="item footer" th:replace="fragments/footer::footer ">Footer</div>
 

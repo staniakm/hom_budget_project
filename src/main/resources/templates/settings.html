@@ -24,21 +24,14 @@
         <div class="item content"></div>
     </div>
     <div th:if="${fragmentHtml}!=null">
-        <div class="item content" th:replace="@{'fragments/' + ${fragmentHtml}} :: ${fragment}"></div>
+        <div class="item content" th:replace="${'fragments/settings_content'} :: ${fragment}"></div>
     </div>
 
-
-
     <div class="item footer" th:replace="fragments/footer :: footer">&copy; 2016 The Static Templates</div>
-
 
     <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
         <input hidden type="submit" value="Sign Out"/>
     </form>
-
-
-
-
 
 </div>
 </body>
