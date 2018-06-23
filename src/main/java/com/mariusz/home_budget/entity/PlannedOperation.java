@@ -3,6 +3,7 @@ package com.mariusz.home_budget.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class PlannedOperation {
 
     @Id
@@ -34,5 +36,7 @@ public class PlannedOperation {
     @JsonIgnore
     private AppUser user;
 
+    private boolean isFinished;
+    private boolean isActive;
 
 }

@@ -53,9 +53,8 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public Optional<String> addOperation(MoneyFlowForm newOperation) {
 
-        logger.info("New operation "+newOperation.getOperation());
-        LocalDate operationDate = LocalDate.now();
-        BigDecimal operationAmount = BigDecimal.ZERO;
+        LocalDate operationDate;
+        BigDecimal operationAmount;
 
         String date = newOperation.getDate().trim();
         String amount = newOperation.getAmount().replace(",",".").trim();
@@ -116,10 +115,6 @@ public class FinancialServiceImpl implements FinancialService {
             return Optional.of("Incorrect money holder for logged user");
         }
 
-        logger.info("operation date: "+ operationDate);
-        logger.info("Amount: "+ operationAmount);
-
-
         if (newOperation.getOperation().equalsIgnoreCase("income")){
             Income income = new Income();
             income.setAmount(operationAmount);
@@ -148,8 +143,7 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public Optional<String> addMoneyHolder(WalletForm walletForm) {
 
-        logger.info("New wallet "+walletForm.getName()+' '+walletForm.getUser());
-        BigDecimal cashAmmount;
+        BigDecimal cashAmount;
 
         String amount = walletForm.getCash().replace(",",".").trim();
         MoneyHolderType moneyHolderType;
@@ -158,8 +152,6 @@ public class FinancialServiceImpl implements FinancialService {
             logger.info("Name must be valid");
             return Optional.of("Name must be valid");
         }
-
-
 
         if (walletForm.getMoneyHolderType()==null || walletForm.getMoneyHolderType().trim().length()==0){
             return Optional.of("Incorrect type of money holder");
@@ -172,11 +164,11 @@ public class FinancialServiceImpl implements FinancialService {
         }
 
         if (amount==null || amount.length()==0){
-            cashAmmount = BigDecimal.ZERO;
+            cashAmount = BigDecimal.ZERO;
         }else {
             try {
                 logger.info("Parse string to amount "+amount);
-                cashAmmount = new BigDecimal(amount);
+                cashAmount = new BigDecimal(amount);
             }catch (Exception ex){
                 logger.info("Amount must be in valid format");
                 return Optional.of("Amount must be in valid format");
@@ -189,9 +181,9 @@ public class FinancialServiceImpl implements FinancialService {
         }
 
 
-        logger.info("Amount: "+ cashAmmount);
+        logger.info("Amount: "+ cashAmount);
         MoneyHolder wallet = new MoneyHolder();
-        wallet.setAmount(cashAmmount);
+        wallet.setAmount(cashAmount);
         wallet.setName(walletForm.getName());
         wallet.setType(moneyHolderType);
         wallet.setUser(user.get());

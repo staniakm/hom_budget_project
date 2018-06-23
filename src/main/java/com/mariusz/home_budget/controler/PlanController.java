@@ -4,6 +4,7 @@ import com.mariusz.home_budget.entity.entity_forms.PlanForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
+import com.mariusz.home_budget.service.PlannedService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PlanController {
@@ -27,10 +29,12 @@ public class PlanController {
     private static final String FRAGMENT_HTML_REPLACE_NAME = "fragment";
 
 
+    private final PlannedService plannedService;
     private final AuthenticationFacade authenticationFacade;
 
     @Autowired
-    public PlanController(AuthenticationFacade authenticationFacade) {
+    public PlanController(PlannedService plannedService, AuthenticationFacade authenticationFacade) {
+        this.plannedService = plannedService;
         this.authenticationFacade = authenticationFacade;
     }
 
@@ -83,8 +87,15 @@ public class PlanController {
 
     @PostMapping("/addPlan")
     public String registerPlan(@ModelAttribute("planForm") PlanForm planForm){
+        Authentication authentication = authenticationFacade.getAuthentication();
 
-        logger.info(planForm.toString());
+
+        Optional<String> error = plannedService.savePlannedOperation(planForm, authentication.getName());
+
+        if(error.isPresent())
+            logger.info(error.get());
+        else
+            logger.info("No error detected during plan saving process");
 
         return "redirect:/planExpenses";
     }
