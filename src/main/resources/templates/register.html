@@ -1,66 +1,95 @@
 <!DOCTYPE HTML>
-<!--suppress ALL -->
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
-    <meta charset="UTF-8"/>
-    <title>Add Person</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+    <title>Home Budget Application</title>
+    <meta name="description" content="website description" />
+    <meta name="keywords" content="website keywords, website keywords" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" title="style" />
 </head>
-<br>
 
+<body>
+<div id="index">
+    <div id="header">
+        <div id="logo">
+            <div id="logo_text">
+                <h1><a th:href="@{/index}">Home Budget Application</a></h1>
+            </div>
+        </div>
+        <div id="menubar">
+            <ul id="menu">
 
-<div id='main'>
-    <h1>Register account:</h1>
-    <form class="new_user" id="new_user" th:action="@{/register}" th:object="${userForm}" method="POST" accept-charset="UTF-8">
-        <ul>
-        <li>
-            <label >
-                <span th:text="#{label.user.email}"/>
-                <div class='hint'>
-                    <div th:text="#{hint.user.email}"/>
-                </div>
-            </label>
-            <input placeholder="annonymus@gmail.com" type="email" th:field="*{name}" />
-        </li>
-        <li>
-            <label for='user_password' >
-                <span th:text="#{label.user.password}"/>
-                <div class='hint'>
-                    <div th:text="#{hint.user.password}"/>
-                </div>
-            </label>
-            <input type="password" th:field="*{password}" name="user[password]" id="user_password"/>
-        </li>
-        <li>
-            <label for='user_password_confirmation'>
-                <span th:text="#{label.user.confirmPass}"/>
-                <div class='hint'>
-                    <div th:text="#{hint.user.confirmPass}"/>
-                </div>
-            </label>
-            <input type="password" name="user[password_confirmation]" th:field="*{confirmedPassword}" id="user_password_confirmation"/>
-        </li>
-        </ul>
-        <button th:text="#{label.form.loginSignUp}" type='submit'>
+                <li><a th:href="@{/index}">Home</a></li>
+                <li class="selected"><a th:href="@{/register}">Register</a></li>
+                <li><a th:href="@{/about}">About</a></li>
+                <li><a th:href="@{/contact}">Contact Us</a></li>
+                <li style="float:right"><a th:href="@{/login}">Log in</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="site_content">
+        <div class="sidebar">
 
-        </button>
-    </form>
+            <h3>Sidebar do uzupełniania</h3>
+            <h4>Tytuł_1</h4>
+            <h5>Przykładowa data</h5>
+            <p>Link_1<br /><a href="http://www.wp.pl">Read more</a></p>
+            <p></p>
+            <h4>Tytuł_2</h4>
+            <h5>Przykładowa data</h5>
+            <p>Link_2<br /><a href="http://www.wp.pl">Read more</a></p>
+            <h3>Linki</h3>
+            <ul>
+                <li><a href="#">link 1</a></li>
+                <li><a href="#">link 2</a></li>
+                <li><a href="#">link 3</a></li>
+                <li><a href="#">link 4</a></li>
+            </ul>
+        </div>
+        <div id="content">
+            <h1>Register account:</h1>
+            <form class="new_user" id="new_user" th:action="@{/register}" th:object="${userForm}" method="POST" accept-charset="UTF-8">
+                <ul>
+                    <li>
+                        <label >
+
+                            <div class='hint'>
+                                <input placeholder="Enter email address" type="email" th:field="*{name}" />
+                                <div th:text="#{hint.user.email}"/>
+                            </div>
+                        </label>
+
+                    </li>
+                    <li>
+                        <label for='user_password' >
+                            <div class='hint'>
+                                <input placeholder="Enter password" type="password" th:field="*{password}" name="user[password]" id="user_password"/>
+                                <div th:text="#{hint.user.password}"/>
+                            </div>
+                        </label>
+
+                    </li>
+                    <li>
+                        <label for='user_password_confirmation'>
+
+                            <div class='hint'>
+                                <input placeholder="Confirm password" type="password" name="user[password_confirmation]" th:field="*{confirmedPassword}" id="user_password_confirmation"/>
+                                <div th:text="#{hint.user.confirmPass}"/>
+                            </div>
+                        </label>
+
+                    </li>
+                    <li> <button type='submit' name='register'>Register</button></li>
+                </ul>
+
+            </form>
+        </div>
+        <br>
+    </div>
 </div>
-<br>
-<a th:href="@{/login}" >Login</a>
-</br>
-<div th:if="${errorMessage}" th:utext="${errorMessage}"
-     style="color:red;font-style:italic;">
-    ...
+<div id="footer">
+    Copyright &copy; black_pink_white | <a href="http://validator.w3.org/check?uri=referer">HTML5</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | free from html5webtemplates.co.uk
 </div>
-
-
-<!--&lt;!&ndash; Check if errorMessage is not null and not empty &ndash;&gt;-->
-
-<!--<div th:if="${errorMessage}" th:utext="${errorMessage}"-->
-<!--style="color:red;font-style:italic;">-->
-<!--...-->
-<!--</div>-->
-
 </body>
 </html>
