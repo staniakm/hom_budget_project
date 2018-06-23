@@ -46,6 +46,8 @@ public class SiteLoaderController {
     public String getAnalyzePage (Model model){
         Authentication authentication = authenticationFacade.getAuthentication();
         model.addAttribute("loggedUser", authentication.getName());
+        model.addAttribute("fragmentHtml","analyze_contents");
+        model.addAttribute("fragment","empty");
         return "analyze";
     }
 

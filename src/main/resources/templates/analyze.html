@@ -24,21 +24,13 @@
             <div class="clearfix"></div>
         </div>
     </div>
-    <div th:if="${fragmentHtml}!=null">
-        <div class="item content" th:replace="@{'fragments/' + ${fragmentHtml}} :: ${fragment}"></div>
-    </div>
+    <div class="item content" th:replace="@{'fragments/' + ${fragmentHtml}} :: ${fragment}"></div>
 
-    </div>
     <div class="item footer">Footer</div>
 
     <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
         <input hidden type="submit" value="Sign Out"/>
     </form>
-
-
-
-
-
 </div>
 </body>
 </html>
