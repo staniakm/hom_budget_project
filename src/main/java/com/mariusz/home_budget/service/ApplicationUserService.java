@@ -5,7 +5,7 @@ import com.mariusz.home_budget.entity.entity_forms.UserForm;
 
 import java.util.Optional;
 
-public interface ApplicationUserService  {
+public interface ApplicationUserService {
 
     Optional<String> registerUser(UserForm userForm);
 

@@ -61,6 +61,12 @@ public class ApplicationController {
         return "login";
     }
 
+    //contact me page
+    @GetMapping("/contact")
+    public String getContactPage(){
+        return "contact";
+    }
+
 
 
     //page load while enters register page.
