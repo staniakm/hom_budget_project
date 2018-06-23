@@ -15,7 +15,7 @@
 
     <div class="item nav" th:replace="fragments/sidenav_content :: plan_nav"></div>
 
-    <div class="item content" th:replace="@{'fragments/' + ${fragmentHtml}} :: ${fragment}">
+    <div class="item content" th:replace="@{'fragments/plan_contents'} :: ${fragment}">
 
     </div>
     <div class="item footer">Footer</div>
