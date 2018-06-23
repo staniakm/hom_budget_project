@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
     ...
@@ -18,6 +19,70 @@
 
 <div class="item content" th:fragment="planner">
 <p>Planner</p>
+    <form class="new_plan" id="new_plan" th:action="@{/addPlan}" th:object="${planForm}" method="POST" accept-charset="UTF-8">
+        <ul style="width: 40%">
+            <li >
+                <label for="flow_type_container">
+                    <span th:text="${'Type'}"/>
+                    <div class='hint'>
+                        <div th:text="${'Income/expense'}"/>
+                    </div>
+                </label>
+                <br>
+                <div class="form-group blu-margin" style="width: 100%">
+                    <select id="flow_type_container" class="form-control" th:field="*{planedType}" name="flow_type" required>
+                        <option value="" selected disabled hidden ></option>
+                        <option th:each="operator : ${moneyFlowType}" th:value="${operator.name()}" th:text="${operator.getType()}"></option>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label >
+                    <span th:text="${'Date:'}"/>
+                    <div class='hint'>
+                        <div th:text="${'Planed date'}"/>
+                    </div>
+                </label>
+                <input style="width: 100%" type="date" th:name="dueDate" th:id="dueDate" th:value="${currentDate}" required />
+            </li>
+            <li >
+                <label for='plan_description' >
+                    <span th:text="${'Description'}"/>
+                    <div class='hint'>
+                        <div th:text="${'description'}"/>
+                    </div>
+                </label>
+                <br>
+                <input style="width: 100%" type="text" th:field="*{description}" name="wallet_cash" id="plan_description" required/>
+            </li>
+            <li >
+                <label for='plan_amount' >
+                    <span th:text="${'Amount'}"/>
+                    <div class='hint'>
+                        <div th:text="${'Money amount'}"/>
+                    </div>
+                </label>
+                <br>
+                <input style="width: 100%" type="text" th:field="*{amount}" name="wallet_cash" id="plan_amount" required/>
+            </li>
+            <li >
+                <label>
+                    <span th:text="${'Periodicity'}"/>
+                    <div class='hint'>
+                        <div th:text="${'Periodicity'}"/>
+                    </div>
+                </label>
+                <div class="form-group blu-margin" style="width: 100%">
+                    <select id="periodic_container" class="form-control" th:field="*{periodicity}" name="money_holder" required>
+                        <option value="" selected disabled hidden ></option>
+                        <option th:each="operator : ${operators}" th:value="${operator.name()}" th:text="${operator.getDescription()}"></option>
+                    </select>
+                </div>
+            </li>
+        </ul>
+        <button th:text="#{label.wallet.save}" type='submit'>
+        </button>
+    </form>
 </div>
 
 
