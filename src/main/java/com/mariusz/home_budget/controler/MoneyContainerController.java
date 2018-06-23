@@ -4,8 +4,6 @@ import com.mariusz.home_budget.entity.entity_forms.WalletForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
 import com.mariusz.home_budget.service.FinancialService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -20,7 +18,6 @@ import java.util.Optional;
 
 @Controller
 public class MoneyContainerController {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
 
@@ -28,7 +25,6 @@ public class MoneyContainerController {
     public MoneyContainerController(AuthenticationFacade authenticationFacade, FinancialService financialService) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
-        logger.debug("Controller loaded");
     }
 
     @GetMapping("/addWallet")

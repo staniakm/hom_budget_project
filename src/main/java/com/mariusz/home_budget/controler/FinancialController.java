@@ -7,8 +7,6 @@ import com.mariusz.home_budget.entity.entity_forms.MoneyFlowForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.repository.UserRepository;
 import com.mariusz.home_budget.service.FinancialService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,7 +25,6 @@ import java.util.Optional;
 public class FinancialController {
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final UserRepository userRepository;
 
     @Autowired
@@ -65,10 +62,6 @@ public class FinancialController {
         Authentication authentication = authenticationFacade.getAuthentication();
 
         newOperation.setUser(authentication.getName());
-
-        logger.info("HOLDER:"+ newOperation.getMoneyHolder());
-
-
 
         Optional<String> errorOccur = financialService.addOperation(newOperation);
         if (errorOccur.isPresent()){

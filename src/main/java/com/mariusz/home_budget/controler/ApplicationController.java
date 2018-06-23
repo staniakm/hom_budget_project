@@ -128,7 +128,7 @@ public class ApplicationController {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 
-    public void authWithoutPassword(AppUser appUser) {
+    private void authWithoutPassword(AppUser appUser) {
 
         UserDetails user = User.builder()
                 .username(appUser.getName())

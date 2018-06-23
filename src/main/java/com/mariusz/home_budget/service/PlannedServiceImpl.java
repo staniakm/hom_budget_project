@@ -34,11 +34,13 @@ public class PlannedServiceImpl implements PlannedService {
     @Override
     public Optional<String> savePlannedOperation(PlanForm planForm, String userName) {
 
+        //TODO split validation to separated methods
+
         PeriodicTypes periodic;
         MoneyFlowTypes moneyFlowTypes;
         LocalDate operationDate;
         BigDecimal operationAmount;
-        Long holder_id;
+        Long moneySource;
 
         //enum verification
         if (planForm.getPeriodicity()==null || planForm.getPeriodicity().trim().length()==0){
@@ -67,7 +69,7 @@ public class PlannedServiceImpl implements PlannedService {
             return Optional.of("Incorrect money holder selected.");
         }else {
             try {
-                holder_id = Long.parseLong(planForm.getMoneyHolder());
+                moneySource = Long.parseLong(planForm.getMoneyHolder());
             }catch (Exception ex){
                 return Optional.of("Incorrect money holder.");
             }
@@ -108,7 +110,7 @@ public class PlannedServiceImpl implements PlannedService {
         }
 
         Optional<MoneyHolder> moneyHolder = moneyHoldersRepository
-                .findByUserAndId(user.get().getId(),holder_id);
+                .findByUserAndId(user.get().getId(),moneySource);
 
         if (!moneyHolder.isPresent()){
             return Optional.of("Incorrect money holder for logged user");
