@@ -42,9 +42,12 @@ public class FinancialController {
     public String registerMoneyFlow(@RequestParam("val") String operation, Model model){
         model.addAttribute("operation", operation);
         model.addAttribute("currentDate", LocalDate.now());
+
         if (operation.equalsIgnoreCase("income") || operation.equalsIgnoreCase("expense")){
             Authentication authentication = authenticationFacade.getAuthentication();
             AppUser user = userRepository.findByName(authentication.getName()).orElseThrow(()->new UsernameNotFoundException(""));
+
+            model.addAttribute("loggedUser", authentication.getName());
 
             MoneyFlowForm flowForm = new MoneyFlowForm();
             model.addAttribute("operationForm", flowForm);

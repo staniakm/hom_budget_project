@@ -41,14 +41,13 @@
         </div>
     </div>
     <div class="item content">
-        <div >
+        <div class="month_balance">
             <div style="float: left; width: 15%">
                 <p style="float: left" th:text="#{label.form.balance}" >... </p>
             <p style="color: green; float: right;" th:if="${balance>=0}" th:text="${' +' + balance} ">...</p>
             <p style="color: red; float: right" th:unless="${balance>=0}" th:text="${' '+balance}">...</p>
             </div>
 
-            <!--<br>-->
             <hr>
             <div style="width: 15%">
                 <p style="float: left">Income: </p>
@@ -59,10 +58,28 @@
                 <p style="color: red; float: right;" th:text="${' '+ expense}"></p>
             </div>
             <div class="clearfix"></div>
-
+            <hr>
         </div>
 
-        <hr>
+        <div class="planed_payments">
+            <table style="width:100%">
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                </tr>
+                <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                </tr>
+                <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                </tr>
+            </table>
+        </div>
 
     </div>
     <div class="item footer">Footer</div>
