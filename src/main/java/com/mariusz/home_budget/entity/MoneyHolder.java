@@ -23,5 +23,11 @@ public class MoneyHolder {
     @JsonIgnore
     private AppUser user;
 
+    public void addIncome(BigDecimal income){
+        this.amount = amount.add(income);
+    }
 
+    public void addExpense(BigDecimal expense){
+        this.amount = amount.subtract(expense);
+    }
 }

@@ -55,9 +55,11 @@ public class FinancialServiceImpl implements FinancialService {
 
         LocalDate operationDate;
         BigDecimal operationAmount;
+        Long holderId;
 
         String date = newOperation.getDate().trim();
         String amount = newOperation.getAmount().replace(",",".").trim();
+
         if (date==null || date.length()==0 ){
             operationDate = LocalDate.now();
         }else {
@@ -91,13 +93,13 @@ public class FinancialServiceImpl implements FinancialService {
             return Optional.of("User details are incorrect. Please login again.");
         }
 
-        Long holder_id;
+
         if (newOperation.getMoneyHolder()==null || newOperation.getMoneyHolder().trim().length()==0){
             logger.info("Incorrect holder");
             return Optional.of("Incorrect money holder selected.");
         }else {
             try {
-                holder_id = Long.parseLong(newOperation.getMoneyHolder());
+                holderId = Long.parseLong(newOperation.getMoneyHolder());
             }catch (Exception ex){
                 logger.info("Incorrect holder - exception");
                 return Optional.of("Incorrect money holder.");
@@ -105,7 +107,7 @@ public class FinancialServiceImpl implements FinancialService {
         }
 
         Optional<MoneyHolder> moneyHolder = moneyHoldersRepository
-                            .findByUserAndId(user.get().getId(),holder_id);
+                            .findByUserAndId(user.get().getId(),holderId);
 
         if (!moneyHolder.isPresent()){
             logger.info("No holder");
@@ -119,7 +121,9 @@ public class FinancialServiceImpl implements FinancialService {
             income.setDescription(newOperation.getDescription());
             income.setUser(user.get());
             income.setMoneyHolder(moneyHolder.get());
+            moneyHolder.get().addIncome(operationAmount);
 
+            moneyHoldersRepository.save(moneyHolder.get());
             incomeRepository.save(income);
         }else if
             (newOperation.getOperation().equalsIgnoreCase("expense")){
@@ -129,6 +133,8 @@ public class FinancialServiceImpl implements FinancialService {
             expense.setDescription(newOperation.getDescription());
             expense.setUser(user.get());
             expense.setMoneyHolder(moneyHolder.get());
+
+            moneyHoldersRepository.save(moneyHolder.get());
             expenseRepository.save(expense);
 
         }
