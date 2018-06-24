@@ -14,19 +14,17 @@
     <div id="header">
         <div id="logo">
             <div id="logo_text">
-                <h1><a th:href="@{/index}">Home Budget Application</a></h1>
+                <h1><a th:href="@{/index}" th:text="#{label.title}">...</a></h1>
             </div>
         </div>
         <div id="menubar">
             <ul id="menu">
-                <li><a th:href="@{/index}">Home</a></li>
-                <li><a th:href="@{/about}">About</a></li>
-                <li  ><a th:href="@{/contact}">Contact Us</a></li>
-                <li class="selected" style="float:right"><a th:href="@{/login}">Log in</a></li>
-                <li style="float:right"><a th:href="@{/register}">Register</a></li>
+                <li ><a th:href="@{/index}" th:text="#{form.button.menu.main}" >...</a></li>
+                <li><a th:href="@{/about}" th:text="#{form.button.menu.about}">...</a></li>
+                <li><a th:href="@{/contact}" th:text="#{form.button.menu.contact}">...</a></li>
+                <li class="selected" style="float:right"><a th:href="@{/login}" th:text="#{form.button.menu.login}">Log in</a></li>
+                <li style="float:right"><a th:text="#{form.button.menu.register}" th:href="@{/register}">Register</a></li>
             </ul>
-
-
         </div>
     </div>
     <div id="site_content">
@@ -49,22 +47,25 @@
             </ul>
         </div>
         <div id="content">
-            <h1>Log In</h1>
-            <p>Please enter your email address and password to log in</p>
+            <h1 th:text="#{label.form.login}">...</h1>
+            <p th:text="#{label.form.hint.login}">...</p>
 
 
             <form th:action="@{/login}" method="post" >
                 <ul>
                     <li>
-                        <label>Login</label><br>
+                        <label th:text="#{label.form.loginTitle}">...</label><br>
                         <input placeholder="Email address" type="text" name="username"/>
 
                     </li>
-                    <li><label>Password</label><br>
+                    <li>
+                        <label th:text="#{label.form.loginPass}">...</label><br>
                         <input placeholder="Password" type="password" name="password"/>
 
                     </li>
-                    <li><input type="submit" value="Log In"/></li>
+                    <li>
+                        <input th:type="submit" th:value="#{form.button.menu.login}" title=""/>
+                    </li>
                 </ul>
             </form>
             <!--
@@ -79,9 +80,6 @@
 </div>
 <div id="footer">
     Copyright &copy; black_pink_white | <a href="http://validator.w3.org/check?uri=referer">HTML5</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> | free from html5webtemplates.co.uk
-</div>
-</div>
-</div>
 </div>
 </body>
 </html>

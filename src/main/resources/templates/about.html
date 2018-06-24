@@ -14,19 +14,17 @@
     <div id="header">
         <div id="logo">
             <div id="logo_text">
-                <h1><a href="http://localhost:9000/">Home Budget Application</a></h1>
+                <h1><a th:href="@{/index}" th:text="#{label.title}">...</a></h1>
             </div>
         </div>
         <div id="menubar">
             <ul id="menu">
-
-                <li><a th:href="@{/index}">Home</a></li>
-                <li class="selected"><a th:href="@{/about}">About</a></li>
-                <li><a th:href="@{/contact}">Contact Us</a></li>
-                <li style="float:right"><a th:href="@{/login}">Log in</a></li>
-                <li style="float:right"><a th:href="@{/register}">Register</a></li>
+                <li ><a th:href="@{/index}" th:text="#{form.button.menu.main}" >...</a></li>
+                <li class="selected" ><a th:href="@{/about}" th:text="#{form.button.menu.about}">...</a></li>
+                <li><a th:href="@{/contact}" th:text="#{form.button.menu.contact}">...</a></li>
+                <li style="float:right"><a th:href="@{/login}" th:text="#{form.button.menu.login}">Log in</a></li>
+                <li style="float:right"><a th:text="#{form.button.menu.register}" th:href="@{/register}">Register</a></li>
             </ul>
-
         </div>
     </div>
             <div id="site_content">

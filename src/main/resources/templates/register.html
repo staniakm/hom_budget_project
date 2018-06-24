@@ -14,17 +14,16 @@
     <div id="header">
         <div id="logo">
             <div id="logo_text">
-                <h1><a th:href="@{/index}">Home Budget Application</a></h1>
+                <h1><a th:href="@{/index}" th:text="#{label.title}">...</a></h1>
             </div>
         </div>
         <div id="menubar">
             <ul id="menu">
-
-                <li><a th:href="@{/index}">Home</a></li>
-                <li><a th:href="@{/about}">About</a></li>
-                <li><a th:href="@{/contact}">Contact Us</a></li>
-                <li style="float:right"><a th:href="@{/login}">Log in</a></li>
-                <li class="selected" style="float:right"><a th:href="@{/register}">Register</a></li>
+                <li><a th:href="@{/index}" th:text="#{form.button.menu.main}" >...</a></li>
+                <li><a th:href="@{/about}" th:text="#{form.button.menu.about}">...</a></li>
+                <li><a th:href="@{/contact}" th:text="#{form.button.menu.contact}">...</a></li>
+                <li style="float:right"><a th:href="@{/login}" th:text="#{form.button.menu.login}">Log in</a></li>
+                <li class="selected" style="float:right"><a th:text="#{form.button.menu.register}" th:href="@{/register}">Register</a></li>
             </ul>
         </div>
     </div>
@@ -48,28 +47,31 @@
             </ul>
         </div>
         <div id="content">
-            <h1>Register account:</h1>
+            <h1 th:text="#{label.form.register}">Register account:</h1>
             <form class="new_user" id="new_user" th:action="@{/register}" th:object="${userForm}" method="POST" accept-charset="UTF-8">
                 <ul>
                     <li>
                         <label for="user_email">
-                                <div th:text="#{hint.user.email}">...</div>
+                                <span th:text="#{hint.user.email}">...</span>
                         </label>
+                        <br>
                         <input placeholder="Enter email address" type="email" id="user_email" th:field="*{name}" />
                     </li>
                     <li>
                         <label for='user_password' >
-                            <div th:text="#{label.form.registerPass}">...</div>
+                            <span th:text="#{label.form.registerPass}">...</span>
                         </label>
+                        <br>
                         <input placeholder="Enter password" type="password" th:field="*{password}" name="user[password]" id="user_password"/>
                     </li>
                     <li>
                         <label for='user_password_confirmation'>
-                                <div th:text="#{hint.user.confirmPass}">...</div>
+                                <span th:text="#{hint.user.confirmPass}">...</span>
                         </label>
+                        <br>
                         <input placeholder="Confirm password" type="password" name="user[password_confirmation]" th:field="*{confirmedPassword}" id="user_password_confirmation"/>
                     </li>
-                    <li> <button type='submit' name='register'>Register</button></li>
+                    <li> <button type='submit' name='register' th:text="#{form.button.menu.register}">...</button></li>
                 </ul>
 
             </form>
