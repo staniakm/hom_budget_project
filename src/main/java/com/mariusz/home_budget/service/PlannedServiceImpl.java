@@ -11,9 +11,12 @@ import com.mariusz.home_budget.repository.PlannedRepository;
 import com.mariusz.home_budget.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -130,5 +133,28 @@ public class PlannedServiceImpl implements PlannedService {
         plannedRepository.save(plannedOperation);
 
         return Optional.empty();
+    }
+
+    @Override
+    public List<PlannedOperation> getPlanedActiveOperation(AppUser user) {
+        return plannedRepository.getPlanedActivitiesOperations(user.getId());
+//
+//        PlannedOperation plannedOperation = PlannedOperation.builder()
+//                .planedType(MoneyFlowTypes.EXPENSE)
+//                .periodicity(PeriodicTypes.DAILY)
+//                .dueDate(LocalDate.now())
+//                .description("Test")
+//                .days(1)
+//                .amount(BigDecimal.valueOf(14.67))
+//                .user(user)
+//                .isActive(true)
+//                .isFinished(false)
+//                .moneyHolder(moneyHoldersRepository.findByUserAndId(user.getId(),1L).get())
+//                .build();
+//
+//        return new ArrayList<PlannedOperation>(){{
+//            add(plannedOperation);
+//        }};
+
     }
 }
