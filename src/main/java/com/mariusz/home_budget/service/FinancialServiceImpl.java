@@ -65,10 +65,7 @@ public class FinancialServiceImpl implements FinancialService {
         }else {
             try {
                 operationDate = LocalDate.parse(date);
-
             }catch (Exception ex){
-                logger.info("Invalid date");
-
                 return Optional.of("Date must be valid");
             }
         }
@@ -170,7 +167,6 @@ public class FinancialServiceImpl implements FinancialService {
             cashAmount = BigDecimal.ZERO;
         }else {
             try {
-                logger.info("Parse string to amount "+amount);
                 cashAmount = new BigDecimal(amount);
             }catch (Exception ex){
                 logger.info("Amount must be in valid format");
@@ -183,8 +179,6 @@ public class FinancialServiceImpl implements FinancialService {
             return Optional.of("User details are incorrect. Please login again.");
         }
 
-
-        logger.info("Amount: "+ cashAmount);
         MoneyHolder wallet = new MoneyHolder();
         wallet.setAmount(cashAmount);
         wallet.setName(walletForm.getName());

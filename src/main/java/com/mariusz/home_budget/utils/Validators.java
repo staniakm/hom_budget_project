@@ -11,4 +11,7 @@ public class Validators {
     public EmailValidator emailValidator(){
         return EmailValidator.getInstance();
     }
+
+
+
 }

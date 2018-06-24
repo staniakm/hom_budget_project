@@ -65,6 +65,7 @@ public class PlannedServiceImpl implements PlannedService {
         }
 
 
+
         if (planForm.getMoneyHolder()==null || planForm.getMoneyHolder().trim().length()==0){
             return Optional.of("Incorrect money holder selected.");
         }else {
@@ -74,8 +75,6 @@ public class PlannedServiceImpl implements PlannedService {
                 return Optional.of("Incorrect money holder.");
             }
         }
-
-
 
         //planed date
         if (planForm.getDueDate()==null || planForm.getDueDate().trim().length()==0 ){
