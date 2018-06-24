@@ -52,33 +52,22 @@
             <form class="new_user" id="new_user" th:action="@{/register}" th:object="${userForm}" method="POST" accept-charset="UTF-8">
                 <ul>
                     <li>
-                        <label >
-
-                            <div class='hint'>
-                                <input placeholder="Enter email address" type="email" th:field="*{name}" />
-                                <div th:text="#{hint.user.email}"/>
-                            </div>
+                        <label for="user_email">
+                                <div th:text="#{hint.user.email}">...</div>
                         </label>
-
+                        <input placeholder="Enter email address" type="email" id="user_email" th:field="*{name}" />
                     </li>
                     <li>
                         <label for='user_password' >
-                            <div class='hint'>
-                                <input placeholder="Enter password" type="password" th:field="*{password}" name="user[password]" id="user_password"/>
-                                <div th:text="#{hint.user.password}"/>
-                            </div>
+                            <div th:text="#{label.form.registerPass}">...</div>
                         </label>
-
+                        <input placeholder="Enter password" type="password" th:field="*{password}" name="user[password]" id="user_password"/>
                     </li>
                     <li>
                         <label for='user_password_confirmation'>
-
-                            <div class='hint'>
-                                <input placeholder="Confirm password" type="password" name="user[password_confirmation]" th:field="*{confirmedPassword}" id="user_password_confirmation"/>
-                                <div th:text="#{hint.user.confirmPass}"/>
-                            </div>
+                                <div th:text="#{hint.user.confirmPass}">...</div>
                         </label>
-
+                        <input placeholder="Confirm password" type="password" name="user[password_confirmation]" th:field="*{confirmedPassword}" id="user_password_confirmation"/>
                     </li>
                     <li> <button type='submit' name='register'>Register</button></li>
                 </ul>
