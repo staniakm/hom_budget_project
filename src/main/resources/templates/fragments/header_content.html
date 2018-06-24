@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     ...
 </head>
 <body>
 <div class="item header" th:fragment="header_menu">
 
-    <p th:utext="${'You are logged in as '+loggedUser}">.</p>
+    <!--suppress ThymeleafVariablesResolveInspection -->
+    <p th:text="#{label.form.loggedAs}+' ' +${loggedUser}">.</p>
+
     <div>
         <div style="float: left; width: 65%; overflow: hidden">
             <a th:href="@{/welcome}" class="btn btn-secondary btn-sm active" role="button"
