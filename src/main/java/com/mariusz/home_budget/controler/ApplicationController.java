@@ -47,24 +47,24 @@ public class ApplicationController {
 
     @GetMapping(value = {"/","/index","/main"})
     public String getMain(){
-        return "index";
+        return "U0/index";
     }
 
     @GetMapping("/about")
     public String getAbout(){
-        return "about";
+        return "U0/about";
     }
 
     //user enter login page.
     @GetMapping("/login")
     public String getLoginPage(){
-        return "login";
+        return "U0/login";
     }
 
     //contact me page
     @GetMapping("/contact")
     public String getContactPage(){
-        return "contact";
+        return "U0/contact";
     }
 
 
@@ -75,7 +75,7 @@ public class ApplicationController {
 
         UserForm userForm = new UserForm();
         model.addAttribute("userForm", userForm);
-        return "register";
+        return "U0/register";
     }
 
     //user try to register new account. Validation and registration.
@@ -87,7 +87,7 @@ public class ApplicationController {
 
         if (errorOccur.isPresent()){
             model.addAttribute("errorMessage", errorOccur.get());
-            return new ModelAndView("register", "userForm", userAccount);
+            return new ModelAndView("U0/register", "userForm", userAccount);
         }
 
         Optional<AppUser> user = applicationUserService.getUserByName(userAccount.getName());
@@ -99,11 +99,11 @@ public class ApplicationController {
                 applicationEventPublisher.publishEvent(new OnRegistrationCompleteEvent
                         (user.get(), request.getLocale(), appUrl));
             } catch (Exception me) {
-                return new ModelAndView("emailError", "userForm", userAccount);
+                return new ModelAndView("U0/emailError", "userForm", userAccount);
             }
         }
 
-        return new ModelAndView("main", "userForm", userAccount);
+        return new ModelAndView("U0/index", "userForm", userAccount);
     }
 
     @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
@@ -120,7 +120,7 @@ public class ApplicationController {
         model.addAttribute("message", result);
         model.addAttribute("expired", "expired".equals(result));
         model.addAttribute("token", token);
-        return "badUser";
+        return "U0/badUser";
     }
 
 

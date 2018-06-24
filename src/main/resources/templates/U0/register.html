@@ -48,28 +48,28 @@
         </div>
         <div id="content">
             <h1 th:text="#{label.form.register}">Register account:</h1>
-            <form class="new_user" id="new_user" th:action="@{/register}" th:object="${userForm}" method="POST" accept-charset="UTF-8">
+            <form autocomplete="off" class="new_user" id="new_user" th:action="@{/register}" th:object="${userForm}" method="POST" accept-charset="UTF-8">
                 <ul>
                     <li>
                         <label for="user_email">
                                 <span th:text="#{hint.user.email}">...</span>
                         </label>
                         <br>
-                        <input placeholder="Enter email address" type="email" id="user_email" th:field="*{name}" />
+                        <input autocomplete="nope" placeholder="Enter email address" type="email" id="user_email" th:field="*{name}" />
                     </li>
                     <li>
                         <label for='user_password' >
                             <span th:text="#{label.form.registerPass}">...</span>
                         </label>
                         <br>
-                        <input placeholder="Enter password" type="password" th:field="*{password}" name="user[password]" id="user_password"/>
+                        <input autocomplete="new-password" placeholder="Enter password" type="password" th:field="*{password}" name="user[password]" id="user_password"/>
                     </li>
                     <li>
                         <label for='user_password_confirmation'>
                                 <span th:text="#{hint.user.confirmPass}">...</span>
                         </label>
                         <br>
-                        <input placeholder="Confirm password" type="password" name="user[password_confirmation]" th:field="*{confirmedPassword}" id="user_password_confirmation"/>
+                        <input autocomplete="off" placeholder="Confirm password" type="password" name="user[password_confirmation]" th:field="*{confirmedPassword}" id="user_password_confirmation"/>
                     </li>
                     <li> <button type='submit' name='register' th:text="#{form.button.menu.register}">...</button></li>
                 </ul>
