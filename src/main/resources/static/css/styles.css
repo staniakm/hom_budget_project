@@ -20,6 +20,13 @@ body {
     padding: 10px;
 }
 
+.income{
+    color: green;
+}
+.expense{
+    color: red;
+}
+
 .container {
     display: grid;
     grid-template-columns: 15% auto;

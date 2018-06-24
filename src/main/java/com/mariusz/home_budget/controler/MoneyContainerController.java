@@ -1,6 +1,6 @@
 package com.mariusz.home_budget.controler;
 
-import com.mariusz.home_budget.entity.entity_forms.WalletForm;
+import com.mariusz.home_budget.entity.form.WalletForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
 import com.mariusz.home_budget.service.FinancialService;

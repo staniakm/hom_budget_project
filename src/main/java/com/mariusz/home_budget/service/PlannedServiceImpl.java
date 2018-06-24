@@ -3,7 +3,7 @@ package com.mariusz.home_budget.service;
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.MoneyHolder;
 import com.mariusz.home_budget.entity.PlannedOperation;
-import com.mariusz.home_budget.entity.entity_forms.PlanForm;
+import com.mariusz.home_budget.entity.form.PlanForm;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
 import com.mariusz.home_budget.repository.MoneyHoldersRepository;
@@ -11,11 +11,9 @@ import com.mariusz.home_budget.repository.PlannedRepository;
 import com.mariusz.home_budget.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

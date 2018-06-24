@@ -3,8 +3,8 @@ package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.MoneyHolder;
-import com.mariusz.home_budget.entity.entity_forms.MoneyFlowForm;
-import com.mariusz.home_budget.entity.entity_forms.WalletForm;
+import com.mariusz.home_budget.entity.form.MoneyFlowForm;
+import com.mariusz.home_budget.entity.form.WalletForm;
 
 import java.math.BigDecimal;
 import java.util.List;

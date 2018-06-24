@@ -1,7 +1,7 @@
 package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.AppUser;
-import com.mariusz.home_budget.entity.entity_forms.UserForm;
+import com.mariusz.home_budget.entity.form.UserForm;
 import com.mariusz.home_budget.repository.UserRepository;
 import com.mariusz.home_budget.repository.VerificationTokenRepository;
 import com.mariusz.home_budget.entity.VerificationToken;

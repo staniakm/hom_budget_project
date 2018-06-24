@@ -3,7 +3,7 @@ package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.MoneyHolder;
-import com.mariusz.home_budget.entity.entity_forms.MoneyFlowForm;
+import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.repository.UserRepository;
 import com.mariusz.home_budget.service.FinancialService;

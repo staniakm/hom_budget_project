@@ -1,4 +1,4 @@
-package com.mariusz.home_budget.entity.entity_forms;
+package com.mariusz.home_budget.entity.form;
 
 
 import lombok.Data;

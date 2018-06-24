@@ -1,8 +1,8 @@
 package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.*;
-import com.mariusz.home_budget.entity.entity_forms.MoneyFlowForm;
-import com.mariusz.home_budget.entity.entity_forms.WalletForm;
+import com.mariusz.home_budget.entity.form.MoneyFlowForm;
+import com.mariusz.home_budget.entity.form.WalletForm;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
 import com.mariusz.home_budget.repository.*;
 import org.slf4j.Logger;

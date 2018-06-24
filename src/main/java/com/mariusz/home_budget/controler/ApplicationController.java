@@ -1,7 +1,7 @@
 package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
-import com.mariusz.home_budget.entity.entity_forms.UserForm;
+import com.mariusz.home_budget.entity.form.UserForm;
 import com.mariusz.home_budget.listener.OnRegistrationCompleteEvent;
 import com.mariusz.home_budget.service.ApplicationUserService;
 import org.slf4j.Logger;
