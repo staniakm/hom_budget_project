@@ -34,11 +34,11 @@ public class SiteLoaderController {
 
     //Verification process done by Spring security.
     @GetMapping("/welcome")
-    public String loginProccess(Model model){
-        Authentication authentication = authenticationFacade.getAuthentication();
-        AppUser user = userRepository.findByName(authentication.getName()).orElseThrow(()->new UsernameNotFoundException(""));
-        String name = authentication.getName();
-        model.addAttribute("loggedUser", name);
+    public String loginProcess(Model model){
+        String userName = authenticationFacade.getAuthenticatedUser();
+        AppUser user = userRepository.findByName(userName).orElseThrow(()->new UsernameNotFoundException(""));
+
+        model.addAttribute("loggedUser", userName);
         Map<String, BigDecimal> balance = financialService.getBalance(user.getId());
         model.addAttribute("balance",balance.get("balance"));
         model.addAttribute("income",balance.get("income"));
@@ -51,8 +51,7 @@ public class SiteLoaderController {
 
     @GetMapping("/analyze")
     public String getAnalyzePage (Model model){
-        Authentication authentication = authenticationFacade.getAuthentication();
-        model.addAttribute("loggedUser", authentication.getName());
+        model.addAttribute("loggedUser", authenticationFacade.getAuthenticatedUser());
         model.addAttribute("fragmentHtml","analyze_contents");
         model.addAttribute("fragment","empty");
         return "analyze";
@@ -62,8 +61,7 @@ public class SiteLoaderController {
 
     @GetMapping("/settings")
     public String getSettingsPage (Model model){
-        Authentication authentication = authenticationFacade.getAuthentication();
-        model.addAttribute("loggedUser", authentication.getName());
+        model.addAttribute("loggedUser", authenticationFacade.getAuthenticatedUser());
         return "settings";
     }
 }

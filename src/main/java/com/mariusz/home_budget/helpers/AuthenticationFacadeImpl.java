@@ -16,8 +16,8 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
     }
 
     @Override
-    public String getAutinticatedUser() {
-        return "";
+    public String getAuthenticatedUser() {
+        return getAuthentication().getName();
     }
 
 
