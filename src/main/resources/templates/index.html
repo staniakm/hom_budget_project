@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <title>Home Budget Application</title>
   <meta name="description" content="website description" />
   <meta name="keywords" content="website keywords, website keywords" />
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <link rel="stylesheet" type="text/css" href="/css/style.css" title="style" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" title="style" />
 </head>
 
 <body>
@@ -21,10 +21,10 @@
       <ul id="menu">
 
         <li class="selected"><a th:href="@{/index}">Home</a></li>
-        <li><a th:href="@{/register}">Register</a></li>
         <li><a th:href="@{/about}">About</a></li>
         <li><a th:href="@{/contact}">Contact Us</a></li>
         <li style="float:right"><a th:href="@{/login}">Log in</a></li>
+        <li style="float:right"><a th:href="@{/register}">Register</a></li>
       </ul>
     </div>
   </div>
