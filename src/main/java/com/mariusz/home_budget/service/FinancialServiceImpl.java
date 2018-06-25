@@ -87,10 +87,7 @@ public class FinancialServiceImpl implements FinancialService {
             income.setDescription(newOperation.getDescription());
             income.setUser(user);
             income.setMoneyHolder(moneyHolder.get());
-            moneyHolder.get().addIncome(operationAmount);
-
-            moneyHoldersRepository.save(moneyHolder.get());
-            incomeRepository.save(income);
+            saveIncome(income);
         }else if
             (newOperation.getOperation().equalsIgnoreCase("expense")){
                 Expense expense = new Expense();
@@ -99,13 +96,29 @@ public class FinancialServiceImpl implements FinancialService {
             expense.setDescription(newOperation.getDescription());
             expense.setUser(user);
             expense.setMoneyHolder(moneyHolder.get());
-
-            moneyHoldersRepository.save(moneyHolder.get());
-            expenseRepository.save(expense);
-
+            saveExpense(expense);
         }
 
         return Optional.empty();
+    }
+
+
+    public void saveIncome(Income income){
+
+        MoneyHolder moneyHolder = income.getMoneyHolder();
+        moneyHolder.addIncome(income.getAmount());
+
+        moneyHoldersRepository.save(moneyHolder);
+        incomeRepository.save(income);
+    }
+
+    public void saveExpense(Expense expense){
+        MoneyHolder moneyHolder = expense.getMoneyHolder();
+        moneyHolder.addExpense(expense.getAmount());
+
+
+        moneyHoldersRepository.save(moneyHolder);
+        expenseRepository.save(expense);
     }
 
 

@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -105,6 +106,17 @@ public class PlanController {
         else
             logger.info("No error detected during plan saving process");
         return "redirect:/planExpenses";
+    }
+
+    @PostMapping("/finishPlan")
+    public String finishOperation(@RequestParam("operationId") Long id){
+        logger.info("Operation id: "+id);
+
+        plannedService.finishPlan(id);
+
+
+
+        return "redirect:/welcome";
     }
 
 }

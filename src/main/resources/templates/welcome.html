@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
@@ -62,12 +63,19 @@
                     <th style="width: 15%" th:text="#{form.date}">Date</th>
                     <th style="width: 70%" th:text="#{form.description}">Description</th>
                     <th th:text="#{form.amount}">Amount</th>
+                    <th th:text="#{form.plan.finish}">...</th>
                 </tr>
                 <th:block th:each="field : ${plannedOperations}">
                     <tr>
                         <td th:text="${field.getDueDate()}">A Smoke Test'</td>
                         <td th:text="${field.getDescription()}">A Smoke Test'</td>
                         <td th:classappend="${field.getPlanedType().getType().equalsIgnoreCase('income')} ? income : expense" th:text="${field.getAmount()}">A Smoke Test'</td>
+                        <td style="text-align: center">
+                            <!--<a href="#" class="far fa-calendar-check"/>-->
+                            <form method="POST" th:action="@{/finishPlan(operationId=${field.getId()})}">
+                                <button type="submit" name="submit" value="value" class="far fa-calendar-check"></button>
+                            </form>
+                        </td>
                     </tr>
                 </th:block>
             </table>

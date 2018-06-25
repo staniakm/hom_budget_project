@@ -1,8 +1,6 @@
 package com.mariusz.home_budget.service;
 
-import com.mariusz.home_budget.entity.AppUser;
-import com.mariusz.home_budget.entity.MoneyHolder;
-import com.mariusz.home_budget.entity.PlannedOperation;
+import com.mariusz.home_budget.entity.*;
 import com.mariusz.home_budget.entity.form.PlanForm;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +22,14 @@ public class PlannedServiceImpl implements PlannedService {
     private final PlannedRepository plannedRepository;
     private  final UserRepository userRepository;
     private final MoneyHoldersRepository moneyHoldersRepository;
+    private final FinancialService financialService;
 
     @Autowired
-    public PlannedServiceImpl(PlannedRepository plannedRepository, UserRepository userRepository, MoneyHoldersRepository moneyHoldersRepository) {
+    public PlannedServiceImpl(PlannedRepository plannedRepository, UserRepository userRepository, MoneyHoldersRepository moneyHoldersRepository, FinancialService financialService) {
         this.plannedRepository = plannedRepository;
         this.userRepository = userRepository;
         this.moneyHoldersRepository = moneyHoldersRepository;
+        this.financialService = financialService;
     }
 
 
@@ -136,23 +137,37 @@ public class PlannedServiceImpl implements PlannedService {
     @Override
     public List<PlannedOperation> getPlanedActiveOperation(AppUser user) {
         return plannedRepository.getPlanedActivitiesOperations(user.getId());
-//
-//        PlannedOperation plannedOperation = PlannedOperation.builder()
-//                .planedType(MoneyFlowTypes.EXPENSE)
-//                .periodicity(PeriodicTypes.DAILY)
-//                .dueDate(LocalDate.now())
-//                .description("Test")
-//                .days(1)
-//                .amount(BigDecimal.valueOf(14.67))
-//                .user(user)
-//                .isActive(true)
-//                .isFinished(false)
-//                .moneyHolder(moneyHoldersRepository.findByUserAndId(user.getId(),1L).get())
-//                .build();
-//
-//        return new ArrayList<PlannedOperation>(){{
-//            add(plannedOperation);
-//        }};
+    }
+
+    @Override
+    public void finishPlan(Long id) {
+       Optional<PlannedOperation> operation = plannedRepository.findById(id);
+       if (operation.isPresent()){
+          PlannedOperation plannedOperation = operation.get();
+          plannedOperation.setFinished(true);
+
+          if(plannedOperation.getPlanedType().getType().equalsIgnoreCase("income")){
+              Income moneyOperation = new Income();
+              moneyOperation.setMoneyHolder(plannedOperation.getMoneyHolder());
+              moneyOperation.setUser(plannedOperation.getUser());
+              moneyOperation.setDescription(plannedOperation.getDescription());
+              moneyOperation.setDate(LocalDateTime.now());
+              moneyOperation.setAmount(plannedOperation.getAmount());
+              financialService.saveIncome(moneyOperation);
+
+          }else if (plannedOperation.getPlanedType().getType().equalsIgnoreCase("expense")){
+              Expense moneyOperation = new Expense();
+              moneyOperation.setMoneyHolder(plannedOperation.getMoneyHolder());
+              moneyOperation.setUser(plannedOperation.getUser());
+              moneyOperation.setDescription(plannedOperation.getDescription());
+              moneyOperation.setDate(LocalDateTime.now());
+              moneyOperation.setAmount(plannedOperation.getAmount());
+              financialService.saveExpense(moneyOperation);
+          }
+
+          plannedRepository.save(plannedOperation);
+       }
+
 
     }
 }

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,7 +27,6 @@ import java.util.Optional;
 @Controller
 public class FinancialController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private String message;
 
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
@@ -63,6 +61,8 @@ public class FinancialController {
         }
         return "analyze";
     }
+
+
 
     @PostMapping("/registerMoneyFlow")
     public String registerNewMoneyFlow(@Valid MoneyFlowForm newOperation, BindingResult bindingResult, Model model
