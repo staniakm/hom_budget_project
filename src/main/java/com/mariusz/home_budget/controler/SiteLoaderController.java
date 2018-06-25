@@ -3,7 +3,7 @@ package com.mariusz.home_budget.controler;
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.PlannedOperation;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
-import com.mariusz.home_budget.repository.UserRepository;
+import com.mariusz.home_budget.service.ApplicationUserService;
 import com.mariusz.home_budget.service.FinancialService;
 import com.mariusz.home_budget.service.PlannedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +18,20 @@ import java.util.Map;
 
 @Controller
 public class SiteLoaderController {
+
+    private static final String LOGGED_USER = "loggedUser";
+
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
-    private final UserRepository userRepository;
+    private final ApplicationUserService userService;
     private final PlannedService plannedService;
 
     @Autowired
-    public SiteLoaderController(AuthenticationFacade authenticationFacade, FinancialService financialService, UserRepository userRepository, PlannedService plannedService) {
+    public SiteLoaderController(AuthenticationFacade authenticationFacade, FinancialService financialService
+            , ApplicationUserService userService, PlannedService plannedService) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.plannedService = plannedService;
     }
 
@@ -35,9 +39,9 @@ public class SiteLoaderController {
     @GetMapping("/welcome")
     public String loginProcess(Model model){
         String userName = authenticationFacade.getAuthenticatedUser();
-        AppUser user = userRepository.findByName(userName).orElseThrow(()->new UsernameNotFoundException(""));
+        AppUser user = userService.getUserByName(userName).orElseThrow(()->new UsernameNotFoundException(""));
 
-        model.addAttribute("loggedUser", userName);
+        model.addAttribute(LOGGED_USER, userName);
         Map<String, BigDecimal> balance = financialService.getBalance(user.getId());
         model.addAttribute("balance",balance.get("balance"));
         model.addAttribute("income",balance.get("income"));
@@ -50,7 +54,7 @@ public class SiteLoaderController {
 
     @GetMapping("/analyze")
     public String getAnalyzePage (Model model){
-        model.addAttribute("loggedUser", authenticationFacade.getAuthenticatedUser());
+        model.addAttribute(LOGGED_USER, authenticationFacade.getAuthenticatedUser());
         model.addAttribute("fragmentHtml","analyze_contents");
         model.addAttribute("fragment","empty");
         return "analyze";
@@ -60,7 +64,7 @@ public class SiteLoaderController {
 
     @GetMapping("/settings")
     public String getSettingsPage (Model model){
-        model.addAttribute("loggedUser", authenticationFacade.getAuthenticatedUser());
+        model.addAttribute(LOGGED_USER, authenticationFacade.getAuthenticatedUser());
         return "settings";
     }
 }

@@ -5,6 +5,7 @@ import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.entity.form.WalletForm;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
 import com.mariusz.home_budget.repository.*;
+import com.mariusz.home_budget.utils.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,9 @@ public class FinancialServiceImpl implements FinancialService {
         String date = newOperation.getDate().trim();
         String amount = newOperation.getAmount().replace(",",".").trim();
 
+//        Optional<String> error = Validators.validMoneyFlowOperation(newOperation);
+
+
         if (date==null || date.length()==0 ){
             operationDate = LocalDate.now();
         }else {
@@ -83,8 +87,6 @@ public class FinancialServiceImpl implements FinancialService {
             }
         }
 
-        logger.info(newOperation.getMoneyHolder());
-
         Optional<AppUser> user = userRepository.findByName(newOperation.getUser());
         if (!user.isPresent()){
             return Optional.of("User details are incorrect. Please login again.");
@@ -107,7 +109,6 @@ public class FinancialServiceImpl implements FinancialService {
                             .findByUserAndId(user.get().getId(),holderId);
 
         if (!moneyHolder.isPresent()){
-            logger.info("No holder");
             return Optional.of("Incorrect money holder for logged user");
         }
 
