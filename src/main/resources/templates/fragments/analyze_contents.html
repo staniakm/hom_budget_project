@@ -11,7 +11,7 @@
     <span th:if="${operation == 'expense'}">
         <h1 th:text="#{label.form.button.add_expense}">...</h1></span>
 
-    <form onsubmit="return validateCombo()" class="new_user" id="new_user" th:action="@{/registerMoneyFlow}" th:object="${operationForm}" method="POST" accept-charset="UTF-8">
+    <form onsubmit="return validateForm()" class="new_user" id="new_user" th:action="@{/registerMoneyFlow}" th:object="${operationForm}" method="POST" accept-charset="UTF-8">
         <ul style="width: 40%">
             <li>
                 <label >
@@ -23,13 +23,13 @@
                 <label >
                     <span th:utext="#{form.description}">...</span>
                 </label>
-                <input style="width: 100%" type="text" id="description" th:field="*{description}" required/>
+                <input style="width: 100%" type="text" id="description" name="description" th:field="*{description}" required/>
             </li>
             <li>
                 <label>
                     <span th:utext="#{form.amount}">...</span>
                 </label>
-                <input style="width: 100%" type="text" th:field="*{amount}" required/>
+                <input pattern='^\d+(?:[\\.\\,]\d{0,2})$' style="width: 100%" type="text" id="amountInputField" th:field="*{amount}" required/>
             </li>
             <li>
                 <label>
@@ -49,6 +49,8 @@
 
         </button>
     </form>
+        <div th:if="${message != null}" class="alert alert-info" th:text="${message}">message</div>
+        <!--<div th:if="${param.error != null}" class="alert alert-danger" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>-->
 </div>
 
 <div class="item content" th:fragment="empty">

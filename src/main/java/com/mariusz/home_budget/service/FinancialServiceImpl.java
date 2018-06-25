@@ -5,7 +5,7 @@ import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.entity.form.WalletForm;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
 import com.mariusz.home_budget.repository.*;
-import com.mariusz.home_budget.utils.Validators;
+import com.mariusz.home_budget.validators.Validators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,59 +54,27 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public Optional<String> addOperation(MoneyFlowForm newOperation) {
 
-        LocalDate operationDate;
         BigDecimal operationAmount;
         Long holderId;
+        AppUser user = newOperation.getUser();
 
-        String date = newOperation.getDate().trim();
-        String amount = newOperation.getAmount().replace(",",".").trim();
+        LocalDate date = newOperation.getDate();
+        String amount = newOperation.getAmount();
 
-//        Optional<String> error = Validators.validMoneyFlowOperation(newOperation);
+        operationAmount = new BigDecimal(amount);
 
-
-        if (date==null || date.length()==0 ){
-            operationDate = LocalDate.now();
-        }else {
-            try {
-                operationDate = LocalDate.parse(date);
-            }catch (Exception ex){
-                return Optional.of("Date must be valid");
-            }
+        if (operationAmount.compareTo(BigDecimal.ZERO)<=0){
+            return Optional.of("Value must be greater then zero");
         }
 
-        if (amount==null || amount.length()==0){
-            logger.info("Amount must be provided");
-
-            return Optional.of("Amount must be provided");
-        }else {
-            try {
-                operationAmount = new BigDecimal(amount);
-
-            }catch (Exception ex){
-                return Optional.of("Amount must be in valid format");
-            }
+        Optional<String> error = Validators.validateMoneyHolder(newOperation.getMoneyHolder());
+        if (error.isPresent()){
+            return error;
         }
 
-        Optional<AppUser> user = userRepository.findByName(newOperation.getUser());
-        if (!user.isPresent()){
-            return Optional.of("User details are incorrect. Please login again.");
-        }
-
-
-        if (newOperation.getMoneyHolder()==null || newOperation.getMoneyHolder().trim().length()==0){
-            logger.info("Incorrect holder");
-            return Optional.of("Incorrect money holder selected.");
-        }else {
-            try {
-                holderId = Long.parseLong(newOperation.getMoneyHolder());
-            }catch (Exception ex){
-                logger.info("Incorrect holder - exception");
-                return Optional.of("Incorrect money holder.");
-            }
-        }
-
+        holderId = Long.parseLong(newOperation.getMoneyHolder());
         Optional<MoneyHolder> moneyHolder = moneyHoldersRepository
-                            .findByUserAndId(user.get().getId(),holderId);
+                            .findByUserAndId(user.getId(),holderId);
 
         if (!moneyHolder.isPresent()){
             return Optional.of("Incorrect money holder for logged user");
@@ -115,9 +83,9 @@ public class FinancialServiceImpl implements FinancialService {
         if (newOperation.getOperation().equalsIgnoreCase("income")){
             Income income = new Income();
             income.setAmount(operationAmount);
-            income.setDate(operationDate.atStartOfDay());
+            income.setDate(date.atStartOfDay());
             income.setDescription(newOperation.getDescription());
-            income.setUser(user.get());
+            income.setUser(user);
             income.setMoneyHolder(moneyHolder.get());
             moneyHolder.get().addIncome(operationAmount);
 
@@ -127,9 +95,9 @@ public class FinancialServiceImpl implements FinancialService {
             (newOperation.getOperation().equalsIgnoreCase("expense")){
                 Expense expense = new Expense();
             expense.setAmount(operationAmount);
-            expense.setDate(operationDate.atStartOfDay());
+            expense.setDate(date.atStartOfDay());
             expense.setDescription(newOperation.getDescription());
-            expense.setUser(user.get());
+            expense.setUser(user);
             expense.setMoneyHolder(moneyHolder.get());
 
             moneyHoldersRepository.save(moneyHolder.get());
@@ -149,7 +117,7 @@ public class FinancialServiceImpl implements FinancialService {
         String amount = walletForm.getCash().replace(",",".").trim();
         MoneyHolderType moneyHolderType;
 
-        if (walletForm.getName()==null || walletForm.getName().length()==0){
+        if (walletForm.getName()==null || walletForm.getName().trim().length()==0){
             logger.info("Name must be valid");
             return Optional.of("Name must be valid");
         }
