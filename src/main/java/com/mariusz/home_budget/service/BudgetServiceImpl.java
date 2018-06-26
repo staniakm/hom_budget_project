@@ -1,7 +1,6 @@
 package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.AppUser;
-import com.mariusz.home_budget.entity.Budget;
 import com.mariusz.home_budget.entity.PlannedBudget;
 import com.mariusz.home_budget.entity.form.BudgetForm;
 import com.mariusz.home_budget.repository.BudgetRepository;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +26,7 @@ public class BudgetServiceImpl implements BudgetService {
     @Override
     public List<PlannedBudget> getPlannedBudgets(AppUser user) {
 
-        List<PlannedBudget> budget = budgetRepository.findAllByUser(user.getId(), LocalDate.now().getYear(), LocalDate.now().getMonthValue());
-
-
-        return budget;
+        return budgetRepository.findAllForCurrentMonth(user.getId(), LocalDate.now().getYear(), LocalDate.now().getMonthValue());
     }
 
     @Override
@@ -42,16 +37,22 @@ public class BudgetServiceImpl implements BudgetService {
 
         BigDecimal operationAmount = new BigDecimal(amount);
 
-        if (operationAmount.compareTo(BigDecimal.ZERO)<=0){
+        if (operationAmount.compareTo(BigDecimal.ZERO)<0){
             return Optional.of("Value must be greater then zero");
         }
 
-        PlannedBudget budget = new PlannedBudget();
-        budget.setUser(user);
-        budget.setCategory(budgetForm.getCategory());
-        budget.setDate(LocalDate.now());
-        budget.setPlanned(operationAmount);
-        budget.setSpend(BigDecimal.ZERO);
+        PlannedBudget budget = budgetRepository.getOneByCategory(user.getId()
+                , budgetForm.getCategory(),LocalDate.now().getYear(), LocalDate.now().getMonthValue() );
+        if (budget==null) {
+            budget = new PlannedBudget();
+            budget.setUser(user);
+            budget.setCategory(budgetForm.getCategory());
+            budget.setDate(LocalDate.now());
+            budget.setPlanned(operationAmount);
+            budget.setSpend(BigDecimal.ZERO);
+        }else {
+            budget.setPlanned(operationAmount);
+        }
         budgetRepository.save(budget);
 
         return Optional.empty();
