@@ -2,11 +2,13 @@ package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.MoneyHolder;
+import com.mariusz.home_budget.entity.form.BudgetForm;
 import com.mariusz.home_budget.entity.form.PlanForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
 import com.mariusz.home_budget.service.ApplicationUserService;
+import com.mariusz.home_budget.service.BudgetService;
 import com.mariusz.home_budget.service.FinancialService;
 import com.mariusz.home_budget.service.PlannedService;
 import org.slf4j.Logger;
@@ -38,15 +40,17 @@ public class PlanController {
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
     private final ApplicationUserService userService;
+    private final BudgetService budgetService;
 
     @Autowired
     public PlanController(PlannedService plannedService, AuthenticationFacade authenticationFacade
-            , FinancialService financialService, ApplicationUserService userService) {
+            , FinancialService financialService, ApplicationUserService userService, BudgetService budgetService) {
 
         this.plannedService = plannedService;
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
         this.userService = userService;
+        this.budgetService = budgetService;
     }
 
     @GetMapping("/plan")
@@ -94,7 +98,26 @@ public class PlanController {
         model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"budget");
         Authentication authentication = authenticationFacade.getAuthentication();
         model.addAttribute(LOGGED_USER, authentication.getName());
+
+        List<String> categories = Arrays.asList("Samochód","Jedzenie","Rachunki");
+
+        model.addAttribute("categories",categories);
+        BudgetForm budgetForm = new BudgetForm();
+        model.addAttribute("budgetForm",budgetForm);
+
+
         return "plan";
+    }
+
+    @PostMapping("/addBudget")
+        public String addBudget(@ModelAttribute("budgetForm") BudgetForm budgetForm){
+        Authentication authentication = authenticationFacade.getAuthentication();
+        Optional<String> error = budgetService.savePlannedBudget(budgetForm, authentication.getName());
+        if(error.isPresent())
+            logger.info(error.get());
+        else
+            logger.info("No error detected during plan saving process");
+        return "redirect:/planBudget";
     }
 
     @PostMapping("/addPlan")

@@ -45,12 +45,21 @@
             <p th:text="#{form.plan.planned_budget}">...</p>
             <div class="planed_payments">
                 <table style="width:100%">
-                    <tr>
-                        <th>TODO</th>
-                        <th>TODO</th>
-                        <th>TODO</th>
-                    </tr>
 
+                        <tr>
+                            <th style="width: 40%" th:text="#{form.budget.category}">...</th>
+                            <th style="width: 20%" th:text="#{form.budget.planned}">...</th>
+                            <th style="width: 20%" th:text="#{form.budget.spend}">...</th>
+                            <th style="width: 20%" th:text="#{form.budget.left}">...</th>
+                        </tr>
+                    <th:block th:each="budget : ${plannedBudgets}">
+                    <tr>
+                        <td style="width: 40%" th:text="${budget.getCategory()}">...</td>
+                        <td style="width: 20%" th:text="${budget.getPlanned()+' PLN'}">...</td>
+                        <td style="width: 20%" th:text="${budget.getSpend()}+' PLN'">...</td>
+                        <td style="width: 20%" th:text="${budget.getDifference()+' PLN'}">...</td>
+                    </tr>
+                    </th:block>
                 </table>
             </div>
         </div>

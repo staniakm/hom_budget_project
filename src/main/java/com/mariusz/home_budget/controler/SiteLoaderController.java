@@ -1,9 +1,11 @@
 package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
+import com.mariusz.home_budget.entity.PlannedBudget;
 import com.mariusz.home_budget.entity.PlannedOperation;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.service.ApplicationUserService;
+import com.mariusz.home_budget.service.BudgetService;
 import com.mariusz.home_budget.service.FinancialService;
 import com.mariusz.home_budget.service.PlannedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +27,16 @@ public class SiteLoaderController {
     private final FinancialService financialService;
     private final ApplicationUserService userService;
     private final PlannedService plannedService;
+    private final BudgetService budgetService;
 
     @Autowired
     public SiteLoaderController(AuthenticationFacade authenticationFacade, FinancialService financialService
-            , ApplicationUserService userService, PlannedService plannedService) {
+            , ApplicationUserService userService, PlannedService plannedService, BudgetService budgetService) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
         this.userService = userService;
         this.plannedService = plannedService;
+        this.budgetService = budgetService;
     }
 
     //Verification process done by Spring security.
@@ -48,6 +52,9 @@ public class SiteLoaderController {
         model.addAttribute("expense",balance.get("expense"));
         List<PlannedOperation> operations = plannedService.getPlanedActiveOperation(user);
         model.addAttribute("plannedOperations",operations);
+
+        List<PlannedBudget> budgets = budgetService.getPlannedBudgets(user);
+        model.addAttribute("plannedBudgets", budgets);
 
         return "welcome";
     }
