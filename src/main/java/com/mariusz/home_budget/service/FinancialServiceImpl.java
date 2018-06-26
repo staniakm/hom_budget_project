@@ -27,14 +27,16 @@ public class FinancialServiceImpl implements FinancialService {
     private final FinancialCustomRepository financialRepository;
     private final UserRepository userRepository;
     private final MoneyHoldersRepository moneyHoldersRepository;
+    private final BudgetService budgetService;
 
     @Autowired
-    public FinancialServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository, FinancialCustomRepository financialRepository, UserRepository userRepository, MoneyHoldersRepository moneyHoldersRepository) {
+    public FinancialServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository, FinancialCustomRepository financialRepository, UserRepository userRepository, MoneyHoldersRepository moneyHoldersRepository, BudgetService budgetService) {
         this.incomeRepository = incomeRepository;
         this.expenseRepository = expenseRepository;
         this.financialRepository = financialRepository;
         this.userRepository = userRepository;
         this.moneyHoldersRepository = moneyHoldersRepository;
+        this.budgetService = budgetService;
     }
 
 
@@ -90,12 +92,16 @@ public class FinancialServiceImpl implements FinancialService {
             saveIncome(income);
         }else if
             (newOperation.getOperation().equalsIgnoreCase("expense")){
-                Expense expense = new Expense();
+            Expense expense = new Expense();
             expense.setAmount(operationAmount);
             expense.setDate(date.atStartOfDay());
             expense.setDescription(newOperation.getDescription());
             expense.setUser(user);
             expense.setMoneyHolder(moneyHolder.get());
+            expense.setCategory(newOperation.getCategory());
+            budgetService.updateBudget(user, newOperation.getCategory(), operationAmount);
+
+
             saveExpense(expense);
         }
 

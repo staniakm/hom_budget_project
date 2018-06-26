@@ -57,4 +57,14 @@ public class BudgetServiceImpl implements BudgetService {
 
         return Optional.empty();
     }
+
+    @Override
+    public void updateBudget(AppUser user, String category, BigDecimal amount) {
+        PlannedBudget budget = budgetRepository.getOneByCategory(user.getId(),category
+                ,LocalDate.now().getYear(), LocalDate.now().getMonthValue());
+        if (budget!=null){
+            budget.setSpend(budget.getSpend().add(amount));
+            budgetRepository.save(budget);
+        }
+    }
 }

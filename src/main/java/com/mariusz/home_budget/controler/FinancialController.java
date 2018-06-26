@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +59,9 @@ public class FinancialController {
             model.addAttribute("moneyHolders",holders);
             model.addAttribute("fragmentHtml","analyze_contents");
             model.addAttribute("fragment","addIncome");
+
+            List<String> categories = Arrays.asList("Samochód","Jedzenie","Rachunki");
+            model.addAttribute("categories",categories);
         }
         return "analyze";
     }

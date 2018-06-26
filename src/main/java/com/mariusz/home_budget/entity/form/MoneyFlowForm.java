@@ -22,6 +22,7 @@ public class MoneyFlowForm {
     private String operation;
     private AppUser user;
     private String moneyHolder;
+    private String category;
 
     public void setDescription(String description) {
         this.description = description.trim();

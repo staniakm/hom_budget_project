@@ -19,4 +19,6 @@ public class Expense extends FinanceFlow {
     @JsonIgnore
     @OneToOne
     private MoneyHolder moneyHolder;
+
+    private String category;
 }
