@@ -17,4 +17,7 @@ public interface PlannedRepository extends JpaRepository<PlannedOperation, Long>
             "and m.is_active = 1 and m.is_finished = 0 order by m.due_date asc", nativeQuery=true)
     List<PlannedOperation> getPlanedActivitiesOperations(@Param("user") Long id);
 
+    @Query(value = "select * from planned_operation m where m.user_id = :user " +
+            "and m.is_active = 1 and m.is_finished = 0 and id=:operationId", nativeQuery=true)
+    Optional<PlannedOperation> findByIdAndUser(@Param("operationId") Long operationId, @Param("user") Long userId);
 }

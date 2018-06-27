@@ -69,15 +69,15 @@
     <div class="planed_payments">
             <table style="width:100%">
                 <tr>
-                    <th style="width: 15%" th:text="#{form.date}">Date</th>
-                    <th style="width: 70%" th:text="#{form.description}">Description</th>
-                    <th th:text="#{form.amount}">Amount</th>
-                    <th th:text="#{form.plan.finish}">...</th>
+                    <th style="width: 20%" th:text="#{form.date}">Date</th>
+                    <th style="width: 50%" th:text="#{form.description}">Description</th>
+                    <th style="width: 15%" th:text="#{form.amount}">Amount</th>
+                    <th style="width: 15%" th:text="#{form.plan.finish}">...</th>
                 </tr>
                 <th:block th:each="field : ${plannedOperations}">
                     <tr>
                         <td th:text="${field.getDueDate()}">A Smoke Test'</td>
-                        <td th:text="${field.getDescription()}">A Smoke Test'</td>
+                        <td style=" word-break: break-all" th:text="${field.getDescription()}">A Smoke Test'</td>
                         <td th:classappend="${field.getPlanedType().getType().equalsIgnoreCase('income')} ? income : expense" th:text="${field.getAmount()}">A Smoke Test'</td>
                         <td style="text-align: center">
                             <!--<a href="#" class="far fa-calendar-check"/>-->
