@@ -1,89 +1,111 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:style="http://www.w3.org/1999/xhtml">
 
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <title>Home Budget Application</title>
+    <meta name="description" content="website description"/>
+    <meta name="keywords" content="website keywords, website keywords"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}" title="style"/>
 </head>
+
 <body>
-<div class="container">
-    <div class="item header" th:replace="fragments/header_content :: header_menu"></div>
-
-    <div class="item nav">
-        <div class="sidenav">
-            <div style="float: left; width: 100%">
-                <p style="float: left" th:text="#{label.form.balance}" >... </p>
-                <p style="color: green; float: right;" th:if="${balance>=0}" th:text="${' +' + balance} ">...</p>
-                <p style="color: red; float: right" th:unless="${balance>=0}" th:text="${' '+balance}">...</p>
+<div id="welcome">
+    <div id="header">
+        <div id="logo">
+            <div id="logo_text">
+                <h1><a th:href="@{/index}" th:text="#{label.title}">...</a></h1>
             </div>
+        </div>
+        <div id="menubar">
+            <ul id="menu">
+
+                <li class="selected"><a th:href="@{/welcome}" class="btn btn-secondary btn-sm active" role="button"
+                                        aria-pressed="true" th:text="#{label.form.button.summary}">...</a></li>
+                <li><a th:href="@{/analyze}" class="btn btn-secondary btn-sm active" role="button"
+                       aria-pressed="true" th:text="#{label.form.button.analyze}">...</a></li>
+                <li><a th:href="@{/plan}" class="btn btn-secondary btn-sm active" role="button"
+                       aria-pressed="true" th:text="#{label.form.button.plan}">...</a></li>
+                <li><a th:href="@{/settings}" class="btn btn-secondary btn-sm active" role="button"
+                       aria-pressed="true" th:text="#{label.form.button.settings}">...</a></li>
+                <li style="float:right"><a href="javascript: document.logoutForm.submit()"
+                                           class="btn btn-secondary btn-sm active" role="button"
+                                           aria-pressed="true"> Logout</a></li>
+            </ul>
         </div>
     </div>
-    <div class="item content">
-        <div class="month_balance">
-            <div style="float: left; width: 15%">
-                <p style="float: left" th:text="#{label.form.balance}" >... </p>
-                <p style="color: green; float: right;" th:if="${balance>=0}" th:text="${' +' + balance} ">...</p>
-                <p style="color: red; float: right" th:unless="${balance>=0}" th:text="${' '+balance}">...</p>
+    <div id="site_content">
+        <div class="sidebar">
+            <h1 th:text="#{label.form.button.summary}">...</h1>
+
+            <p style="float: left" th:text="#{label.form.balance}">... </p>
+            <p style="color: green; float: right;" th:if="${balance>=0}" th:text="${' +' + balance} ">...</p>
+            <p style="color: red; float: right" th:unless="${balance>=0}" th:text="${' '+balance}">...</p>
+        </div>
+        <div id="content">
+            <div class="month_balance">
+                <div>
+                    
+                    <ul>
+
+                        <li><a><p style="color: red; float: left" th:unless="${balance>=0}" th:text="${' '+balance}">...</p></a></li>
+                    </ul>
+                </div>
+
+                <div style="width: 15%">
+                    <p style="float: left" th:text="#{form.plan.income}">Income: </p>
+                    <p style="color: green; float: right" th:text="${' '+ income}"></p>
+                </div>
+                <div style=" width: 15%">
+                    <p style="float: left" th:text="#{form.plan.expense}">...</p>
+                    <p style="color: red; float: right;" th:text="${' '+ expense}"></p>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+            <div>
+                <p th:text="#{form.plan.planned_budget}">...</p>
+                <div class="planed_payments">
+                    <table style="width:100%">
+                        <tr>
+                            <th>TODO</th>
+                            <th>TODO</th>
+                            <th>TODO</th>
+                        </tr>
+
+                    </table>
+                </div>
             </div>
 
-            <hr>
-            <div style="width: 15%">
-                <p style="float: left" th:text="#{form.plan.income}">Income: </p>
-            <p  style="color: green; float: right" th:text="${' '+ income}"></p>
-            </div>
-            <div style=" width: 15%">
-            <p style="float: left" th:text="#{form.plan.expense}">...</p>
-                <p style="color: red; float: right;" th:text="${' '+ expense}"></p>
-            </div>
-            <div class="clearfix"></div>
-            <hr>
-        </div>
-        <div>
-            <p th:text="#{form.plan.planned_budget}">...</p>
-            <div class="planed_payments">
-                <table style="width:100%">
-                    <tr>
-                        <th>TODO</th>
-                        <th>TODO</th>
-                        <th>TODO</th>
-                    </tr>
-
-                </table>
+            <div>
+                <p th:text="#{form.plan.planned_operations}">...</p>
+                <div class="planed_payments">
+                    <table style="width:100%">
+                        <tr>
+                            <th style="width: 15%" th:text="#{form.date}">Date</th>
+                            <th style="width: 70%" th:text="#{form.description}">Description</th>
+                            <th th:text="#{form.amount}">Amount</th>
+                        </tr>
+                        <th:block th:each="field : ${plannedOperations}">
+                            <tr>
+                                <td th:text="${field.getDueDate()}">A Smoke Test'</td>
+                                <td th:text="${field.getDescription()}">A Smoke Test'</td>
+                                <td th:classappend="${field.getPlanedType().getType().equalsIgnoreCase('income')} ? income : expense"
+                                    th:text="${field.getAmount()}">A Smoke Test'
+                                </td>
+                            </tr>
+                        </th:block>
+                    </table>
+                </div>
             </div>
         </div>
-
-<div>
-    <p th:text="#{form.plan.planned_operations}" >...</p>
-    <div class="planed_payments">
-            <table style="width:100%">
-                <tr>
-                    <th style="width: 15%" th:text="#{form.date}">Date</th>
-                    <th style="width: 70%" th:text="#{form.description}">Description</th>
-                    <th th:text="#{form.amount}">Amount</th>
-                </tr>
-                <th:block th:each="field : ${plannedOperations}">
-                    <tr>
-                        <td th:text="${field.getDueDate()}">A Smoke Test'</td>
-                        <td th:text="${field.getDescription()}">A Smoke Test'</td>
-                        <td th:classappend="${field.getPlanedType().getType().equalsIgnoreCase('income')} ? income : expense" th:text="${field.getAmount()}">A Smoke Test'</td>
-                    </tr>
-                </th:block>
-            </table>
-        </div>
-</div>
+        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+            <input hidden type="submit" value="Sign Out"/>
+        </form>
     </div>
-    <div class="item footer" th:replace="fragments/footer::footer ">Footer</div>
-
-    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-        <input hidden type="submit" value="Sign Out"/>
-    </form>
-
-
-
-
+    <div id="footer" th:replace="fragments/footer::footer ">Footer</div>
 
 </div>
+
 </body>
 </html>

@@ -166,6 +166,11 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
   width: 210px;
   padding: 0 15px 20px 15px;}
 
+.sidebarright
+  { float: left;
+    width: 210px;
+    padding: 0 15px 20px 15px;}
+
 .sidebar ul
 { width: 198px; 
   padding: 4px 0 0 0; 
@@ -207,7 +212,7 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
   padding: 24px 0 5px 0;
   text-align: center; 
   background: transparent;
-  color: #000;
+  color: black;
   text-transform: uppercase;
   letter-spacing: 0.1em;}
 
