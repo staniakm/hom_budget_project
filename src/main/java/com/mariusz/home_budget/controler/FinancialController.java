@@ -31,14 +31,12 @@ public class FinancialController {
 
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
-    private final UserRepository userRepository;
 
     @Autowired
     public FinancialController(AuthenticationFacade authenticationFacade, FinancialService financialService
-            , UserRepository userRepository) {
+            ) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping("/registerFlow")
@@ -48,10 +46,8 @@ public class FinancialController {
         model.addAttribute("currentDate", LocalDate.now());
 
         if (operation.equalsIgnoreCase("income") || operation.equalsIgnoreCase("expense")){
-            Authentication authentication = authenticationFacade.getAuthentication();
-            AppUser user = userRepository.findByName(authentication.getName()).orElseThrow(()->new UsernameNotFoundException(""));
-
-            model.addAttribute("loggedUser", authentication.getName());
+            AppUser user = authenticationFacade.getApplicationUser();
+            model.addAttribute("loggedUser", user.getName());
 
             MoneyFlowForm flowForm = new MoneyFlowForm();
             model.addAttribute("operationForm", flowForm);
@@ -60,7 +56,7 @@ public class FinancialController {
             model.addAttribute("fragmentHtml","analyze_contents");
             model.addAttribute("fragment","addIncome");
 
-            List<String> categories = Arrays.asList("Samochód","Jedzenie","Rachunki");
+            List<String> categories = Arrays.asList("Nieokreślona","Samochód","Jedzenie","Rachunki");
             model.addAttribute("categories",categories);
         }
         return "analyze";
@@ -80,12 +76,9 @@ public class FinancialController {
             return "redirect:/registerFlow";
         }
 
-        Optional<AppUser> user = userRepository.findByName(authenticationFacade.getAuthenticatedUser());
-        if (!user.isPresent()){
-            throw new UsernameNotFoundException("");
-        }
+        AppUser user = authenticationFacade.getApplicationUser();
 
-        newOperation.setUser(user.get());
+        newOperation.setUser(user);
 
         Optional<String> errorOccur = financialService.addOperation(newOperation);
         if (errorOccur.isPresent()){
