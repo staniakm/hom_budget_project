@@ -136,10 +136,16 @@ public class PlanController {
         logger.info("Operation id: "+id);
 
         plannedService.finishPlan(id);
-
-
-
         return "redirect:/welcome";
     }
+
+    @PostMapping("/deletePlan")
+    public String deleteOperation(@RequestParam("operationId") Long id){
+        logger.info("Operation id: "+id);
+
+        plannedService.deletePlan(id);
+        return "redirect:/welcome";
+    }
+
 
 }

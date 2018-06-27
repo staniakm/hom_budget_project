@@ -14,4 +14,6 @@ public interface PlannedService {
     List<PlannedOperation> getPlanedActiveOperation(AppUser user);
 
     void finishPlan(Long id);
+
+    void deletePlan(Long id);
 }

@@ -10,7 +10,7 @@ body {
     background-color: #d4d4ef;
 }
 
-.planed_payments{
+.planed_operations{
     height: 20vh;
     overflow-y: scroll;
 }
