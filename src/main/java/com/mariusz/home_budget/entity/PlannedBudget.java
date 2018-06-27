@@ -26,7 +26,12 @@ public class PlannedBudget {
 
 
     public BigDecimal getDifference(){
+
         return this.planned.subtract(this.spend);
+    }
+
+    public BigDecimal getPercent(){
+        return (spend.divide(planned,2,BigDecimal.ROUND_HALF_EVEN)).multiply(BigDecimal.valueOf(100));
     }
 
 }

@@ -17,4 +17,5 @@ public interface MoneyHoldersRepository extends JpaRepository<MoneyHolder, Long>
 
     @Query(value = "select * from money_container m where m.user_id = :user and m.id = :holder_id", nativeQuery=true)
     Optional<MoneyHolder> findByUserAndId(@Param("user") Long user_id, @Param("holder_id") Long holder_id);
+
 }
