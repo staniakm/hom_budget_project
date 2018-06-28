@@ -2,7 +2,6 @@ package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.MonthKeeper;
-import com.mariusz.home_budget.helpers.MonthTranslator;
 import com.mariusz.home_budget.entity.PlannedBudget;
 import com.mariusz.home_budget.entity.PlannedOperation;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -57,31 +55,14 @@ public class SiteLoaderController {
         List<PlannedOperation> operations = plannedService.getPlanedActiveOperation(user);
         model.addAttribute("plannedOperations",operations);
 
-        if (month==null){
-            month=LocalDate.now().getMonthValue();
-        }else if (month>12){
-            month=1;
-        }
 
-        List<PlannedBudget> budgets = budgetService.getPlannedBudgets(user, month);
+        MonthKeeper monthKeeper = new MonthKeeper(month, messagesService);
+        model.addAttribute("month", monthKeeper);
+
+        List<PlannedBudget> budgets = budgetService.getPlannedBudgets(user, monthKeeper.getCurrent());
         model.addAttribute("plannedBudgets", budgets);
 
 
-        MonthTranslator monthTranslator = MonthTranslator.JANUARY;
-        for (MonthTranslator m: MonthTranslator.values()
-             ) {
-            if (m.getMonthNumber()==month){
-                monthTranslator =m;
-                break;
-            }
-        }
-
-        MonthKeeper monthKeeper = new MonthKeeper();
-        monthKeeper.setMonthName(messagesService.getMessage(monthTranslator.getMonth()).toUpperCase());
-        monthKeeper.setNext(monthTranslator.getMonthNumber()+1);
-        monthKeeper.setPrevious(monthTranslator.getMonthNumber()-1);
-
-        model.addAttribute("month", monthKeeper);
 
         return "welcome";
     }
