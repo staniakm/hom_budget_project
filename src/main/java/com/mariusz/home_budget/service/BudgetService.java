@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BudgetService {
-    List<PlannedBudget> getPlannedBudgets(AppUser user);
+    List<PlannedBudget> getPlannedBudgets(AppUser user, Integer month);
 
     Optional<String> savePlannedBudget(BudgetForm budgetForm, String name);
 
