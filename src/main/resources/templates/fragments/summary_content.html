@@ -9,6 +9,15 @@
 
 <div class="month_balance" th:fragment="planned_budget">
     <p style="text-align: center" th:text="#{form.plan.planned_budget}">...</p>
+    <table style="width: 98%; border: 0px">
+    <tr>
+    <th style=" width: 7%; text-align: center; border: 0px">
+        <a  class="fas fa-angle-left" th:href="@{/previousMonth}" ></a></th>
+        <th style="border: 0px"><p  th:text="${month}" style="text-align: center; border: 0px"></p></th>
+        <th style=" width: 7%; text-align: center; border: 0px">
+            <a class="fas fa-angle-right" th:href="@{/nextMonth}" ></a></th>
+    </tr>
+    </table>
     <div class="planed_operations">
         <table style="width:100%">
 
