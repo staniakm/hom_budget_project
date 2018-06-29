@@ -31,6 +31,7 @@ public class UploadController {
         }
 
         CsvParser parser = new CsvParser(file);
+        parser.printCsv();
 //
 //
 //

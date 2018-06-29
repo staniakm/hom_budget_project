@@ -8,14 +8,16 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 
 public class CsvParser {
+    private MultipartFile file;
+
 
     public CsvParser(MultipartFile filename) {
-        printCsv(filename);
+        this.file = filename;
     }
 
-    private void printCsv(MultipartFile fileName) {
+    public void printCsv() {
         try (
-                BufferedReader reader = new BufferedReader(new InputStreamReader(fileName.getInputStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
 
                 CSVParser csvParser = new CSVParser(reader, CSVFormat.newFormat(';'));
         ) {
