@@ -88,7 +88,27 @@ public class FinancialController {
     }
 
 
+    @GetMapping("/registerInvestment")
+    public String registerInvestment(Model model){
+//        model.addAttribute("operation", operation);
+//        model.addAttribute("currentDate", LocalDate.now());
 
+//        if (operation.equalsIgnoreCase("income") || operation.equalsIgnoreCase("expense")){
+            AppUser user = authenticationFacade.getApplicationUser();
+            model.addAttribute("loggedUser", user.getName());
+
+//            MoneyFlowForm flowForm = new MoneyFlowForm();
+//            model.addAttribute("operationForm", flowForm);
+//            List<MoneyHolder> holders = financialService.getMoneyHolders(user);
+//            model.addAttribute("moneyHolders",holders);
+            model.addAttribute("fragmentHtml","analyze_contents");
+            model.addAttribute("fragment","addInvestment");
+
+//            List<String> categories = Arrays.asList("Nieokreślona","Samochód","Jedzenie","Rachunki");
+//            model.addAttribute("categories",categories);
+//        }
+        return "analyze";
+    }
 
 
 }
