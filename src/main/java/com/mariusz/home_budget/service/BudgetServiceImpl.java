@@ -24,9 +24,9 @@ public class BudgetServiceImpl implements BudgetService {
 
 
     @Override
-    public List<PlannedBudget> getPlannedBudgets(AppUser user) {
+    public List<PlannedBudget> getPlannedBudgets(AppUser user, Integer month) {
 
-        return budgetRepository.findAllForCurrentMonth(user.getId(), LocalDate.now().getYear(), LocalDate.now().getMonthValue());
+        return budgetRepository.findAllForCurrentMonth(user.getId(), LocalDate.now().getYear(), month);
     }
 
     @Override

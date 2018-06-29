@@ -176,4 +176,16 @@ public class PlannedServiceImpl implements PlannedService {
 
 
     }
+
+    @Override
+    public void deletePlan(Long id) {
+        AppUser user = authenticationFacade.getApplicationUser();
+
+        Optional<PlannedOperation> operation = plannedRepository.findByIdAndUser(id,user.getId());
+        if (operation.isPresent()) {
+            PlannedOperation plannedOperation = operation.get();
+            plannedOperation.setActive(false);
+            plannedRepository.save(plannedOperation);
+        }
+        }
 }
