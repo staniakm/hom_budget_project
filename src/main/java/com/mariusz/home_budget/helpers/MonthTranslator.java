@@ -10,7 +10,7 @@ public enum MonthTranslator {
     ,JULY(7,"month.july")
     ,AUGUST(8,"month.august")
     ,SEPTEMBER(9,"month.september")
-    ,OCTOBER(10,"month.september")
+    ,OCTOBER(10,"month.october")
     ,NOVEMBER(11,"month.november")
     ,DECEMBER(12,"month.december");
     private int monthNumber;

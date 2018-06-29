@@ -7,7 +7,6 @@ import com.mariusz.home_budget.entity.form.PlanForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
-import com.mariusz.home_budget.service.ApplicationUserService;
 import com.mariusz.home_budget.service.BudgetService;
 import com.mariusz.home_budget.service.FinancialService;
 import com.mariusz.home_budget.service.PlannedService;
@@ -15,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,17 +37,15 @@ public class PlanController {
     private final PlannedService plannedService;
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
-    private final ApplicationUserService userService;
     private final BudgetService budgetService;
 
     @Autowired
     public PlanController(PlannedService plannedService, AuthenticationFacade authenticationFacade
-            , FinancialService financialService, ApplicationUserService userService, BudgetService budgetService) {
+            , FinancialService financialService, BudgetService budgetService) {
 
         this.plannedService = plannedService;
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
-        this.userService = userService;
         this.budgetService = budgetService;
     }
 
@@ -68,8 +64,7 @@ public class PlanController {
         Authentication authentication = authenticationFacade.getAuthentication();
         model.addAttribute(LOGGED_USER, authentication.getName());
 
-        AppUser user = userService.getUserByName(authentication.getName()).orElseThrow(()->new UsernameNotFoundException(""));
-
+        AppUser user = authenticationFacade.getApplicationUser();
         PlanForm planForm = new PlanForm();
         model.addAttribute("planForm", planForm);
         List<PeriodicTypes> operators = Arrays.asList(PeriodicTypes.values());
