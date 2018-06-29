@@ -4,7 +4,7 @@
     ...
 </head>
 <body>
-<div class="item content" th:fragment="addIncome">
+<div id="content" th:fragment="addIncome">
     <!--suppress ThymeleafVariablesResolveInspection -->
     <span th:if="${operation =='income'}">
         <h1 th:text="#{label.form.button.add_income}">...</h1></span>
@@ -56,11 +56,11 @@
                     </select>
                 </div>
             </li>
-        </ul>
+
         <!--<button th:text="#{label.wallet.save}" type='submit'>-->
             <input th:hidden="true" type="text" th:name="operation" th:id="operation" th:value="${operation}" >
-            <button th:text="#{form.button.save}" type='submit'></button>
-
+        <li>    <button th:text="#{form.button.save}" type='submit'></button></li>
+        </ul>
         </button>
     </form>
         <div th:if="${message != null}" class="alert alert-info" th:text="${message}">message</div>

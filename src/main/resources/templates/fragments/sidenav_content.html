@@ -6,14 +6,16 @@
 
 <div class="item nav" th:fragment="plan_nav">
     <div class="sidenav">
-        <a th:href="@{/planCashFlow}" class="btn btn-secondary btn-sm active" role="button"
-           aria-pressed="true" th:text="#{label.form.button.plan.cash.flow}">...</a>
+        <ul>
+      <li>  <a th:href="@{/planCashFlow}" class="btn btn-secondary btn-sm active" role="button"
+           aria-pressed="true" th:text="#{label.form.button.plan.cash.flow}">...</a></li>
 
-        <a th:href="@{/planBudget}" class="btn btn-secondary btn-sm active" role="button"
-           aria-pressed="true" th:text="#{label.form.button.plan.budget}">...</a>
+       <li> <a th:href="@{/planBudget}" class="btn btn-secondary btn-sm active" role="button"
+           aria-pressed="true" th:text="#{label.form.button.plan.budget}">...</a></li>
 
-        <a th:href="@{/planExpenses}" class="btn btn-secondary btn-sm active" role="button"
-           aria-pressed="true" th:text="#{label.form.button.plan.expenses}">...</a>
+       <li> <a th:href="@{/planExpenses}" class="btn btn-secondary btn-sm active" role="button"
+           aria-pressed="true" th:text="#{label.form.button.plan.expenses}">...</a></li>
+        </ul>
     </div>
 </div>
 

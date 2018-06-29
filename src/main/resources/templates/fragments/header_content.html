@@ -4,28 +4,29 @@
     ...
 </head>
 <body>
-<div class="item header" th:fragment="header_menu">
-
-    <!--suppress ThymeleafVariablesResolveInspection -->
-    <p th:text="#{label.form.loggedAs}+' ' +${loggedUser}">.</p>
-
-    <div>
-        <div style="float: left; width: 65%; overflow: hidden">
-            <a th:href="@{/welcome}" class="btn btn-secondary btn-sm active" role="button"
-               aria-pressed="true" th:text="#{label.form.button.summary}">...</a>
-            <a th:href="@{/analyze}" class="btn btn-secondary btn-sm active" role="button"
-               aria-pressed="true" th:text="#{label.form.button.analyze}">...</a>
-            <a th:href="@{/plan}" class="btn btn-secondary btn-sm active" role="button"
-               aria-pressed="true" th:text="#{label.form.button.plan}">...</a>
-            <a th:href="@{/settings}" class="btn btn-secondary btn-sm active" role="button"
-               aria-pressed="true" th:text="#{label.form.button.settings}">...</a>
-
-        </div>
-        <div style="float: right; overflow: hidden" >
-            <a href="javascript: document.logoutForm.submit()" class="btn btn-secondary btn-sm active" role="button"
-               aria-pressed="true"> Logout</a>
+<div id="header" th:fragment="header_menu">
+    <div id="logo">
+        <div id="logo_text">
+            <h1><a href="/index">Home Budget Application</a></h1>
         </div>
     </div>
+    <!--suppress ThymeleafVariablesResolveInspection -->
+    <div id="menubar">
+        <ul id="menu">
+            <li>  <a th:href="@{/welcome}" class="btn btn-secondary btn-sm active" role="button"
+                     aria-pressed="true" th:text="#{label.form.button.summary}">...</a></li>
+            <li>  <a th:href="@{/analyze}" class="btn btn-secondary btn-sm active" role="button"
+                     aria-pressed="true" th:text="#{label.form.button.analyze}">...</a></li>
+            <li> <a th:href="@{/plan}" class="btn btn-secondary btn-sm active" role="button"
+                    aria-pressed="true" th:text="#{label.form.button.plan}">...</a></li>
+            <li><a th:href="@{/settings}" class="btn btn-secondary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.settings}">...</a></li>
+            <li style="float:right"><a href="javascript: document.logoutForm.submit()" class="btn btn-secondary btn-sm active" role="button"
+                                       aria-pressed="true"> Logout</a></li>
+        </ul>
+    </div>
+
+
 </div>
 </body>
 </html>
