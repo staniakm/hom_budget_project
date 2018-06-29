@@ -12,4 +12,6 @@ public interface PlannedService {
     Optional<String> savePlannedOperation(PlanForm planForm, String name);
 
     List<PlannedOperation> getPlanedActiveOperation(AppUser user);
+
+    void finishPlan(Long id);
 }

@@ -5,30 +5,49 @@
 </head>
 <body>
 <div class="item content" th:fragment="addIncome">
-    <h1 th:text="${'Add new '+operation}">Add new income</h1>
-    <form onsubmit="return validateCombo()" class="new_user" id="new_user" th:action="@{/registerMoneyFlow}" th:object="${operationForm}" method="POST" accept-charset="UTF-8">
+    <!--suppress ThymeleafVariablesResolveInspection -->
+    <span th:if="${operation =='income'}">
+        <h1 th:text="#{label.form.button.add_income}">...</h1></span>
+    <span th:if="${operation == 'expense'}">
+        <h1 th:text="#{label.form.button.add_expense}">...</h1></span>
+
+    <form onsubmit="return validateForm()" class="new_user" id="new_user" th:action="@{/registerMoneyFlow}" th:object="${operationForm}" method="POST" accept-charset="UTF-8">
         <ul style="width: 40%">
             <li>
                 <label >
-                    <span th:text="${'Date:'}"/>
+                    <span th:text="#{form.date}">...</span>
                 </label>
                 <input style="width: 100%" type="date" th:name="date" th:id="date" th:value="${currentDate}" required />
             </li>
             <li>
                 <label >
-                    <span th:utext="${'Description:'}"/>
+                    <span th:utext="#{form.description}">...</span>
                 </label>
-                <input style="width: 100%" type="text" id="description" th:field="*{description}" required/>
+                <input style="width: 100%" type="text" id="description" name="description" th:field="*{description}" required/>
             </li>
             <li>
                 <label>
-                    <span th:utext="${'Amount:'}"/>
+                    <span th:utext="#{form.amount}">...</span>
                 </label>
-                <input style="width: 100%" type="text" th:field="*{amount}" required/>
+                <input pattern='^\d+(?:[\\.\\,]\d{0,2})$' style="width: 100%" type="text" id="amountInputField" th:field="*{amount}" required/>
             </li>
+            <span th:if="${operation =='expense'}">
+                    <li>
+                <label>
+                    <span th:text="#{form.budget.category}">...</span>
+                </label>
+                <div class="form-group blu-margin" style="width: 100%">
+                    <select id="category_container_selector" class="form-control" th:field="*{category}" name="money_holder" required>
+                        <option value="" selected disabled hidden  ></option>
+                     <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
+                    </select>
+                </div>
+            </li>
+            </span>
+
             <li>
                 <label>
-                    <span th:text="#{label.wallet.selector}"/>
+                    <span th:text="#{label.wallet.selector}">...</span>
                 </label>
                 <div class="form-group blu-margin" style="width: 100%">
                     <select id="money_container_selector" class="form-control" th:field="*{moneyHolder}" name="money_holder" required>
@@ -40,10 +59,12 @@
         </ul>
         <!--<button th:text="#{label.wallet.save}" type='submit'>-->
             <input th:hidden="true" type="text" th:name="operation" th:id="operation" th:value="${operation}" >
-            <button th:text="Save" type='submit'></button>
+            <button th:text="#{form.button.save}" type='submit'></button>
 
         </button>
     </form>
+        <div th:if="${message != null}" class="alert alert-info" th:text="${message}">message</div>
+        <!--<div th:if="${param.error != null}" class="alert alert-danger" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>-->
 </div>
 
 <div class="item content" th:fragment="empty">

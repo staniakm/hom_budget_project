@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="month_balance" th:fragment="planned_budget">
+    <p th:text="#{form.plan.planned_budget}">...</p>
+    <div class="planed_payments">
+        <table style="width:100%">
+
+            <tr>
+                <th style="width: 30%" th:text="#{form.budget.category}">...</th>
+                <th style="width: 17%" th:text="#{form.budget.planned}">...</th>
+                <th style="width: 17%" th:text="#{form.budget.spend}">...</th>
+                <th style="width: 17%" th:text="#{form.budget.left}">...</th>
+                <th style="width: 17%" th:text="#{form.budget.percent}">...</th>
+            </tr>
+            <th:block th:each="budget : ${plannedBudgets}">
+                <tr>
+                    <td style="width: 30%" th:text="${budget.getCategory()}">...</td>
+                    <td style="width: 17%" th:text="${budget.getPlanned()+' PLN'}">...</td>
+                    <td style="width: 17%" th:text="${budget.getSpend()}+' PLN'">...</td>
+                    <td style="width: 17%" th:text="${budget.getDifference()+' PLN'}">...</td>
+                    <td style="width: 17%" th:text="${budget.getPercent()+' %'}">...</td>
+
+                </tr>
+            </th:block>
+        </table>
+    </div>
+</div>
+
+<div class="month_balance" th:fragment="planned_operation">
+    <p th:text="#{form.plan.planned_operations}" >...</p>
+    <div class="planed_payments">
+        <table style="width:100%">
+            <tr>
+                <th style="width: 20%" th:text="#{form.date}">Date</th>
+                <th style="width: 50%" th:text="#{form.description}">Description</th>
+                <th style="width: 15%" th:text="#{form.amount}">Amount</th>
+                <th style="width: 15%" th:text="#{form.plan.finish}">...</th>
+            </tr>
+            <th:block th:each="field : ${plannedOperations}">
+                <tr>
+                    <td th:text="${field.getDueDate()}">A Smoke Test'</td>
+                    <td style=" word-break: break-all" th:text="${field.getDescription()}">A Smoke Test'</td>
+                    <td th:classappend="${field.getPlanedType().getType().equalsIgnoreCase('income')} ? income : expense" th:text="${field.getAmount()}">A Smoke Test'</td>
+                    <td style="text-align: center">
+                        <!--<a href="#" class="far fa-calendar-check"/>-->
+                        <form method="POST" th:action="@{/finishPlan(operationId=${field.getId()})}">
+                            <button type="submit" name="submit" value="value" class="far fa-calendar-check"></button>
+                        </form>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

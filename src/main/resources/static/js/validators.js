@@ -12,3 +12,25 @@ function validateCombo() {
         return false;
     }
 }
+
+var amountInput = document.getElementById(description);
+
+function validateFormAmount() {
+    //Get the trimmed name
+    var amount = trim(amountInput.value)
+
+    if(amount) {
+        //Update the form with the trimmed value, just before the form is sent
+        amountInput.value = amount
+    }
+    else {
+        //Trimmed value is empty
+        alert("Animal should have a name");
+        amountInput.focus();
+        return false;
+    }
+}
+
+function trim(value) {
+    return value.replace(/^\s+|\s+$/g,"");
+}
