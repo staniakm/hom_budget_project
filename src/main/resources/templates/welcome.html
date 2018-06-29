@@ -2,45 +2,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <title>Home Budget Application</title>
+    <meta name="description" content="website description" />
+    <meta name="keywords" content="website keywords, website keywords" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" title="style" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
-    <div class="item header" th:replace="fragments/header_content :: header_menu"></div>
-
-    <div class="item nav">
-        <div class="sidenav">
+    <div id="header" th:replace="fragments/header_content :: header_menu"></div>
+    </div>
+<div id="site_content">
+        <div class="sidebar">
             <div style="float: left; width: 100%">
+                <p th:text="#{label.form.loggedAs}+' ' +${loggedUser}"> </p>
+                </br>
+                <p style="float: left" th:text="#{label.form.balance}" >... </p>
+                <p style="color: green; float: right;" th:if="${balance>=0}" th:text="${' +' + balance} ">...</p>
+                <p style="color: red; float: right" th:unless="${balance>=0}" th:text="${' '+balance}">...</p>
+
+            </div>
+        </div>
+
+    <div id="content">
+        <div class="month_balance">
+            <div style="float: left; width: 15%">
                 <p style="float: left" th:text="#{label.form.balance}" >... </p>
                 <p style="color: green; float: right;" th:if="${balance>=0}" th:text="${' +' + balance} ">...</p>
                 <p style="color: red; float: right" th:unless="${balance>=0}" th:text="${' '+balance}">...</p>
             </div>
-        </div>
-    </div>
-    <div class="item content">
-        <div class="month_balance">
-
-            <table style="width:100%">
-                <tr>
-                    <th style="width: 20%" th:text="'Currency'">Date</th>
-                    <th style="width: 10%" th:text="'Rate'">...</th>
-                    <th style="width: 10%" th:text="'Date'">...</th>
-
-                </tr>
-                <th:block th:each="field : ${currency}">
-                    <tr>
-                        <td th:text="${field.getCurrency()}">A Smoke Test'</td>
-                        <td style=" word-break: break-all" th:text="${field.getRates()[0].getMid()}">A Smoke Test'</td>
-                        <td th:text="${field.getRates()[0].getEffectiveDate()}">A Smoke Test'</td>
-
-                    </tr>
-                </th:block>
-            </table>
-
 
 
             <!--<div style="float: left; width: 15%">-->
@@ -67,6 +59,7 @@
         <div th:replace="fragments/summary_content::planned_operation">...</div>
 
     </div>
+</div>
 
     <div class="item footer" th:replace="fragments/footer::footer ">Footer</div>
 

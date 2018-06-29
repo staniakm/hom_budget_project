@@ -2,38 +2,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Analyze</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-
+    <title>Home Budget Application</title>
+    <meta name="description" content="website description" />
+    <meta name="keywords" content="website keywords, website keywords" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" title="style" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
-    <div class="item header" th:replace="fragments/header_content :: header_menu"></div>
+    <div id="header" th:replace="fragments/header_content :: header_menu"></div>
+</div>
+<div id="site_content">
+    <div class="sidebar">
+        <div style="float: left; width: 100%">
+            <ul>
 
-    <div class="item nav">
-        <div class="sidenav">
-            <div>
-                <a  th:href="@{/registerFlow(val='income')}" class="btn btn-primary btn-sm active" role="button"
-                    aria-pressed="true" th:text="#{label.form.button.add_income}">...</a>
-                <a th:href="@{/registerFlow(val='expense')}" class="btn btn-primary btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a>
-                <a th:href="@{/registerInvestment}" class="btn btn-primary btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.add_investment}">...</a>
-
-            </div>
-            <div class="clearfix"></div>
+           <li><a  th:href="@{/registerFlow(val='income')}" class="btn btn-primary btn-sm active" role="button"
+                aria-pressed="true" th:text="#{label.form.button.add_income}">...</a></li>
+            <li><a th:href="@{/registerFlow(val='expense')}" class="btn btn-primary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a></li>
+            <li> <a th:href="@{/registerInvestment}" class="btn btn-primary btn-sm active" role="button"
+                    aria-pressed="true" th:text="#{label.form.button.add_investment}">...</a>
+            </li>
+            </ul>
         </div>
+        <div class="clearfix"></div>
     </div>
-    <div class="item content" th:replace="${'fragments/analyze_contents'} :: ${fragment}"></div>
+    <div class="content">
+        <a th:replace="${'fragments/analyze_contents'} :: ${fragment}"></a></div>
+</div>
 
-    <div class="item footer" th:replace="fragments/footer::footer ">Footer</div>
 
-    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-        <input hidden type="submit" value="Sign Out"/>
-    </form>
+
+</div>
+
+<div class="item footer" th:replace="fragments/footer::footer ">Footer</div>
+
+<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+    <input hidden type="submit" value="Sign Out"/>
+</form>
+
+
+
+
+
 </div>
 </body>
 </html>
