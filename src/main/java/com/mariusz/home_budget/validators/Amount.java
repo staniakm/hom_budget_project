@@ -17,7 +17,7 @@ import javax.validation.Payload;
 public @interface Amount {
 
 
-    String message() default "{Phone}";
+    String message() default "{Invalid amount}";
 
     Class<?>[] groups() default {};
 

@@ -74,7 +74,7 @@ public class FinancialController {
                 logger.info(bindingResult.getAllErrors().get(i).toString());
             }
             model.addAttribute("message","Validation errors");
-            return "redirect:/registerFlow";
+            return "redirect:/registerFlow?val="+newOperation.getOperation();
         }
 
         AppUser user = authenticationFacade.getApplicationUser();

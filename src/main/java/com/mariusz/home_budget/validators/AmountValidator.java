@@ -10,17 +10,16 @@ public class AmountValidator implements ConstraintValidator<Amount, String> {
     }
 
     @Override
-    public boolean isValid(String phoneNo, ConstraintValidatorContext ctx) {
-        if(phoneNo == null){
+    public boolean isValid(String amount, ConstraintValidatorContext ctx) {
+        if(amount == null){
             return false;
         }
-        //validate phone numbers of format "1234567890"
-        if (phoneNo.matches("\\d{10}")) return true;
-            //validating phone number with -, . or spaces
-        else if(phoneNo.matches("^\\d+(?:\\,\\d{0,2})$")) return true;
-            //validating phone number with extension length from 3 to 5
-        else if(phoneNo.matches("^\\d+(?:\\.\\d{0,2})$")) return true;
-            //validating phone number where area code is in braces ()
+        //validate amount value
+        if (amount.matches("\\d+")) return true;
+            //validating amount with with coma separator
+        else if(amount.matches("^\\d+(?:[\\,]\\d{0,2})$")) return true;
+            //validating amount with dot separator
+        else if(amount.matches("^\\d+(?:[\\.]\\d{0,2})$")) return true;
             //return false if nothing matches the input
         else return false;
     }

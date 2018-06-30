@@ -11,106 +11,130 @@
     <span th:if="${operation == 'expense'}">
         <h1 th:text="#{label.form.button.add_expense}">...</h1></span>
 
-    <form onsubmit="return validateForm()" class="new_user" id="new_user" th:action="@{/registerMoneyFlow}" th:object="${operationForm}" method="POST" accept-charset="UTF-8">
-        <ul style="width: 40%">
-            <li>
-                <label >
+    <form onsubmit="return validateForm()" class="new_user" id="new_user" th:action="@{/registerMoneyFlow}"
+          th:object="${operationForm}" method="POST" accept-charset="UTF-8">
+        <table style="width: 50%">
+            <tr>
+                <td class="form_table"><label>
                     <span th:text="#{form.date}">...</span>
                 </label>
-                <input style="width: 100%" type="date" th:name="date" th:id="date" th:value="${currentDate}" required />
-            </li>
-            <li>
-                <label >
+                </td>
+                <td class="form_table">
+                    <input style="width: 100%" type="date" th:name="date" th:id="date" th:value="${currentDate}"
+                           required/>
+                </td>
+            </tr>
+            <tr>
+                <td class="form_table"><label>
                     <span th:utext="#{form.description}">...</span>
-                </label>
-                <input style="width: 100%" type="text" id="description" name="description" th:field="*{description}" required/>
-            </li>
-            <li>
-                <label>
+                </label></td>
+                <td class="form_table">
+                    <input style="width: 100%" type="text" id="description" name="description" th:field="*{description}"
+                           required/>
+                </td>
+            </tr>
+            <tr>
+                <td class="form_table"><label>
                     <span th:utext="#{form.amount}">...</span>
-                </label>
-                <input pattern='^\d+(?:[\\.\\,]\d{0,2})$' style="width: 100%" type="text" id="amountInputField" th:field="*{amount}" required/>
-            </li>
+                </label></td>
+                <td class="form_table">
+                    <input style="width: 100%" type="text" id="amountInputField"
+                           th:field="*{amount}" required/>
+                </td>
+            </tr>
             <span th:if="${operation =='expense'}">
-                    <li>
-                <label>
+                    <tr>
+                <td class="form_table"><label>
                     <span th:text="#{form.budget.category}">...</span>
-                </label>
-                <div class="form-group blu-margin" style="width: 100%">
-                    <select id="category_container_selector" class="form-control" th:field="*{category}" name="money_holder" required>
-                        <option value="" selected disabled hidden  ></option>
+                </label></td>
+                <td class="form_table"><div class="form-group blu-margin" style="width: 100%">
+                    <select id="category_container_selector" class="form-control" th:field="*{category}"
+                            name="money_holder" required>
+                        <option value="" selected disabled hidden></option>
                      <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
                     </select>
                 </div>
-            </li>
+                    </td>
+            </tr>
             </span>
 
-            <li>
-                <label>
+            <tr>
+                <td class="form_table"><label>
                     <span th:text="#{label.wallet.selector}">...</span>
-                </label>
-                <div class="form-group blu-margin" style="width: 100%">
-                    <select id="money_container_selector" class="form-control" th:field="*{moneyHolder}" name="money_holder" required>
-                        <option value="" selected disabled hidden  ></option>
-                        <option th:each="operator : ${moneyHolders}" th:value="${operator.getId()}" th:text="${operator.getName()}"></option>
-                    </select>
-                </div>
-            </li>
+                </label></td>
+                <td class="form_table">
+                    <div class="form-group blu-margin" style="width: 100%">
+                        <select id="money_container_selector" class="form-control" th:field="*{moneyHolder}"
+                                name="money_holder" required>
+                            <option value="" selected disabled hidden></option>
+                            <option th:each="operator : ${moneyHolders}" th:value="${operator.getId()}"
+                                    th:text="${operator.getName()}"></option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
 
-        <!--<button th:text="#{label.wallet.save}" type='submit'>-->
-            <input th:hidden="true" type="text" th:name="operation" th:id="operation" th:value="${operation}" >
-        <li>    <button th:text="#{form.button.save}" type='submit'></button></li>
-        </ul>
-        </button>
+            <input th:hidden="true" type="text" th:name="operation" th:id="operation" th:value="${operation}">
+            <!--<li>-->
+            <!--</li>-->
+        </table>
+        <!--</button>-->
+        <button th:text="#{form.button.save}" type='submit'>...</button>
+
     </form>
-        <div th:if="${message != null}" class="alert alert-info" th:text="${message}">message</div>
-        <!--<div th:if="${param.error != null}" class="alert alert-danger" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>-->
+
+    <div th:if="${message != null}" class="alert alert-info" th:text="${message}">message</div>
+    <!--<div th:if="${param.error != null}" class="alert alert-danger" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>-->
 </div>
 
 <div class="item content" th:fragment="addInvestment">
     <p>Investment </p>
-        <h1 th:text="#{label.form.button.add_investment}">...</h1>
+    <h1 th:text="#{label.form.button.add_investment}">...</h1>
 
     <form onsubmit="return validateForm()" class="new_investment" id="new_investment" th:action="@{/registerInvestment}"
           th:object="${investmentForm}" method="POST" accept-charset="UTF-8">
-        <table class="investment" style="width: 50%">
+        <table class="form_table" style="width: 50%">
             <tr>
-                <td class="investment"><label >
+                <td class="form_table"><label>
                     <span th:text="#{form.date}">...</span>
                 </label></td>
-                <td class="investment">
+                <td class="form_table">
 
-                <input style="width: 95%" type="date" th:name="date" th:id="date" th:value="${currentDate}" required />
+                    <input style="width: 95%" type="date" th:name="date" th:id="date" th:value="${currentDate}"
+                           required/>
                 </td>
             </tr>
             <tr>
-                <td class="investment"><label>
+                <td class="form_table"><label>
                     <span th:utext="#{form.amount}">...</span>
                 </label></td>
-                <td class="investment"><input pattern='^\d+(?:[\.\,]\d{0,2})$' style="width: 95%" type="text" id="amountInputField" th:field="*{amount}" required/>
+                <td class="form_table"><input pattern='^\d+(?:[\.\,]\d{0,2})$' style="width: 95%" type="text"
+                                              id="amountInputField" th:field="*{amount}" required/>
                 </td>
             </tr>
 
             <tr>
-                <td class="investment"> <label>
+                <td class="form_table"><label>
                     <span th:utext="'Oprocentowanie'">...</span>
                 </label></td>
-                <td class="investment"><input pattern='^\d+(?:[\.\,]\d{0,2})$' style="width: 95%" type="text" id="percentageInputField" th:field="*{percentage}" required/>
+                <td class="form_table"><input pattern='^\d+(?:[\.\,]\d{0,2})$' style="width: 95%" type="text"
+                                              id="percentageInputField" th:field="*{percentage}" required/>
                 </td>
             </tr>
 
             <tr>
-                <td class="investment"> <label for="lengthInputField">
+                <td class="form_table"><label for="lengthInputField">
                     <span th:utext="'Okres trwania'">...</span>
                 </label></td>
-                <td class="investment">
-                <input pattern='^\d+$' style="width: 9%; overflow: hidden" type="text" id="lengthInputField" th:field="*{length}" required/>
-                <input style="width: 80%" type="text" th:field="*{lengthMarker}" required/>
+                <td class="form_table">
+                    <input pattern='^\d+$' style="width: 9%; overflow: hidden" type="text" id="lengthInputField"
+                           th:field="*{length}" required/>
+                    <input style="width: 80%" type="text" th:field="*{lengthMarker}" required/>
                 </td>
             </tr>
         </table>
         <button th:text="#{form.button.save}" type='submit'></button>
-        </button>
+        <!--</button>-->
     </form>
 </div>
 
@@ -119,7 +143,6 @@
 
 <div class="item content" th:fragment="addExpense">
     <h1>Add new expense</h1>
-
 
 
 </div>
