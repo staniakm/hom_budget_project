@@ -47,7 +47,8 @@
                     <span th:text="#{form.budget.category}">...</span>
                 </label></td>
                 <td class="form_table"><div class="form-group blu-margin" style="width: 100%">
-                    <select style="width: 100%" id="category_container_selector" class="form-control" th:field="*{category}"
+                    <select style="width: 100%" id="category_container_selector" class="form-control"
+                            th:field="*{category}"
                             name="money_holder" required>
                         <option value="" selected disabled hidden></option>
                      <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
@@ -63,7 +64,8 @@
                 </label></td>
                 <td class="form_table">
                     <div class="form-group blu-margin" style="width: 100%">
-                        <select style="width: 100%" id="money_container_selector" class="form-control" th:field="*{moneyHolder}"
+                        <select style="width: 100%" id="money_container_selector" class="form-control"
+                                th:field="*{moneyHolder}"
                                 name="money_holder" required>
                             <option value="" selected disabled hidden></option>
                             <option th:each="operator : ${moneyHolders}" th:value="${operator.getId()}"
@@ -94,7 +96,7 @@
                 </label></td>
                 <td class="form_table">
 
-                    <input style="width: 95%" type="date" th:name="date" th:id="date" th:value="${startDate}"
+                    <input style="width: 95%" type="date" th:name="date" th:id="date" th:value="${currentDate}"
                            required/>
                 </td>
             </tr>
@@ -104,7 +106,7 @@
                 </label></td>
                 <td class="form_table">
                     <input pattern='^\d+(?:[\.\,]\d{0,2})$' style="width: 95%" type="text"
-                                              id="amountInputField" th:field="*{amount}" required/>
+                           id="amountInputField" th:field="*{amount}" required/>
                 </td>
             </tr>
 
@@ -122,13 +124,16 @@
                     <span th:utext="'Okres trwania'">...</span>
                 </label></td>
                 <td class="form_table">
-                    <input  pattern='^\d+$' style="float: left; width: 9%; overflow: hidden" type="text" id="lengthInputField"
+                    <input pattern='^\d+$' style="float: left; width: 9%; overflow: hidden" type="text"
+                           id="lengthInputField"
                            th:field="*{length}" required/>
 
                     <div class="form-group blu-margin" style="width: 100%">
-                        <select style="width: 85%" id="length_container" class="form-control" th:field="*{investmentLength}" name="length_holder" required>
-                            <option value="" selected disabled hidden ></option>
-                            <option th:each="operator : ${operators}" th:value="${operator.name()}" th:text="#{${operator.getMessage()}}"></option>
+                        <select style="width: 85%" id="length_container" class="form-control"
+                                th:field="*{investmentLength}" name="length_holder" required>
+                            <option value="" selected disabled hidden></option>
+                            <option th:each="operator : ${operators}" th:value="${operator.name()}"
+                                    th:text="#{${operator.getMessage()}}"></option>
                         </select>
                     </div>
                 </td>

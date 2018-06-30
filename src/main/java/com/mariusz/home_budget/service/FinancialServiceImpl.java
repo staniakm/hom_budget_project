@@ -1,6 +1,7 @@
 package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.*;
+import com.mariusz.home_budget.entity.form.InvestmentForm;
 import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.entity.form.WalletForm;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
@@ -19,17 +20,18 @@ import java.util.*;
 public class FinancialServiceImpl implements FinancialService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final IncomeRepository incomeRepository;
-    private final ExpenseRepository expenseRepository;
-    private final FinancialCustomRepository financialRepository;
+    private final FinancialRepository financialRepository;
+
     private final UserRepository userRepository;
     private final MoneyHoldersRepository moneyHoldersRepository;
     private final BudgetService budgetService;
 
     @Autowired
-    public FinancialServiceImpl(IncomeRepository incomeRepository, ExpenseRepository expenseRepository, FinancialCustomRepository financialRepository, UserRepository userRepository, MoneyHoldersRepository moneyHoldersRepository, BudgetService budgetService) {
-        this.incomeRepository = incomeRepository;
-        this.expenseRepository = expenseRepository;
+    public FinancialServiceImpl(FinancialRepository financialRepository
+            , UserRepository userRepository
+            , MoneyHoldersRepository moneyHoldersRepository
+            , BudgetService budgetService)
+    {
         this.financialRepository = financialRepository;
         this.userRepository = userRepository;
         this.moneyHoldersRepository = moneyHoldersRepository;
@@ -40,7 +42,7 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public Map<String, BigDecimal> getBalance(Long id) {
 
-       Balance balance = financialRepository.getBalance(id,LocalDate.now().getYear(),LocalDate.now().getMonthValue());
+        Balance balance = financialRepository.getBalance(id,LocalDate.now().getYear(),LocalDate.now().getMonthValue());
         Map<String, BigDecimal> map = new HashMap<>();
         map.put("income",balance.getIncome());
         map.put("expense",balance.getExpense());
@@ -112,7 +114,8 @@ public class FinancialServiceImpl implements FinancialService {
         moneyHolder.addIncome(income.getAmount());
 
         moneyHoldersRepository.save(moneyHolder);
-        incomeRepository.save(income);
+
+        financialRepository.save(income);
     }
 
     public void saveExpense(Expense expense){
@@ -121,13 +124,42 @@ public class FinancialServiceImpl implements FinancialService {
 
 
         moneyHoldersRepository.save(moneyHolder);
-        expenseRepository.save(expense);
+        financialRepository.save(expense);
     }
 
     @Override
     public List<MoneyFlowForm> getMoneyFlows(AppUser user) {
 
         return new ArrayList<>();
+    }
+
+    @Override
+    public Optional<String> addInvestment(InvestmentForm investmentForm, AppUser user) {
+
+        BigDecimal amount = new BigDecimal(investmentForm.getAmount());
+        LocalDate endDate = investmentForm.getDate().plusDays(investmentForm.getInvestmentLength().getDays());
+        BigDecimal percentage = new BigDecimal(investmentForm.getPercentage());
+
+        if (amount.compareTo(BigDecimal.ZERO)<=0){
+            return Optional.of("Value can't be zero or les then zero");
+        }
+
+        if (percentage.compareTo(BigDecimal.ZERO)<=0){
+            return Optional.of("Percentage can't be zero or les then zero");
+        }
+
+        Investment investment = new Investment();
+        investment.setUser(user);
+        investment.setAmount(amount);
+        investment.setEndDate(endDate);
+        investment.setStartDate(investmentForm.getDate());
+        investment.setPercentage(percentage);
+        investment.setLengthDays(investmentForm.getLength());
+        investment.setLength(investmentForm.getInvestmentLength());
+
+        financialRepository.save(investment);
+
+        return Optional.empty();
     }
 
 

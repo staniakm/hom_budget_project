@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -130,9 +131,40 @@ public class FinancialController {
             model.addAttribute("investmentForm",investmentForm);
             List<LengthKeeper> operators = Arrays.asList(LengthKeeper.values());
             model.addAttribute("operators", operators);
-
+        model.addAttribute("currentDate", LocalDate.now());
 
         return "analyze";
+    }
+
+    @PostMapping("/registerInvestment")
+    public String registerNewInvestment(@Valid InvestmentForm investmentForm
+            , BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()){
+            for (int i = 0; i < bindingResult.getErrorCount(); i++) {
+                logger.info(bindingResult.getAllErrors().get(i).toString());
+            }
+            model.addAttribute("message","Validation errors");
+            return "redirect:/registerInvestment";
+        }
+
+        AppUser user = authenticationFacade.getApplicationUser();
+
+//        logger.info(investmentForm.toString());
+
+        Optional<String> error = financialService.addInvestment(investmentForm, user);
+
+        if (error.isPresent()){
+            return "redirect:/registerInvestment";
+        }
+
+//        newOperation.setUser(user);
+
+//        Optional<String> errorOccur = financialService.addOperation(newOperation);
+//        if (errorOccur.isPresent()){
+//            return "redirect:/registerFlow?val="+newOperation.getOperation();
+//        }
+        return "redirect:/welcome";
     }
 
 
