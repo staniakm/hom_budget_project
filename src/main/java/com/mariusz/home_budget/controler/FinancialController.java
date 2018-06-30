@@ -6,13 +6,12 @@ import com.mariusz.home_budget.entity.MoneyHolder;
 import com.mariusz.home_budget.entity.form.InvestmentForm;
 import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
-import com.mariusz.home_budget.repository.UserRepository;
+import com.mariusz.home_budget.helpers.LengthKeeper;
+import com.mariusz.home_budget.helpers.MoneyHolderType;
 import com.mariusz.home_budget.service.FinancialService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -78,19 +77,7 @@ public class FinancialController {
     }
 
 
-    @GetMapping("/summaryInvestment")
-    public String summaryInvestment(Model model){
-        model.addAttribute("currentDate", LocalDate.now());
 
-        AppUser user = authenticationFacade.getApplicationUser();
-        model.addAttribute("loggedUser", user.getName());
-        model.addAttribute("fragmentHtml","analyze_contents");
-        model.addAttribute("fragment","show_investment_summary");
-
-        model.addAttribute("nav","investment_nav");
-
-        return "analyze";
-    }
 
     @PostMapping("/registerMoneyFlow")
     public String registerNewMoneyFlow(@Valid MoneyFlowForm newOperation, BindingResult bindingResult, Model model
@@ -116,29 +103,35 @@ public class FinancialController {
     }
 
 
+    @GetMapping("/summaryInvestment")
+    public String summaryInvestment(Model model){
+        model.addAttribute("currentDate", LocalDate.now());
+
+        AppUser user = authenticationFacade.getApplicationUser();
+        model.addAttribute("loggedUser", user.getName());
+        model.addAttribute("fragmentHtml","analyze_contents");
+        model.addAttribute("fragment","show_investment_summary");
+
+        model.addAttribute("nav","investment_nav");
+
+        return "analyze";
+    }
+
     @GetMapping("/registerInvestment")
     public String registerInvestment(Model model){
-//        model.addAttribute("operation", operation);
-//        model.addAttribute("currentDate", LocalDate.now());
-
-//        if (operation.equalsIgnoreCase("income") || operation.equalsIgnoreCase("expense")){
             AppUser user = authenticationFacade.getApplicationUser();
             model.addAttribute("loggedUser", user.getName());
-
-//            MoneyFlowForm flowForm = new MoneyFlowForm();
-//            model.addAttribute("operationForm", flowForm);
-//            List<MoneyHolder> holders = financialService.getMoneyHolders(user);
-//            model.addAttribute("moneyHolders",holders);
             model.addAttribute("fragmentHtml","analyze_contents");
             model.addAttribute("fragment","addInvestment");
+            model.addAttribute("nav","investment_nav");
 
-        InvestmentForm investmentForm = new InvestmentForm();
+            InvestmentForm investmentForm = new InvestmentForm();
 
             model.addAttribute("investmentForm",investmentForm);
+            List<LengthKeeper> operators = Arrays.asList(LengthKeeper.values());
+            model.addAttribute("operators", operators);
 
-//            List<String> categories = Arrays.asList("Nieokreślona","Samochód","Jedzenie","Rachunki");
-//            model.addAttribute("categories",categories);
-//        }
+
         return "analyze";
     }
 
