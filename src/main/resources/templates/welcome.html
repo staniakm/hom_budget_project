@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <div id="header" th:replace="fragments/header_content :: header_menu"></div>
-    </div>
+</div>
 <div id="site_content">
         <div class="sidebar">
             <div style="float: left; width: 100%">
@@ -28,11 +28,28 @@
 
     <div id="content">
         <div class="month_balance">
-            <div style="float: left; width: 15%">
-                <p style="float: left" th:text="#{label.form.balance}" >... </p>
-                <p style="color: green; float: right;" th:if="${balance>=0}" th:text="${' +' + balance} ">...</p>
-                <p style="color: red; float: right" th:unless="${balance>=0}" th:text="${' '+balance}">...</p>
-            </div>
+            <p style="text-align: center" th:text="#{form.plan.exchange_rate}">...</p>
+            <table style="width:100%">
+                <tr>
+                    <th style="width: 20%" th:text="'Currency'">Date</th>
+                    <th style="width: 10%" th:text="'Rate'">...</th>
+                    <th style="width: 10%" th:text="'Date'">...</th>
+
+                </tr>
+                <th:block th:each="field : ${currency}">
+                    <tr>
+                        <td th:text="${field.getCurrency()}">A Smoke Test'</td>
+                        <td th:text="${field.getRates()[0].getMid()}">A Smoke Test'</td>
+                        <td th:text="${field.getRates()[0].getEffectiveDate()}">A Smoke Test'</td>
+
+                    </tr>
+                </th:block>
+            </table>
+            <!--<div style="float: left; width: 15%">-->
+                <!--<p style="float: left" th:text="#{label.form.balance}" >... </p>-->
+                <!--<p style="color: green; float: right;" th:if="${balance>=0}" th:text="${' +' + balance} ">...</p>-->
+                <!--<p style="color: red; float: right" th:unless="${balance>=0}" th:text="${' '+balance}">...</p>-->
+            <!--</div>-->
 
 
             <!--<div style="float: left; width: 15%">-->
@@ -53,7 +70,7 @@
             <!--<div class="clearfix"></div>-->
             <!--<hr>-->
         </div>
-
+        <hr>
         <div th:replace="fragments/summary_content::planned_budget">...</div>
 <hr>
         <div th:replace="fragments/summary_content::planned_operation">...</div>
