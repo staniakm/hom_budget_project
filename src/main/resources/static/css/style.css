@@ -294,8 +294,15 @@ list-style-type:none;}
   border-bottom: 1px solid #FFF;
   margin: 0 0 20px 0;}
   
-table
-{ margin: 10px 0 10px 0;}
+/*table*/
+/*{ margin: 10px 0 10px 0;}*/
+.investment {
+  color: #FFFFFF;
+  padding: 7px 4px;
+  text-align: left;
+  background: none;
+  border: none;
+}
 
 table tr th, table tr td
 { background: #3B3B3B;
@@ -307,6 +314,8 @@ table tr td
 { background: #F0EFE2;
   color: #47433F;
   border-top: 1px solid #FFF;}
+
+
 
 .planed_operations{
     height: 20vh;

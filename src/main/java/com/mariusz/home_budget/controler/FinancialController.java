@@ -3,6 +3,7 @@ package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.MoneyHolder;
+import com.mariusz.home_budget.entity.form.InvestmentForm;
 import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.repository.UserRepository;
@@ -103,6 +104,10 @@ public class FinancialController {
 //            model.addAttribute("moneyHolders",holders);
             model.addAttribute("fragmentHtml","analyze_contents");
             model.addAttribute("fragment","addInvestment");
+
+        InvestmentForm investmentForm = new InvestmentForm();
+
+            model.addAttribute("investmentForm",investmentForm);
 
 //            List<String> categories = Arrays.asList("Nieokreślona","Samochód","Jedzenie","Rachunki");
 //            model.addAttribute("categories",categories);

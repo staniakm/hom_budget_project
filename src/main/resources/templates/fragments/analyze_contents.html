@@ -69,53 +69,49 @@
 
 <div class="item content" th:fragment="addInvestment">
     <p>Investment </p>
-        <h1 th:text="#{label.form.button.add_investment}">...</h1></span>
+        <h1 th:text="#{label.form.button.add_investment}">...</h1>
 
     <form onsubmit="return validateForm()" class="new_investment" id="new_investment" th:action="@{/registerInvestment}"
           th:object="${investmentForm}" method="POST" accept-charset="UTF-8">
-        <ul style="width: 40%">
-            <li>
-                <label >
+        <table class="investment" style="width: 50%">
+            <tr>
+                <td class="investment"><label >
                     <span th:text="#{form.date}">...</span>
-                </label>
-                <input style="width: 100%" type="date" th:name="date" th:id="date" th:value="${currentDate}" required />
-            </li>
-            <li>
-                <label>
+                </label></td>
+                <td class="investment">
+
+                <input style="width: 95%" type="date" th:name="date" th:id="date" th:value="${currentDate}" required />
+                </td>
+            </tr>
+            <tr>
+                <td class="investment"><label>
                     <span th:utext="#{form.amount}">...</span>
-                </label>
-                <input pattern='^\d+(?:[\\.\\,]\d{0,2})$' style="width: 100%" type="text" id="amountInputField" th:field="*{amount}" required/>
-            </li>
+                </label></td>
+                <td class="investment"><input pattern='^\d+(?:[\.\,]\d{0,2})$' style="width: 95%" type="text" id="amountInputField" th:field="*{amount}" required/>
+                </td>
+            </tr>
 
-            <li>
-                <label>
+            <tr>
+                <td class="investment"> <label>
                     <span th:utext="'Oprocentowanie'">...</span>
-                </label>
-                <input pattern='^\d+(?:[\\.\\,]\d{0,2})$' style="width: 100%" type="text" id="percentageInputField" th:field="*{percentage}" required/>
-            </li>
+                </label></td>
+                <td class="investment"><input pattern='^\d+(?:[\.\,]\d{0,2})$' style="width: 95%" type="text" id="percentageInputField" th:field="*{percentage}" required/>
+                </td>
+            </tr>
 
-            <li>
-                <label>
-                    <span th:utext="'Okres'">...</span>
-                </label>
-                <input pattern='^\d+(?:[\\.\\,]\d{0,2})$' style="width: 100%" type="text" id="lengthInputField" th:field="*{percentage}" required/>
-            </li>
-            <!--<li>-->
-                <!--<label>-->
-                    <!--<span th:utext="'Oprocentowanie'">...</span>-->
-                <!--</label>-->
-                <!--<input pattern='^\d+(?:[\\.\\,]\d{0,2})$' style="width: 100%" type="text" id="percentageInputField" th:field="*{percentage}" required/>-->
-            <!--</li>-->
-        </ul>
-        <!--<button th:text="#{label.wallet.save}" type='submit'>-->
-        <input th:hidden="true" type="text" th:name="operation" th:id="operation" th:value="${operation}" >
+            <tr>
+                <td class="investment"> <label for="lengthInputField">
+                    <span th:utext="'Okres trwania'">...</span>
+                </label></td>
+                <td class="investment">
+                <input pattern='^\d+$' style="width: 9%; overflow: hidden" type="text" id="lengthInputField" th:field="*{length}" required/>
+                <input style="width: 80%" type="text" th:field="*{lengthMarker}" required/>
+                </td>
+            </tr>
+        </table>
         <button th:text="#{form.button.save}" type='submit'></button>
-
         </button>
     </form>
-    <div th:if="${message != null}" class="alert alert-info" th:text="${message}">message</div>
-    <!--<div th:if="${param.error != null}" class="alert alert-danger" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>-->
-
 </div>
 
 <div class="item content" th:fragment="empty">

@@ -17,17 +17,19 @@
         <th style=" width: 7%; text-align: center; border: 0px">
             <a class="fas fa-angle-right" th:href="@{/nextMonth(month=${month.getNext()})}" ></a></th>
     </tr>
+
+    </table>
+    <table style="width: 100%">
+        <tr>
+            <th style="width: 30%" th:text="#{form.budget.category}">...</th>
+            <th style="width: 17%" th:text="#{form.budget.planned}">...</th>
+            <th style="width: 17%" th:text="#{form.budget.spend}">...</th>
+            <th style="width: 17%" th:text="#{form.budget.left}">...</th>
+            <th style="width: 17%" th:text="#{form.budget.percent}">...</th>
+        </tr>
     </table>
     <div class="planed_operations">
         <table style="width:100%">
-
-            <tr>
-                <th style="width: 30%" th:text="#{form.budget.category}">...</th>
-                <th style="width: 17%" th:text="#{form.budget.planned}">...</th>
-                <th style="width: 17%" th:text="#{form.budget.spend}">...</th>
-                <th style="width: 17%" th:text="#{form.budget.left}">...</th>
-                <th style="width: 17%" th:text="#{form.budget.percent}">...</th>
-            </tr>
             <th:block th:each="budget : ${plannedBudgets}">
                 <tr>
                     <td style="width: 30%" th:text="${budget.getCategory()}">...</td>
@@ -45,27 +47,29 @@
 
 <div class="month_balance" th:fragment="planned_operation">
     <p style="text-align: center" th:text="#{form.plan.planned_operations}" >...</p>
+    <table style="width: 100%">
+        <tr>
+            <th style="width: 20%" th:text="#{form.date}">Date</th>
+            <th style="width: 50%" th:text="#{form.description}">Description</th>
+            <th style="width: 10%" th:text="#{form.amount}">Amount</th>
+            <th style="width: 10%" th:text="#{form.plan.finish}">...</th>
+            <th style="width: 10%" th:text="#{form.plan.delete}">...</th>
+
+        </tr>
+    </table>
     <div class="planed_operations">
         <table style="width:100%">
-            <tr>
-                <th style="width: 20%" th:text="#{form.date}">Date</th>
-                <th style="width: 50%" th:text="#{form.description}">Description</th>
-                <th style="width: 10%" th:text="#{form.amount}">Amount</th>
-                <th style="width: 10%" th:text="#{form.plan.finish}">...</th>
-                <th style="width: 10%" th:text="#{form.plan.delete}">...</th>
-
-            </tr>
             <th:block th:each="field : ${plannedOperations}">
                 <tr>
-                    <td th:text="${field.getDueDate()}">A Smoke Test'</td>
-                    <td style=" word-break: break-all" th:text="${field.getDescription()}">A Smoke Test'</td>
-                    <td th:classappend="${field.getPlanedType().getType().equalsIgnoreCase('income')} ? income : expense" th:text="${field.getAmount()}">A Smoke Test'</td>
-                    <td style="text-align: center">
+                    <td style="width: 20%" th:text="${field.getDueDate()}">A Smoke Test'</td>
+                    <td style=" width: 50%; word-break: break-all" th:text="${field.getDescription()}">A Smoke Test'</td>
+                    <td style="width: 10%" th:classappend="${field.getPlanedType().getType().equalsIgnoreCase('income')} ? income : expense" th:text="${field.getAmount()}">A Smoke Test'</td>
+                    <td style="width: 10%; text-align: center">
                         <form method="POST" th:action="@{/finishPlan(operationId=${field.getId()})}">
                             <button type="submit" name="submit" value="value" class="far fa-calendar-check"></button>
                         </form>
                     </td>
-                    <td style="text-align: center">
+                    <td style="width: 10px; text-align: center">
                         <form method="POST" th:action="@{/deletePlan(operationId=${field.getId()})}">
                             <button type="submit" name="submit" value="value" class="fas fa-trash"></button>
                         </form>
