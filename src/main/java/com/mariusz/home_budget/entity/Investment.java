@@ -31,6 +31,7 @@ public class Investment {
     @Enumerated(value = EnumType.STRING)
     private LengthKeeper length;
 
+    private boolean isActive;
 
 
 
