@@ -10,16 +10,4 @@ import javax.persistence.*;
 @Entity
 public class Income extends FinanceFlow  {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @OneToOne
-    @JsonIgnore
-    private AppUser user;
-
-
-    @JsonIgnore
-    @OneToOne
-    private MoneyHolder moneyHolder;
-
 }

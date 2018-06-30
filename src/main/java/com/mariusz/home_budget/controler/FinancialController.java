@@ -63,7 +63,19 @@ public class FinancialController {
         return "analyze";
     }
 
+    @GetMapping("/summaryAnalyze")
+    public String summaryAnalyze(Model model){
+        model.addAttribute("currentDate", LocalDate.now());
 
+            AppUser user = authenticationFacade.getApplicationUser();
+            model.addAttribute("loggedUser", user.getName());
+        model.addAttribute("fragmentHtml","analyze_contents");
+        model.addAttribute("fragment","show_account_summary");
+
+        List<MoneyFlowForm> moneyFlows = financialService.getMoneyFlows(user);
+
+        return "analyze";
+    }
 
     @PostMapping("/registerMoneyFlow")
     public String registerNewMoneyFlow(@Valid MoneyFlowForm newOperation, BindingResult bindingResult, Model model

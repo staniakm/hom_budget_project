@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class FinancialServiceImpl implements FinancialService {
@@ -125,6 +122,12 @@ public class FinancialServiceImpl implements FinancialService {
 
         moneyHoldersRepository.save(moneyHolder);
         expenseRepository.save(expense);
+    }
+
+    @Override
+    public List<MoneyFlowForm> getMoneyFlows(AppUser user) {
+
+        return new ArrayList<>();
     }
 
 

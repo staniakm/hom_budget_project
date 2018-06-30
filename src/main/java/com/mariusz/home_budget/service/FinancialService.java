@@ -27,4 +27,5 @@ public interface FinancialService {
 
     public void saveExpense(Expense expense);
 
-    }
+    List<MoneyFlowForm> getMoneyFlows(AppUser user);
+}

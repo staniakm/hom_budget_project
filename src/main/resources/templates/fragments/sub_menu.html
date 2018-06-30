@@ -9,41 +9,43 @@
 </div>
 <div class="header" th:fragment="analyze_submenu">
     <div id="menubar">
-    <ul id="menu">
-
-        <li><a  th:href="@{/registerFlow(val='income')}" class="btn btn-primary btn-sm active" role="button"
-                aria-pressed="true" th:text="#{label.form.button.add_income}">...</a></li>
-        <li><a th:href="@{/registerFlow(val='expense')}" class="btn btn-primary btn-sm active" role="button"
-               aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a></li>
-        <li> <a th:href="@{/registerInvestment}" class="btn btn-primary btn-sm active" role="button"
-                aria-pressed="true" th:text="#{label.form.button.add_investment}">...</a>
-        </li>
-    </ul>
+        <ul id="menu">
+            <li>
+                <a th:href="@{/summaryAnalyze}" class="btn btn-primary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.summary_analyze}">...</a>
+            </li>
+            <li><a th:href="@{/registerFlow(val='income')}" class="btn btn-primary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.add_income}">...</a></li>
+            <li><a th:href="@{/registerFlow(val='expense')}" class="btn btn-primary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a></li>
+            <li><a th:href="@{/registerInvestment}" class="btn btn-primary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.add_investment}">...</a>
+            </li>
+        </ul>
     </div>
 </div>
 <div class="header" th:fragment="plan_submenu">
     <div id="menubar">
         <ul id="menu">
-            <li>  <a th:href="@{/planCashFlow}" class="btn btn-secondary btn-sm active" role="button"
-                     aria-pressed="true" th:text="#{label.form.button.plan.cash.flow}">...</a></li>
+            <li><a th:href="@{/planCashFlow}" class="btn btn-secondary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.plan.cash.flow}">...</a></li>
 
-            <li> <a th:href="@{/planBudget}" class="btn btn-secondary btn-sm active" role="button"
-                    aria-pressed="true" th:text="#{label.form.button.plan.budget}">...</a></li>
+            <li><a th:href="@{/planBudget}" class="btn btn-secondary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.plan.budget}">...</a></li>
 
-            <li> <a th:href="@{/planExpenses}" class="btn btn-secondary btn-sm active" role="button"
-                    aria-pressed="true" th:text="#{label.form.button.plan.expenses}">...</a></li>
+            <li><a th:href="@{/planExpenses}" class="btn btn-secondary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.plan.expenses}">...</a></li>
         </ul>
     </div>
 </div>
 <div class="header" th:fragment="settings_submenu">
     <div id="menubar">
         <ul id="menu">
-            <li>  <a th:href="@{/addWallet}" class="btn btn-secondary btn-sm active" role="button"
-                     aria-pressed="true" th:text="#{label.form.button.wallet}">...</a></li> </ul>
+            <li><a th:href="@{/addWallet}" class="btn btn-secondary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.wallet}">...</a></li>
+        </ul>
     </div>
 </div>
-
-
 
 
 </body>
