@@ -10,13 +10,12 @@
 <body>
 <div class="container">
     <div id="header" th:replace="fragments/header_content :: header_menu"></div>
+    <div  th:replace="fragments/sub_menu :: settings_submenu"></div>
 
 <div id="site_content">
     <div class="sidebar">
         <div class="sidenav">
-            <ul>
-         <li>  <a th:href="@{/addWallet}" class="btn btn-secondary btn-sm active" role="button"
-               aria-pressed="true" th:text="#{label.form.button.wallet}">...</a></li> </ul>
+
         </div>
     </div>
 <div class = "content">

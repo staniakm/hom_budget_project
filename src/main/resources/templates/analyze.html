@@ -13,20 +13,12 @@
 <body>
 <div class="container">
     <div id="header" th:replace="fragments/header_content :: header_menu"></div>
+    <div  th:replace="fragments/sub_menu :: analyze_submenu"></div>
 </div>
 <div id="site_content">
     <div class="sidebar">
         <div style="float: left; width: 100%">
-            <ul>
 
-           <li><a  th:href="@{/registerFlow(val='income')}" class="btn btn-primary btn-sm active" role="button"
-                aria-pressed="true" th:text="#{label.form.button.add_income}">...</a></li>
-            <li><a th:href="@{/registerFlow(val='expense')}" class="btn btn-primary btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a></li>
-            <li> <a th:href="@{/registerInvestment}" class="btn btn-primary btn-sm active" role="button"
-                    aria-pressed="true" th:text="#{label.form.button.add_investment}">...</a>
-            </li>
-            </ul>
         </div>
         <div class="clearfix"></div>
     </div>

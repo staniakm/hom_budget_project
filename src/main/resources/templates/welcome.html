@@ -13,7 +13,9 @@
 <body>
 <div class="container">
     <div id="header" th:replace="fragments/header_content :: header_menu"></div>
+    <div  th:replace="fragments/sub_menu :: summary_submenu"></div>
 </div>
+
 <div id="site_content">
         <div class="sidebar">
             <div style="float: left; width: 100%">
@@ -83,11 +85,6 @@
     <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
         <input hidden type="submit" value="Sign Out"/>
     </form>
-
-
-
-
-
 </div>
 </body>
 </html>

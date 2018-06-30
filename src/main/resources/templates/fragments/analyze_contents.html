@@ -5,7 +5,6 @@
 </head>
 <body>
 <div id="content" th:fragment="addIncome">
-    <!--suppress ThymeleafVariablesResolveInspection -->
     <span th:if="${operation =='income'}">
         <h1 th:text="#{label.form.button.add_income}">...</h1></span>
     <span th:if="${operation == 'expense'}">
@@ -48,7 +47,7 @@
                     <span th:text="#{form.budget.category}">...</span>
                 </label></td>
                 <td class="form_table"><div class="form-group blu-margin" style="width: 100%">
-                    <select id="category_container_selector" class="form-control" th:field="*{category}"
+                    <select style="width: 100%" id="category_container_selector" class="form-control" th:field="*{category}"
                             name="money_holder" required>
                         <option value="" selected disabled hidden></option>
                      <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
@@ -64,7 +63,7 @@
                 </label></td>
                 <td class="form_table">
                     <div class="form-group blu-margin" style="width: 100%">
-                        <select id="money_container_selector" class="form-control" th:field="*{moneyHolder}"
+                        <select style="width: 100%" id="money_container_selector" class="form-control" th:field="*{moneyHolder}"
                                 name="money_holder" required>
                             <option value="" selected disabled hidden></option>
                             <option th:each="operator : ${moneyHolders}" th:value="${operator.getId()}"
@@ -75,20 +74,15 @@
             </tr>
 
             <input th:hidden="true" type="text" th:name="operation" th:id="operation" th:value="${operation}">
-            <!--<li>-->
-            <!--</li>-->
         </table>
-        <!--</button>-->
         <button th:text="#{form.button.save}" type='submit'>...</button>
 
     </form>
 
     <div th:if="${message != null}" class="alert alert-info" th:text="${message}">message</div>
-    <!--<div th:if="${param.error != null}" class="alert alert-danger" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>-->
 </div>
 
 <div class="item content" th:fragment="addInvestment">
-    <p>Investment </p>
     <h1 th:text="#{label.form.button.add_investment}">...</h1>
 
     <form onsubmit="return validateForm()" class="new_investment" id="new_investment" th:action="@{/registerInvestment}"
@@ -108,7 +102,8 @@
                 <td class="form_table"><label>
                     <span th:utext="#{form.amount}">...</span>
                 </label></td>
-                <td class="form_table"><input pattern='^\d+(?:[\.\,]\d{0,2})$' style="width: 95%" type="text"
+                <td class="form_table">
+                    <input pattern='^\d+(?:[\.\,]\d{0,2})$' style="width: 95%" type="text"
                                               id="amountInputField" th:field="*{amount}" required/>
                 </td>
             </tr>
@@ -134,7 +129,6 @@
             </tr>
         </table>
         <button th:text="#{form.button.save}" type='submit'></button>
-        <!--</button>-->
     </form>
 </div>
 
