@@ -18,9 +18,18 @@
 <div id="site_content">
     <div class="sidebar">
         <div style="float: left; width: 100%">
+            <div class="item footer" th:replace="${'fragments/sidenav_content'}::${nav} ">side nav</div>
+        </hr>
+        <ul>
+            <li>
+                <p>Test 1</p>
+            </li>
 
+            <li>
+                <p>Test 2</p>
+            </li>
+        </ul>
         </div>
-        <div class="clearfix"></div>
     </div>
     <div class="content">
         <a th:replace="${'fragments/analyze_contents'} :: ${fragment}"></a></div>

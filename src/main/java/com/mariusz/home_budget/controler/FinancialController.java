@@ -45,7 +45,6 @@ public class FinancialController {
             , Model model){
         model.addAttribute("operation", operation);
         model.addAttribute("currentDate", LocalDate.now());
-
         if (operation.equalsIgnoreCase("income") || operation.equalsIgnoreCase("expense")){
             AppUser user = authenticationFacade.getApplicationUser();
             model.addAttribute("loggedUser", user.getName());
@@ -73,6 +72,22 @@ public class FinancialController {
         model.addAttribute("fragment","show_account_summary");
 
         List<MoneyFlowForm> moneyFlows = financialService.getMoneyFlows(user);
+        model.addAttribute("nav","account_nav");
+
+        return "analyze";
+    }
+
+
+    @GetMapping("/summaryInvestment")
+    public String summaryInvestment(Model model){
+        model.addAttribute("currentDate", LocalDate.now());
+
+        AppUser user = authenticationFacade.getApplicationUser();
+        model.addAttribute("loggedUser", user.getName());
+        model.addAttribute("fragmentHtml","analyze_contents");
+        model.addAttribute("fragment","show_investment_summary");
+
+        model.addAttribute("nav","investment_nav");
 
         return "analyze";
     }

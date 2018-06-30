@@ -10,5 +10,24 @@
     </div>
 </div>
 
+<div class="item nav" th:fragment="account_nav">
+    <ul>
+        <li><a th:href="@{/registerFlow(val='income')}" class="btn btn-primary btn-sm active" role="button"
+               aria-pressed="true" th:text="#{label.form.button.add_income}">...</a></li>
+        <li><a th:href="@{/registerFlow(val='expense')}" class="btn btn-primary btn-sm active" role="button"
+               aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a></li>
+    </ul>
+
+</div>
+
+<div class="item nav" th:fragment="investment_nav">
+    <ul>
+        <li><a th:href="@{/registerInvestment}" class="btn btn-primary btn-sm active" role="button"
+               aria-pressed="true" th:text="#{label.form.button.add_investment}">...</a>
+        </li>
+    </ul>
+
+</div>
+
 </body>
 </html>

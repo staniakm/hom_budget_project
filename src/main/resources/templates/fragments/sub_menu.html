@@ -14,12 +14,9 @@
                 <a th:href="@{/summaryAnalyze}" class="btn btn-primary btn-sm active" role="button"
                    aria-pressed="true" th:text="#{label.form.button.summary_analyze}">...</a>
             </li>
-            <li><a th:href="@{/registerFlow(val='income')}" class="btn btn-primary btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.add_income}">...</a></li>
-            <li><a th:href="@{/registerFlow(val='expense')}" class="btn btn-primary btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a></li>
-            <li><a th:href="@{/registerInvestment}" class="btn btn-primary btn-sm active" role="button"
-                   aria-pressed="true" th:text="#{label.form.button.add_investment}">...</a>
+
+            <li><a th:href="@{/summaryInvestment}" class="btn btn-primary btn-sm active" role="button"
+                   aria-pressed="true" th:text="#{label.form.button.investment}">...</a>
             </li>
         </ul>
     </div>

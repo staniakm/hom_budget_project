@@ -73,7 +73,7 @@ public class SiteLoaderController {
         model.addAttribute(LOGGED_USER, authenticationFacade.getAuthenticatedUser());
         model.addAttribute("fragmentHtml","analyze_contents");
         model.addAttribute("fragment","empty");
-        return "analyze";
+        return "redirect:/summaryAnalyze";
     }
 
 
