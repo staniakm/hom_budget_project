@@ -128,9 +128,9 @@ public class FinancialServiceImpl implements FinancialService {
     }
 
     @Override
-    public List<MoneyFlowForm> getMoneyFlows(AppUser user) {
+    public List<MoneyFlowSimple> getMoneyFlows(AppUser user) {
 
-        return new ArrayList<>();
+        return financialRepository.getMoneyFlows(user);
     }
 
     @Override

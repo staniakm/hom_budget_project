@@ -1,9 +1,11 @@
 package com.mariusz.home_budget.repository;
 
 import com.mariusz.home_budget.entity.*;
+import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -47,5 +49,10 @@ public class FinancialRepository {
 
     public List<Investment> getInvestmentsById(AppUser user, Long id) {
         return investmentRepository.getInvestmentById(user.getId(), id);
+    }
+
+    public List<MoneyFlowSimple> getMoneyFlows(AppUser user) {
+        return customRepository.getMoneyFlow(user.getId(),LocalDate.now().getYear(), LocalDate.now().getMonthValue());
+
     }
 }

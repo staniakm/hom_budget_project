@@ -3,6 +3,7 @@ package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.Investment;
+import com.mariusz.home_budget.entity.MoneyFlowSimple;
 import com.mariusz.home_budget.entity.MoneyHolder;
 import com.mariusz.home_budget.entity.form.InvestmentForm;
 import com.mariusz.home_budget.entity.form.MoneyFlowForm;
@@ -70,9 +71,9 @@ public class FinancialController {
         model.addAttribute("fragmentHtml", "analyze_contents");
         model.addAttribute("fragment", "show_account_summary");
 
-        List<MoneyFlowForm> moneyFlows = financialService.getMoneyFlows(user);
+        List<MoneyFlowSimple> moneyFlows = financialService.getMoneyFlows(user);
         model.addAttribute("nav", "account_nav");
-
+        model.addAttribute("moneyFlows", moneyFlows);
         return "analyze";
     }
 

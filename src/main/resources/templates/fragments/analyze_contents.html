@@ -149,7 +149,27 @@
 
 <div class="item content" th:fragment="show_account_summary">
     <h1>Account summary</h1>
+    <div class="planed_operations">
+    <table style="width: 100%">
+        <tr>
+            <th style="width: 20%" th:text="#{form.date}">Date</th>
+            <th style="width: 50%" th:text="#{form.description}">Description</th>
+            <th style="width: 10%" th:text="#{form.amount}">Amount</th>
 
+        </tr>
+    </table>
+
+        <table style="width:100%">
+            <th:block th:each="field : ${moneyFlows}">
+                <tr>
+                    <td style="width: 20%" th:text="${field.getDate()}">A Smoke Test'</td>
+                    <td style=" width: 50%; word-break: break-all" th:text="${field.getDescription()}">A Smoke Test'</td>
+                    <td style="width: 10%" th:classappend="${field.getOperation().equalsIgnoreCase('income')} ? income : expense" th:text="${field.getAmount()}">A Smoke Test'</td>
+
+                </tr>
+            </th:block>
+        </table>
+    </div>
 
 </div>
 <div class="item content" th:fragment="show_investment_summary">

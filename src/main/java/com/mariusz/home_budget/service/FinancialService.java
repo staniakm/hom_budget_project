@@ -25,7 +25,7 @@ public interface FinancialService {
 
     void saveExpense(Expense expense);
 
-    List<MoneyFlowForm> getMoneyFlows(AppUser user);
+    List<MoneyFlowSimple> getMoneyFlows(AppUser user);
 
     Optional<String> addInvestment(InvestmentForm investmentForm, AppUser user);
 
