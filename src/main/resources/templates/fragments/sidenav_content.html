@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 </head>
@@ -23,7 +24,15 @@
               aria-pressed="true" th:text="#{label.form.button.recalculate_budget}">...</a>
         </li>
     </ul>
+<hr>
+    <ul>
+        <th:block th:each="field: ${accounts}">
+        <li>
+           <p th:text="${field.getName()+' - '+field.getAmount()}">...</p>
+        </li>
+    </th:block>
 
+    </ul>
 </div>
 
 <div class="item nav" th:fragment="investment_nav">

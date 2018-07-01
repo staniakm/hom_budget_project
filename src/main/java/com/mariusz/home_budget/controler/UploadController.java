@@ -20,7 +20,7 @@ public class UploadController {
     StorageService storageService;
 
     // CHANGE IT ACCORDING TO YOUR LOCATION
-    private final String UPLOAD_FILE_LOCATION="/resources";
+  //  private final String UPLOAD_FILE_LOCATION="/resources";
 
     @PostMapping("/upload")
     public String singleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {

@@ -80,9 +80,12 @@ public class FinancialController {
         model.addAttribute("loggedUser", user.getName());
         model.addAttribute("fragmentHtml", "analyze_contents");
         model.addAttribute("fragment", "show_account_summary");
+        model.addAttribute("nav", "account_nav");
+
+        List<MoneyHolder> accounts = financialService.getMoneyHolders(user);
+        model.addAttribute("accounts", accounts);
 
         List<MoneyFlowSimple> moneyFlows = financialService.getMoneyFlows(user);
-        model.addAttribute("nav", "account_nav");
         model.addAttribute("moneyFlows", moneyFlows);
         return "analyze";
     }
