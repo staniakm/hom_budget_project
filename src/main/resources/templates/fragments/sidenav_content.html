@@ -12,10 +12,16 @@
 
 <div class="item nav" th:fragment="account_nav">
     <ul>
-        <li><a th:href="@{/registerFlow(val='income')}" class="btn btn-primary btn-sm active" role="button"
+        <li>
+            <a th:href="@{/registerFlow(val='income')}" class="btn btn-primary btn-sm active" role="button"
                aria-pressed="true" th:text="#{label.form.button.add_income}">...</a></li>
-        <li><a th:href="@{/registerFlow(val='expense')}" class="btn btn-primary btn-sm active" role="button"
+        <li>
+            <a th:href="@{/registerFlow(val='expense')}" class="btn btn-primary btn-sm active" role="button"
                aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a></li>
+        <li>
+           <a th:href="@{/recalculateBudget}" class="btn btn-primary btn-sm active" role="button"
+              aria-pressed="true" th:text="#{label.form.button.recalculate_budget}">...</a>
+        </li>
     </ul>
 
 </div>
@@ -30,7 +36,8 @@
     <ul>
         <th:block th:each="field : ${investments}">
             <li>
-                <a th:href="@{/getInvestment(val=${field.getId()})}"   th:text="${field.getAmount()+'zł - '+field.getPercentage()+'% - '}+${field.getLengthDays()}+' '+ #{${field.getLength().getMessage()}}">...</a>
+                <a th:href="@{/getInvestment(val=${field.getId()})}"
+                   th:text="${field.getAmount()+'zł - '+field.getPercentage()+'% - '}+${field.getLengthDays()}+' '+ #{${field.getLength().getMessage()}}">...</a>
             </li>
         </th:block>
     </ul>

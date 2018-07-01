@@ -7,6 +7,7 @@ import com.mariusz.home_budget.entity.form.WalletForm;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
 import com.mariusz.home_budget.repository.*;
 import com.mariusz.home_budget.validators.Validators;
+import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,6 +176,11 @@ public class FinancialServiceImpl implements FinancialService {
     public List<Investment> getInvestmentsById(AppUser user, Long id) {
         return financialRepository.getInvestmentsById(user, id);
 
+    }
+
+    @Override
+    public void recalculateBudget(AppUser user) {
+        financialRepository.recalculateBudget(user.getId(), LocalDate.now().getYear(), LocalDate.now().getMonthValue());
     }
 
 

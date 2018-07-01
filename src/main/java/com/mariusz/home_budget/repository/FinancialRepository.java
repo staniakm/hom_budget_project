@@ -55,4 +55,8 @@ public class FinancialRepository {
         return customRepository.getMoneyFlow(user.getId(),LocalDate.now().getYear(), LocalDate.now().getMonthValue());
 
     }
+
+    public void recalculateBudget(Long id, int year, int monthValue) {
+        customRepository.recalculateBudgets(id,year,monthValue);
+    }
 }

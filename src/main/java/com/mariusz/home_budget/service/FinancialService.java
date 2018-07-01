@@ -32,4 +32,7 @@ public interface FinancialService {
     List<Investment> getInvestments(AppUser user);
 
     List<Investment> getInvestmentsById(AppUser user, Long id);
+
+    void recalculateBudget(AppUser user);
+
 }

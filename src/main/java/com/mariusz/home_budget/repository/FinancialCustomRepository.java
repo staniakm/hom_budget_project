@@ -37,16 +37,15 @@ public class FinancialCustomRepository {
                 "select user_id, date, description, amount, 'expense' as operation from expense\n" +
                 ") as x\n" +
                 "where x.user_id=? and year(x.date) = ? and month(x.date) = ? order by x.date";
-//        RowMapper<MoneyFlowSimple> rowMapper = new BeanPropertyRowMapper<MoneyFlowSimple>(MoneyFlowSimple.class);
         List<MoneyFlowSimple> moneyFlowSimples = jdbcTemplate.query(sql,
                     new BeanPropertyRowMapper<>(MoneyFlowSimple.class),user_id, year,month);
         return moneyFlowSimples;
-
-
-//        return jdbcTemplate.queryForList(sql,MoneyFlowSimple, rowMapper,user_id,year,month);
-
-
     }
 
-
+    public void recalculateBudgets(@Param("user_id")Long user_id, @Param("year") int year, @Param("month") int month){
+        String sql = "update planned_budget b\n" +
+                "set b.spend = ifnull((select  COALESCE(sum(e.amount),0) from expense e where e.category = b.category and year(b.date) = year(e.date) and month(b.date)=month(e.date) group by e.category, e.user_id),0)\n" +
+                "where b.user_id = ? and year(b.date) = ? and month(b.date)=?";
+        jdbcTemplate.update(sql,user_id,year,month);
+    }
 }

@@ -64,6 +64,14 @@ public class FinancialController {
         return "analyze";
     }
 
+    @GetMapping("/recalculateBudget")
+    public String recalculateBudget(Model model) {
+        AppUser user = authenticationFacade.getApplicationUser();
+        financialService.recalculateBudget(user);
+        return "redirect:/welcome";
+    }
+
+
     @GetMapping("/summaryAnalyze")
     public String summaryAnalyze(Model model) {
         model.addAttribute("currentDate", LocalDate.now());
