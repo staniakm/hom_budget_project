@@ -55,7 +55,9 @@ public class FinancialController {
             model.addAttribute("moneyHolders", holders);
             model.addAttribute("fragmentHtml", "analyze_contents");
             model.addAttribute("fragment", "addIncome");
+            model.addAttribute("nav", "account_nav");
 
+            //TODO load list form DB
             List<String> categories = Arrays.asList("Nieokreślona", "Samochód", "Jedzenie", "Rachunki");
             model.addAttribute("categories", categories);
         }
@@ -98,7 +100,7 @@ public class FinancialController {
         if (errorOccur.isPresent()) {
             return "redirect:/registerFlow?val=" + newOperation.getOperation();
         }
-        return "redirect:/welcome";
+        return "redirect:/summaryAnalyze";
     }
 
 
@@ -173,7 +175,7 @@ public class FinancialController {
             return "redirect:/registerInvestment";
         }
 
-        return "redirect:/welcome";
+        return "redirect:/summaryInvestment";
     }
 
 
