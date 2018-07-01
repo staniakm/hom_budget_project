@@ -44,4 +44,8 @@ public class FinancialRepository {
     public List<Investment> getInvestments(AppUser user) {
         return investmentRepository.getInvestment(user.getId());
     }
+
+    public List<Investment> getInvestmentsById(AppUser user, Long id) {
+        return investmentRepository.getInvestmentById(user.getId(), id);
+    }
 }

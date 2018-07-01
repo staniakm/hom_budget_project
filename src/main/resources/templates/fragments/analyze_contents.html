@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     ...
@@ -156,7 +157,7 @@
 
     <div class="planed_operations">
         <table style="width:100%">
-            <th:block th:each="field : ${investments}">
+            <th:block th:each="field : ${investment}">
                 <tr>
                     <td style="width: 20%" >
                         <p th:text="${'Kwota:'}"></p>
@@ -164,7 +165,7 @@
                     </td>
                     <td style=" width: 30%" >
                         <p th:text="${'Długość trwania'}"></p>
-                         <p th:text="${field.getLengthDays()+' '+ field.getLength().getMessage()}"></p>
+                         <p th:text="${field.getLengthDays()}+' '+ #{${field.getLength().getMessage()}}"></p>
                     </td>
                     <td style="width: 10%" >
                         <p th:text="${'Oprocentowanie'}"></p>
@@ -190,6 +191,7 @@
             </th:block>
         </table>
 
+</div>
 </div>
 </body>
 </html>

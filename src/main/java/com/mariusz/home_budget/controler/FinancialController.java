@@ -113,6 +113,23 @@ public class FinancialController {
         model.addAttribute("nav", "investment_nav");
         List<Investment> activeInvestments = financialService.getInvestments(user);
         model.addAttribute("investments", activeInvestments);
+        model.addAttribute("investment",activeInvestments);
+        return "analyze";
+    }
+
+    @GetMapping("/getInvestment")
+    public String getInvestment( @RequestParam("val") Long id,Model model) {
+        model.addAttribute("currentDate", LocalDate.now());
+        AppUser user = authenticationFacade.getApplicationUser();
+        model.addAttribute("loggedUser", user.getName());
+        model.addAttribute("fragmentHtml", "analyze_contents");
+        model.addAttribute("fragment", "show_investment_summary");
+
+        model.addAttribute("nav", "investment_nav");
+        List<Investment> activeInvestment = financialService.getInvestmentsById(user, id);
+        model.addAttribute("investment", activeInvestment);
+        List<Investment> activeInvestments = financialService.getInvestments(user);
+        model.addAttribute("investments", activeInvestments);
         return "analyze";
     }
 
@@ -133,6 +150,7 @@ public class FinancialController {
 
         return "analyze";
     }
+
 
     @PostMapping("/registerInvestment")
     public String registerNewInvestment(@Valid InvestmentForm investmentForm

@@ -30,4 +30,6 @@ public interface FinancialService {
     Optional<String> addInvestment(InvestmentForm investmentForm, AppUser user);
 
     List<Investment> getInvestments(AppUser user);
+
+    List<Investment> getInvestmentsById(AppUser user, Long id);
 }

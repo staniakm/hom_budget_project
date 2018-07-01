@@ -171,6 +171,12 @@ public class FinancialServiceImpl implements FinancialService {
 
     }
 
+    @Override
+    public List<Investment> getInvestmentsById(AppUser user, Long id) {
+        return financialRepository.getInvestmentsById(user, id);
+
+    }
+
 
     @Override
     public Optional<String> addMoneyHolder(WalletForm walletForm) {

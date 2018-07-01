@@ -30,7 +30,7 @@
     <ul>
         <th:block th:each="field : ${investments}">
             <li>
-                <p  th:text="${field.getAmount()+'zł '+field.getPercentage()+'% '+field.getLengthDays()+' '+field.getLength().getMessage()}">...</p>
+                <a th:href="@{/getInvestment(val=${field.getId()})}"   th:text="${field.getAmount()+'zł - '+field.getPercentage()+'% - '}+${field.getLengthDays()}+' '+ #{${field.getLength().getMessage()}}">...</a>
             </li>
         </th:block>
     </ul>
