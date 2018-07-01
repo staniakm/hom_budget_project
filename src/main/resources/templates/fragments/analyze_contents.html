@@ -154,6 +154,41 @@
 <div class="item content" th:fragment="show_investment_summary">
     <h1>Investment summary</h1>
 
+    <div class="planed_operations">
+        <table style="width:100%">
+            <th:block th:each="field : ${investments}">
+                <tr>
+                    <td style="width: 20%" >
+                        <p th:text="${'Kwota:'}"></p>
+                        <p th:text="${field.getAmount()}"></p>
+                    </td>
+                    <td style=" width: 30%" >
+                        <p th:text="${'Długość trwania'}"></p>
+                         <p th:text="${field.getLengthDays()+' '+ field.getLength().getMessage()}"></p>
+                    </td>
+                    <td style="width: 10%" >
+                        <p th:text="${'Oprocentowanie'}"></p>
+                        <p th:text="${field.getPercentage()}"></p>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td style="width: 10%" >
+                        <p th:text="${'Początek lokaty'}"></p>
+                        <p th:text="${field.getStartDate()}"></p>
+                    </td>
+                    <td style="width: 10%" >
+                        <p th:text="${'Koniec lokaty'}"></p>
+                        <p th:text="${field.getEndDate()}"></p>
+                    </td>
+                    <td style="width: 10%" >
+                        <p th:text="${'Pozostało do końca'}"></p>
+                        <p th:text="${field.calculateTillEnd()}"></p>
+                    </td>
+                </tr>
+                <br>
+            </th:block>
+        </table>
 
 </div>
 </body>

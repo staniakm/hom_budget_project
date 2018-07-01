@@ -1,11 +1,10 @@
 package com.mariusz.home_budget.repository;
 
-import com.mariusz.home_budget.entity.Balance;
-import com.mariusz.home_budget.entity.Expense;
-import com.mariusz.home_budget.entity.Income;
-import com.mariusz.home_budget.entity.Investment;
+import com.mariusz.home_budget.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class FinancialRepository {
@@ -40,5 +39,9 @@ public class FinancialRepository {
 
     public void save(Investment investment){
         investmentRepository.save(investment);
+    }
+
+    public List<Investment> getInvestments(AppUser user) {
+        return investmentRepository.getInvestment(user.getId());
     }
 }

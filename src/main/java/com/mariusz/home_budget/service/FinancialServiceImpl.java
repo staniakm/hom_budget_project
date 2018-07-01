@@ -156,10 +156,19 @@ public class FinancialServiceImpl implements FinancialService {
         investment.setPercentage(percentage);
         investment.setLengthDays(investmentForm.getLength());
         investment.setLength(investmentForm.getInvestmentLength());
+        investment.setActive(true);
 
         financialRepository.save(investment);
 
         return Optional.empty();
+    }
+
+    @Override
+    public List<Investment> getInvestments(AppUser user) {
+
+        return financialRepository.getInvestments(user);
+
+
     }
 
 

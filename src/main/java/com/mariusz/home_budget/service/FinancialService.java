@@ -1,10 +1,7 @@
 package com.mariusz.home_budget.service;
 
 
-import com.mariusz.home_budget.entity.AppUser;
-import com.mariusz.home_budget.entity.Expense;
-import com.mariusz.home_budget.entity.Income;
-import com.mariusz.home_budget.entity.MoneyHolder;
+import com.mariusz.home_budget.entity.*;
 import com.mariusz.home_budget.entity.form.InvestmentForm;
 import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.entity.form.WalletForm;
@@ -31,4 +28,6 @@ public interface FinancialService {
     List<MoneyFlowForm> getMoneyFlows(AppUser user);
 
     Optional<String> addInvestment(InvestmentForm investmentForm, AppUser user);
+
+    List<Investment> getInvestments(AppUser user);
 }

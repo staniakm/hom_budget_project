@@ -26,6 +26,14 @@
                aria-pressed="true" th:text="#{label.form.button.add_investment}">...</a>
         </li>
     </ul>
+    <hr>
+    <ul>
+        <th:block th:each="field : ${investments}">
+            <li>
+                <p  th:text="${field.getAmount()+'zł '+field.getPercentage()+'% '+field.getLengthDays()+' '+field.getLength().getMessage()}">...</p>
+            </li>
+        </th:block>
+    </ul>
 
 </div>
 
