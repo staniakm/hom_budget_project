@@ -159,32 +159,39 @@
         <table style="width:100%">
             <th:block th:each="field : ${investment}">
                 <tr>
-                    <td style="width: 20%" >
+                    <td style="width: 15%" >
                         <p th:text="${'Kwota:'}"></p>
                         <p th:text="${field.getAmount()}"></p>
                     </td>
-                    <td style=" width: 30%" >
+                    <td style=" width: 15%" >
                         <p th:text="${'Długość trwania'}"></p>
                          <p th:text="${field.getLengthDays()}+' '+ #{${field.getLength().getMessage()}}"></p>
                     </td>
-                    <td style="width: 10%" >
+                    <td style="width: 15%" >
                         <p th:text="${'Oprocentowanie'}"></p>
                         <p th:text="${field.getPercentage()}"></p>
                     </td>
-
+                    <td style="width: 15%" >
+                        <p th:text="${'Planowany zysk '}"></p>
+                        <p th:text="${'~'+field.calculatedIncome()}"></p>
+                    </td>
                 </tr>
                 <tr>
-                    <td style="width: 10%" >
+                    <td style="width: 15%" >
                         <p th:text="${'Początek lokaty'}"></p>
                         <p th:text="${field.getStartDate()}"></p>
                     </td>
-                    <td style="width: 10%" >
+                    <td style="width: 15%" >
                         <p th:text="${'Koniec lokaty'}"></p>
                         <p th:text="${field.getEndDate()}"></p>
                     </td>
-                    <td style="width: 10%" >
+                    <td style="width: 15%" >
                         <p th:text="${'Pozostało do końca'}"></p>
                         <p th:text="${field.calculateTillEnd()}"></p>
+                    </td>
+                    <td style="width: 15%" >
+                        <p th:text="${'Zysk na dziś'}"></p>
+                        <p th:text="${'~'+field.currentIncome()}"></p>
                     </td>
                 </tr>
                 <br>
