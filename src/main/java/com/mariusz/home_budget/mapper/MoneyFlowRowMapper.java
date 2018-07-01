@@ -10,6 +10,7 @@ public class MoneyFlowRowMapper implements RowMapper<MoneyFlowSimple> {
     @Override
     public MoneyFlowSimple mapRow(ResultSet resultSet, int i) throws SQLException {
         MoneyFlowSimple moneyFlowSimple = new MoneyFlowSimple();
+        moneyFlowSimple.setId(resultSet.getLong("id"));
         moneyFlowSimple.setAmount(resultSet.getBigDecimal("amount"));
         moneyFlowSimple.setDate(resultSet.getDate("date").toLocalDate());
         moneyFlowSimple.setDescription(resultSet.getString("description"));

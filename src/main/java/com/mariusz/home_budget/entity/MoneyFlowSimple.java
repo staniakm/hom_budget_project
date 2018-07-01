@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @ToString
 public class MoneyFlowSimple {
 
+    private long id;
     private LocalDate date;
     private String description;
     private BigDecimal amount;

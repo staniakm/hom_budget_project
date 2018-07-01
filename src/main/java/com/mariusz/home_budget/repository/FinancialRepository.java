@@ -1,7 +1,6 @@
 package com.mariusz.home_budget.repository;
 
 import com.mariusz.home_budget.entity.*;
-import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -59,4 +58,22 @@ public class FinancialRepository {
     public void recalculateBudget(Long id, int year, int monthValue) {
         customRepository.recalculateBudgets(id,year,monthValue);
     }
+
+
+    public void deleteIncome(Income income) {
+        incomeRepository.delete(income);
+    }
+
+    public void deleteExpense(Expense expense) {
+        expenseRepository.delete(expense);
+    }
+
+    public Income getIncome(Long operationId, Long userId) {
+       return incomeRepository.getIncomeByIdAndUser(operationId,userId);
+    }
+
+    public Expense getExpense(Long operationId, Long userId) {
+        return expenseRepository.getExpenseByIdAndUser(operationId,userId);
+    }
+
 }

@@ -32,10 +32,10 @@ public class FinancialCustomRepository {
     }
 
     public List<MoneyFlowSimple> getMoneyFlow(@Param("user_id")Long user_id, @Param("year") int year, @Param("month") int month){
-        String sql = "select user_id, date, description, amount, operation from (\n" +
-                "SELECT user_id, date, description, amount, 'income' as operation FROM `income`\n" +
+        String sql = "select id, user_id, date, description, amount, operation from (\n" +
+                "SELECT id, user_id, date, description, amount, 'income' as operation FROM `income`\n" +
                 "union \n" +
-                "select user_id, date, description, amount, 'expense' as operation from expense\n" +
+                "select id, user_id, date, description, amount, 'expense' as operation from expense\n" +
                 ") as x\n" +
                 "where x.user_id=? and year(x.date) = ? and month(x.date) = ? order by x.date";
         List<MoneyFlowSimple> moneyFlowSimples = jdbcTemplate.query(sql,

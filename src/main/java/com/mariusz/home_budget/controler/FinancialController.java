@@ -69,7 +69,7 @@ public class FinancialController {
     public String recalculateBudget(Model model) {
         AppUser user = authenticationFacade.getApplicationUser();
         financialService.recalculateBudget(user);
-        return "redirect:/welcome";
+        return "redirect:/summaryAnalyze";
     }
 
 
@@ -194,6 +194,13 @@ public class FinancialController {
         }
 
         return "redirect:/summaryInvestment";
+    }
+
+    @PostMapping("/deleteOperation")
+    public String deleteOperation(@RequestParam("operationId") Long id,@RequestParam("operationType") String operationType){
+        AppUser user = authenticationFacade.getApplicationUser();
+        financialService.deleteMoneyOperation(id, user, operationType);
+        return "redirect:/recalculateBudget";
     }
 
 

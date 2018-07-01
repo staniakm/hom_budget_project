@@ -7,7 +7,6 @@ import com.mariusz.home_budget.entity.form.WalletForm;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
 import com.mariusz.home_budget.repository.*;
 import com.mariusz.home_budget.validators.Validators;
-import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,8 +167,6 @@ public class FinancialServiceImpl implements FinancialService {
     public List<Investment> getInvestments(AppUser user) {
 
         return financialRepository.getInvestments(user);
-
-
     }
 
     @Override
@@ -188,6 +185,28 @@ public class FinancialServiceImpl implements FinancialService {
         BigDecimal amount = moneyHoldersRepository.findAllByUser(user.getId()).stream().map(MoneyHolder::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
 
         return amount==null?BigDecimal.ZERO:amount;
+    }
+
+    @Override
+    public void deleteMoneyOperation(Long id, AppUser user, String operationType) {
+        if (operationType.equalsIgnoreCase("income")){
+            Income income =financialRepository.getIncome(id, user.getId());
+            if (income!=null){
+                MoneyHolder moneyHolder = income.getMoneyHolder();
+                moneyHolder.setAmount(moneyHolder.getAmount().subtract(income.getAmount()));
+                moneyHoldersRepository.save(moneyHolder);
+                financialRepository.deleteIncome(income);
+            }
+        }else if (operationType.equalsIgnoreCase("expense")){
+            Expense expense =financialRepository.getExpense(id, user.getId());
+            if (expense!=null){
+                MoneyHolder moneyHolder = expense.getMoneyHolder();
+                moneyHolder.setAmount(moneyHolder.getAmount().add(expense.getAmount()));
+                moneyHoldersRepository.save(moneyHolder);
+                financialRepository.deleteExpense(expense);
+            }
+        }
+
     }
 
 

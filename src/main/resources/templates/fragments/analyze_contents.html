@@ -155,17 +155,22 @@
             <th style="width: 20%" th:text="#{form.date}">Date</th>
             <th style="width: 50%" th:text="#{form.description}">Description</th>
             <th style="width: 10%" th:text="#{form.amount}">Amount</th>
+            <th style="width: 10%" th:text="#{form.plan.delete}">Delete</th>
 
         </tr>
-    </table>
+    <!--</table>-->
 
-        <table style="width:100%">
+        <!--<table style="width:100%">-->
             <th:block th:each="field : ${moneyFlows}">
                 <tr>
                     <td style="width: 20%" th:text="${field.getDate()}">A Smoke Test'</td>
                     <td style=" width: 50%; word-break: break-all" th:text="${field.getDescription()}">A Smoke Test'</td>
                     <td style="width: 10%" th:classappend="${field.getOperation().equalsIgnoreCase('income')} ? income : expense" th:text="${field.getAmount()}">A Smoke Test'</td>
-
+                    <td style="width: 10px; text-align: center">
+                        <form method="POST" th:action="@{/deleteOperation(operationId=${field.getId()}, operationType=${field.getOperation()})}">
+                            <button type="submit" name="submit" value="value" class="fas fa-trash"></button>
+                        </form>
+                    </td>
                 </tr>
             </th:block>
         </table>
