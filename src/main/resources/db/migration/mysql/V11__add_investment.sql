@@ -1,4 +1,4 @@
-CREATE TABLE `HOME_BUDGET`.`investment` (
+CREATE TABLE `investment` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `user_id` BIGINT(20) NOT NULL,
   `start_date` DATE NULL,

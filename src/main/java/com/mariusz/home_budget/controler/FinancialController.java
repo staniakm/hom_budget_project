@@ -7,7 +7,6 @@ import com.mariusz.home_budget.entity.form.InvestmentForm;
 import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.LengthKeeper;
-import com.mariusz.home_budget.helpers.MoneyHolderType;
 import com.mariusz.home_budget.service.FinancialService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -35,61 +33,59 @@ public class FinancialController {
 
     @Autowired
     public FinancialController(AuthenticationFacade authenticationFacade, FinancialService financialService
-            ) {
+    ) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
     }
 
     @GetMapping("/registerFlow")
     public String registerMoneyFlow(@RequestParam("val") String operation
-            , Model model){
+            , Model model) {
         model.addAttribute("operation", operation);
         model.addAttribute("currentDate", LocalDate.now());
-        if (operation.equalsIgnoreCase("income") || operation.equalsIgnoreCase("expense")){
+        if (operation.equalsIgnoreCase("income") || operation.equalsIgnoreCase("expense")) {
             AppUser user = authenticationFacade.getApplicationUser();
             model.addAttribute("loggedUser", user.getName());
 
             MoneyFlowForm flowForm = new MoneyFlowForm();
             model.addAttribute("operationForm", flowForm);
             List<MoneyHolder> holders = financialService.getMoneyHolders(user);
-            model.addAttribute("moneyHolders",holders);
-            model.addAttribute("fragmentHtml","analyze_contents");
-            model.addAttribute("fragment","addIncome");
+            model.addAttribute("moneyHolders", holders);
+            model.addAttribute("fragmentHtml", "analyze_contents");
+            model.addAttribute("fragment", "addIncome");
 
-            List<String> categories = Arrays.asList("Nieokreślona","Samochód","Jedzenie","Rachunki");
-            model.addAttribute("categories",categories);
+            List<String> categories = Arrays.asList("Nieokreślona", "Samochód", "Jedzenie", "Rachunki");
+            model.addAttribute("categories", categories);
         }
         return "analyze";
     }
 
     @GetMapping("/summaryAnalyze")
-    public String summaryAnalyze(Model model){
+    public String summaryAnalyze(Model model) {
         model.addAttribute("currentDate", LocalDate.now());
 
-            AppUser user = authenticationFacade.getApplicationUser();
-            model.addAttribute("loggedUser", user.getName());
-        model.addAttribute("fragmentHtml","analyze_contents");
-        model.addAttribute("fragment","show_account_summary");
+        AppUser user = authenticationFacade.getApplicationUser();
+        model.addAttribute("loggedUser", user.getName());
+        model.addAttribute("fragmentHtml", "analyze_contents");
+        model.addAttribute("fragment", "show_account_summary");
 
         List<MoneyFlowForm> moneyFlows = financialService.getMoneyFlows(user);
-        model.addAttribute("nav","account_nav");
+        model.addAttribute("nav", "account_nav");
 
         return "analyze";
     }
-
-
 
 
     @PostMapping("/registerMoneyFlow")
     public String registerNewMoneyFlow(@Valid MoneyFlowForm newOperation, BindingResult bindingResult, Model model
     ) {
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             for (int i = 0; i < bindingResult.getErrorCount(); i++) {
                 logger.info(bindingResult.getAllErrors().get(i).toString());
             }
-            model.addAttribute("message","Validation errors");
-            return "redirect:/registerFlow?val="+newOperation.getOperation();
+            model.addAttribute("message", "Validation errors");
+            return "redirect:/registerFlow?val=" + newOperation.getOperation();
         }
 
         AppUser user = authenticationFacade.getApplicationUser();
@@ -97,40 +93,40 @@ public class FinancialController {
         newOperation.setUser(user);
 
         Optional<String> errorOccur = financialService.addOperation(newOperation);
-        if (errorOccur.isPresent()){
-            return "redirect:/registerFlow?val="+newOperation.getOperation();
+        if (errorOccur.isPresent()) {
+            return "redirect:/registerFlow?val=" + newOperation.getOperation();
         }
         return "redirect:/welcome";
     }
 
 
     @GetMapping("/summaryInvestment")
-    public String summaryInvestment(Model model){
+    public String summaryInvestment(Model model) {
         model.addAttribute("currentDate", LocalDate.now());
 
         AppUser user = authenticationFacade.getApplicationUser();
         model.addAttribute("loggedUser", user.getName());
-        model.addAttribute("fragmentHtml","analyze_contents");
-        model.addAttribute("fragment","show_investment_summary");
+        model.addAttribute("fragmentHtml", "analyze_contents");
+        model.addAttribute("fragment", "show_investment_summary");
 
-        model.addAttribute("nav","investment_nav");
+        model.addAttribute("nav", "investment_nav");
 
         return "analyze";
     }
 
     @GetMapping("/registerInvestment")
-    public String registerInvestment(Model model){
-            AppUser user = authenticationFacade.getApplicationUser();
-            model.addAttribute("loggedUser", user.getName());
-            model.addAttribute("fragmentHtml","analyze_contents");
-            model.addAttribute("fragment","addInvestment");
-            model.addAttribute("nav","investment_nav");
+    public String registerInvestment(Model model) {
+        AppUser user = authenticationFacade.getApplicationUser();
+        model.addAttribute("loggedUser", user.getName());
+        model.addAttribute("fragmentHtml", "analyze_contents");
+        model.addAttribute("fragment", "addInvestment");
+        model.addAttribute("nav", "investment_nav");
 
-            InvestmentForm investmentForm = new InvestmentForm();
+        InvestmentForm investmentForm = new InvestmentForm();
 
-            model.addAttribute("investmentForm",investmentForm);
-            List<LengthKeeper> operators = Arrays.asList(LengthKeeper.values());
-            model.addAttribute("operators", operators);
+        model.addAttribute("investmentForm", investmentForm);
+        List<LengthKeeper> operators = Arrays.asList(LengthKeeper.values());
+        model.addAttribute("operators", operators);
         model.addAttribute("currentDate", LocalDate.now());
 
         return "analyze";
@@ -140,30 +136,22 @@ public class FinancialController {
     public String registerNewInvestment(@Valid InvestmentForm investmentForm
             , BindingResult bindingResult, Model model) {
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             for (int i = 0; i < bindingResult.getErrorCount(); i++) {
                 logger.info(bindingResult.getAllErrors().get(i).toString());
             }
-            model.addAttribute("message","Validation errors");
+            model.addAttribute("message", "Validation errors");
             return "redirect:/registerInvestment";
         }
 
         AppUser user = authenticationFacade.getApplicationUser();
 
-//        logger.info(investmentForm.toString());
-
         Optional<String> error = financialService.addInvestment(investmentForm, user);
 
-        if (error.isPresent()){
+        if (error.isPresent()) {
             return "redirect:/registerInvestment";
         }
 
-//        newOperation.setUser(user);
-
-//        Optional<String> errorOccur = financialService.addOperation(newOperation);
-//        if (errorOccur.isPresent()){
-//            return "redirect:/registerFlow?val="+newOperation.getOperation();
-//        }
         return "redirect:/welcome";
     }
 

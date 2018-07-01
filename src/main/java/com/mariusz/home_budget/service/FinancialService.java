@@ -24,9 +24,9 @@ public interface FinancialService {
 
     List<MoneyHolder> getMoneyHolders(AppUser user);
 
-    public void saveIncome(Income income);
+    void saveIncome(Income income);
 
-    public void saveExpense(Expense expense);
+    void saveExpense(Expense expense);
 
     List<MoneyFlowForm> getMoneyFlows(AppUser user);
 

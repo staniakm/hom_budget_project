@@ -18,6 +18,4 @@ public class HomeBudgetApplication {
     public RequestContextListener requestContextListener() {
         return new RequestContextListener();
     }
-
-    //komentarz do sprawdzenia commitów
 }
