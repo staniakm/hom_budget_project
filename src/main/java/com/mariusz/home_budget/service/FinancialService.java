@@ -35,4 +35,5 @@ public interface FinancialService {
 
     void recalculateBudget(AppUser user);
 
+    BigDecimal getTotalAmount(AppUser user);
 }

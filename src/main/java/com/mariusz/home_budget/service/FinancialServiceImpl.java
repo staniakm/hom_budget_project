@@ -138,7 +138,7 @@ public class FinancialServiceImpl implements FinancialService {
     public Optional<String> addInvestment(InvestmentForm investmentForm, AppUser user) {
 
         BigDecimal amount = new BigDecimal(investmentForm.getAmount());
-        LocalDate endDate = investmentForm.getDate().plusDays(investmentForm.getInvestmentLength().getDays());
+        LocalDate endDate = investmentForm.getDate().plusDays(investmentForm.getInvestmentLength().getDays()*investmentForm.getLength());
         BigDecimal percentage = new BigDecimal(investmentForm.getPercentage());
 
         if (amount.compareTo(BigDecimal.ZERO)<=0){
@@ -181,6 +181,13 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public void recalculateBudget(AppUser user) {
         financialRepository.recalculateBudget(user.getId(), LocalDate.now().getYear(), LocalDate.now().getMonthValue());
+    }
+
+    @Override
+    public BigDecimal getTotalAmount(AppUser user) {
+        BigDecimal amount = moneyHoldersRepository.findAllByUser(user.getId()).stream().map(MoneyHolder::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
+
+        return amount==null?BigDecimal.ZERO:amount;
     }
 
 

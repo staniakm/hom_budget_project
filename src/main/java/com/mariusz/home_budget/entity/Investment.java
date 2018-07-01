@@ -38,10 +38,13 @@ public class Investment {
     @Column(name = "is_active")
     private boolean isActive;
 
-    public Long calculateTillEnd(){
+    public String calculateTillEnd(){
+        if (endDate.isBefore(LocalDate.now())){
+            return "Zakończona";
+        }
         Duration duration = Duration.between(LocalDate.now().atStartOfDay(), endDate.atStartOfDay());
         long diff = Math.abs(duration.toDays());
-        return diff;
+        return ""+diff+" dni";
     }
 
     public BigDecimal calculatedIncome(){
@@ -53,6 +56,9 @@ public class Investment {
 
     public BigDecimal currentIncome(){
         //income at this moment
+        if (endDate.isBefore(LocalDate.now())){
+            return calculatedIncome();
+        }
         Duration duration = Duration.between(LocalDate.now().atStartOfDay(), startDate.atStartOfDay());
         long diff = Math.abs(duration.toDays());
 

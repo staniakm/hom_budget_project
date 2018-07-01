@@ -26,9 +26,11 @@
     </ul>
 <hr>
     <ul>
+        <p th:text="${'Suma: '+accountSum}">...</p>
+        <hr>
         <th:block th:each="field: ${accounts}">
         <li>
-           <p th:text="${field.getName()+' - '+field.getAmount()}">...</p>
+           <p th:text="${field.getName()+': '+field.getAmount()}">...</p>
         </li>
     </th:block>
 
@@ -41,6 +43,7 @@
                aria-pressed="true" th:text="#{label.form.button.add_investment}">...</a>
         </li>
     </ul>
+    <p th:text="${'Suma: '+investmentSum}">...</p>
     <hr>
     <ul>
         <th:block th:each="field : ${investments}">

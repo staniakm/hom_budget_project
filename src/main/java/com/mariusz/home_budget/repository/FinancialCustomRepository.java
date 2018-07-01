@@ -45,7 +45,8 @@ public class FinancialCustomRepository {
 
     public void recalculateBudgets(@Param("user_id")Long user_id, @Param("year") int year, @Param("month") int month){
         String sql = "update planned_budget b\n" +
-                "set b.spend = ifnull((select  COALESCE(sum(e.amount),0) from expense e where e.category = b.category and year(b.date) = year(e.date) and month(b.date)=month(e.date) group by e.category, e.user_id),0)\n" +
+                "set b.spend = ifnull((select  COALESCE(sum(e.amount),0) from expense e " +
+                "where b.user_id = e.user_id and e.category = b.category and year(b.date) = year(e.date) and month(b.date)=month(e.date) group by e.category, e.user_id),0)\n" +
                 "where b.user_id = ? and year(b.date) = ? and month(b.date)=?";
         jdbcTemplate.update(sql,user_id,year,month);
     }

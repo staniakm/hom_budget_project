@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -85,6 +86,9 @@ public class FinancialController {
         List<MoneyHolder> accounts = financialService.getMoneyHolders(user);
         model.addAttribute("accounts", accounts);
 
+        BigDecimal amount = financialService.getTotalAmount(user);
+        model.addAttribute("accountSum",amount);
+
         List<MoneyFlowSimple> moneyFlows = financialService.getMoneyFlows(user);
         model.addAttribute("moneyFlows", moneyFlows);
         return "analyze";
@@ -128,6 +132,7 @@ public class FinancialController {
         List<Investment> activeInvestments = financialService.getInvestments(user);
         model.addAttribute("investments", activeInvestments);
         model.addAttribute("investment",activeInvestments);
+        model.addAttribute("investmentSum",activeInvestments.stream().map(Investment::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add));
         return "analyze";
     }
 
@@ -144,6 +149,8 @@ public class FinancialController {
         model.addAttribute("investment", activeInvestment);
         List<Investment> activeInvestments = financialService.getInvestments(user);
         model.addAttribute("investments", activeInvestments);
+        BigDecimal amount = financialService.getTotalAmount(user);
+        model.addAttribute("accountSum",amount);
         return "analyze";
     }
 
