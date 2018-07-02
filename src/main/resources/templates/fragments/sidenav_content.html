@@ -23,6 +23,10 @@
            <a th:href="@{/recalculateBudget}" class="btn btn-primary btn-sm active" role="button"
               aria-pressed="true" th:text="#{label.form.button.recalculate_budget}">...</a>
         </li>
+        <li>
+            <a th:href="@{/loadCsv(type=budget)}" class="btn btn-primary btn-sm active" role="button"
+               aria-pressed="true" th:text="#{label.form.button.load_budget_from_file}">...</a>
+        </li>
     </ul>
 <hr>
     <ul>

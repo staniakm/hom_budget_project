@@ -3,12 +3,14 @@ package com.mariusz.home_budget.entity.form;
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.validators.Amount;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
+@ToString
 public class MoneyFlowForm {
 
     @NotNull
@@ -32,13 +34,4 @@ public class MoneyFlowForm {
         this.amount =amount.replace(",",".");
     }
 
-    @Override
-    public String toString() {
-        return "MoneyFlowForm{" +
-                "date=" + date +
-                ", description='" + description + '\'' +
-                ", amount=" + amount +
-                ", operation='" + operation + '\'' +
-                '}';
-    }
 }

@@ -38,7 +38,7 @@ public class Investment {
     @Column(name = "is_active")
     private boolean isActive;
 
-    public String calculateTillEnd(){
+    public String calculateTillEnd() {
         if (endDate.isBefore(LocalDate.now())){
             return "Zakończona";
         }
@@ -67,7 +67,8 @@ public class Investment {
         return amount.multiply(percentRange).multiply(BELKA_TAX).setScale(2,RoundingMode.HALF_DOWN);
     }
 
-    private static BigDecimal getPercentagePerDay(BigDecimal percentage, Long days){
+    private BigDecimal getPercentagePerDay(BigDecimal percentage, Long days){
         return percentage.divide(BigDecimal.valueOf(365),8,BigDecimal.ROUND_HALF_DOWN).multiply(BigDecimal.valueOf(days));
     }
+
 }

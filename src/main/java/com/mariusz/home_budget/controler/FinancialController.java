@@ -58,6 +58,12 @@ public class FinancialController {
             model.addAttribute("fragment", "addIncome");
             model.addAttribute("nav", "account_nav");
 
+            List<MoneyHolder> accounts = financialService.getMoneyHolders(user);
+            model.addAttribute("accounts", accounts);
+
+            BigDecimal amount = financialService.getTotalAmount(user);
+            model.addAttribute("accountSum",amount);
+
             //TODO load list form DB
             List<String> categories = Arrays.asList("Nieokreślona", "Samochód", "Jedzenie", "Rachunki");
             model.addAttribute("categories", categories);
@@ -151,6 +157,8 @@ public class FinancialController {
         model.addAttribute("investments", activeInvestments);
         BigDecimal amount = financialService.getTotalAmount(user);
         model.addAttribute("accountSum",amount);
+        model.addAttribute("investmentSum",activeInvestments.stream().map(Investment::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add));
+
         return "analyze";
     }
 
@@ -203,5 +211,10 @@ public class FinancialController {
         return "redirect:/recalculateBudget";
     }
 
+    @GetMapping("/loadCsv")
+    public String loadBudgetFile( @RequestParam("type") String type,Model model) {
+
+        return "redirect:/upload";
+    }
 
 }
