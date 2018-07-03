@@ -209,6 +209,11 @@ public class FinancialServiceImpl implements FinancialService {
 
     }
 
+    @Override
+    public BigDecimal getInvestmentsSum(AppUser user) {
+      return getInvestments(user).stream().map(Investment::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
+    }
+
 
     @Override
     public Optional<String> addMoneyHolder(WalletForm walletForm) {

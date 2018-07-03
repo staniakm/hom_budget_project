@@ -59,20 +59,19 @@ public class PlanController {
 
     @GetMapping("/planExpenses")
     public String planExpenses(Model model){
-
         model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"planner");
         Authentication authentication = authenticationFacade.getAuthentication();
         model.addAttribute(LOGGED_USER, authentication.getName());
 
         AppUser user = authenticationFacade.getApplicationUser();
+
         PlanForm planForm = new PlanForm();
         model.addAttribute("planForm", planForm);
-        List<PeriodicTypes> operators = Arrays.asList(PeriodicTypes.values());
-        model.addAttribute("operators", operators);
+        model.addAttribute("operators", Arrays.asList(PeriodicTypes.values()));
         model.addAttribute("currentDate",LocalDate.now());
         model.addAttribute("moneyFlowType",Arrays.asList(MoneyFlowTypes.values()));
-        List<MoneyHolder> holders = financialService.getMoneyHolders(user);
-        model.addAttribute("moneyHolders",holders);
+        model.addAttribute("moneyHolders",financialService.getMoneyHolders(user));
+
         return "plan";
     }
 
@@ -91,8 +90,7 @@ public class PlanController {
     @GetMapping("/planBudget")
     public String planBudget(Model model){
         model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"budget");
-        Authentication authentication = authenticationFacade.getAuthentication();
-        model.addAttribute(LOGGED_USER, authentication.getName());
+        model.addAttribute(LOGGED_USER, authenticationFacade.getAuthenticatedUser());
 
         List<String> categories = Arrays.asList("Samochód","Jedzenie","Rachunki");
 
@@ -100,14 +98,12 @@ public class PlanController {
         BudgetForm budgetForm = new BudgetForm();
         model.addAttribute("budgetForm",budgetForm);
 
-
         return "plan";
     }
 
     @PostMapping("/addBudget")
         public String addBudget(@ModelAttribute("budgetForm") BudgetForm budgetForm){
-        Authentication authentication = authenticationFacade.getAuthentication();
-        Optional<String> error = budgetService.savePlannedBudget(budgetForm, authentication.getName());
+        Optional<String> error = budgetService.savePlannedBudget(budgetForm, authenticationFacade.getApplicationUser());
         if(error.isPresent())
             logger.info(error.get());
         else

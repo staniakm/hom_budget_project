@@ -30,11 +30,8 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public Optional<String> savePlannedBudget(BudgetForm budgetForm, String name) {
-        AppUser user = applicationUserService.getUserByName(name).orElseThrow(()-> new UsernameNotFoundException(""));
-
+    public Optional<String> savePlannedBudget(BudgetForm budgetForm, AppUser user) {
         String amount = budgetForm.getAmount();
-
         BigDecimal operationAmount = new BigDecimal(amount);
 
         if (operationAmount.compareTo(BigDecimal.ZERO)<0){

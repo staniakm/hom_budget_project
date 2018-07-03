@@ -3,8 +3,6 @@ package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.Investment;
-import com.mariusz.home_budget.entity.MoneyFlowSimple;
-import com.mariusz.home_budget.entity.MoneyHolder;
 import com.mariusz.home_budget.entity.form.InvestmentForm;
 import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -49,20 +46,15 @@ public class FinancialController {
         if (operation.equalsIgnoreCase("income") || operation.equalsIgnoreCase("expense")) {
             AppUser user = authenticationFacade.getApplicationUser();
             model.addAttribute("loggedUser", user.getName());
-
-            MoneyFlowForm flowForm = new MoneyFlowForm();
-            model.addAttribute("operationForm", flowForm);
-            List<MoneyHolder> holders = financialService.getMoneyHolders(user);
-            model.addAttribute("moneyHolders", holders);
             model.addAttribute("fragmentHtml", "analyze_contents");
             model.addAttribute("fragment", "addIncome");
             model.addAttribute("nav", "account_nav");
 
-            List<MoneyHolder> accounts = financialService.getMoneyHolders(user);
-            model.addAttribute("accounts", accounts);
-
-            BigDecimal amount = financialService.getTotalAmount(user);
-            model.addAttribute("accountSum",amount);
+            MoneyFlowForm flowForm = new MoneyFlowForm();
+            model.addAttribute("operationForm", flowForm);
+            model.addAttribute("moneyHolders", financialService.getMoneyHolders(user));
+            model.addAttribute("accounts", financialService.getMoneyHolders(user));
+            model.addAttribute("accountSum",financialService.getTotalAmount(user));
 
             //TODO load list form DB
             List<String> categories = Arrays.asList("Nieokreślona", "Samochód", "Jedzenie", "Rachunki");
@@ -89,14 +81,10 @@ public class FinancialController {
         model.addAttribute("fragment", "show_account_summary");
         model.addAttribute("nav", "account_nav");
 
-        List<MoneyHolder> accounts = financialService.getMoneyHolders(user);
-        model.addAttribute("accounts", accounts);
+        model.addAttribute("accounts",financialService.getMoneyHolders(user));
+        model.addAttribute("accountSum",financialService.getTotalAmount(user));
+        model.addAttribute("moneyFlows", financialService.getMoneyFlows(user));
 
-        BigDecimal amount = financialService.getTotalAmount(user);
-        model.addAttribute("accountSum",amount);
-
-        List<MoneyFlowSimple> moneyFlows = financialService.getMoneyFlows(user);
-        model.addAttribute("moneyFlows", moneyFlows);
         return "analyze";
     }
 
@@ -106,9 +94,7 @@ public class FinancialController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            for (int i = 0; i < bindingResult.getErrorCount(); i++) {
-                logger.info(bindingResult.getAllErrors().get(i).toString());
-            }
+
             model.addAttribute("message", "Validation errors");
             return "redirect:/registerFlow?val=" + newOperation.getOperation();
         }
@@ -138,7 +124,7 @@ public class FinancialController {
         List<Investment> activeInvestments = financialService.getInvestments(user);
         model.addAttribute("investments", activeInvestments);
         model.addAttribute("investment",activeInvestments);
-        model.addAttribute("investmentSum",activeInvestments.stream().map(Investment::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add));
+        model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));
         return "analyze";
     }
 
@@ -149,15 +135,12 @@ public class FinancialController {
         model.addAttribute("loggedUser", user.getName());
         model.addAttribute("fragmentHtml", "analyze_contents");
         model.addAttribute("fragment", "show_investment_summary");
-
         model.addAttribute("nav", "investment_nav");
-        List<Investment> activeInvestment = financialService.getInvestmentsById(user, id);
-        model.addAttribute("investment", activeInvestment);
-        List<Investment> activeInvestments = financialService.getInvestments(user);
-        model.addAttribute("investments", activeInvestments);
-        BigDecimal amount = financialService.getTotalAmount(user);
-        model.addAttribute("accountSum",amount);
-        model.addAttribute("investmentSum",activeInvestments.stream().map(Investment::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add));
+
+        model.addAttribute("investment", financialService.getInvestmentsById(user, id));
+        model.addAttribute("investments", financialService.getInvestments(user));
+        model.addAttribute("accountSum",financialService.getTotalAmount(user));
+        model.addAttribute("investmentSum", financialService.getInvestmentsSum(user));
 
         return "analyze";
     }
@@ -173,9 +156,9 @@ public class FinancialController {
         InvestmentForm investmentForm = new InvestmentForm();
 
         model.addAttribute("investmentForm", investmentForm);
-        List<LengthKeeper> operators = Arrays.asList(LengthKeeper.values());
-        model.addAttribute("operators", operators);
+        model.addAttribute("operators", Arrays.asList(LengthKeeper.values()));
         model.addAttribute("currentDate", LocalDate.now());
+        model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));
 
         return "analyze";
     }
@@ -213,7 +196,6 @@ public class FinancialController {
 
     @GetMapping("/loadCsv")
     public String loadBudgetFile( @RequestParam("type") String type,Model model) {
-
         return "redirect:/upload";
     }
 

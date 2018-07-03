@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class MoneyContainerController {
+public class SettingsController {
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
 
     @Autowired
-    public MoneyContainerController(AuthenticationFacade authenticationFacade, FinancialService financialService) {
+    public SettingsController(AuthenticationFacade authenticationFacade, FinancialService financialService) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
     }

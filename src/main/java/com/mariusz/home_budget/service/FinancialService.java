@@ -38,4 +38,6 @@ public interface FinancialService {
     BigDecimal getTotalAmount(AppUser user);
 
     void deleteMoneyOperation(Long id, AppUser user, String operationType);
+
+    BigDecimal getInvestmentsSum(AppUser user);
 }

@@ -46,24 +46,14 @@ public class SiteLoaderController {
 
         model.addAttribute(LOGGED_USER, userName);
 
-        //TODO move to separated method that will return object with proper fields
-        Map<String, BigDecimal> balance = financialService.getBalance(user.getId());
-        model.addAttribute("balance",balance.get("balance"));
-        model.addAttribute("income",balance.get("income"));
-        model.addAttribute("expense",balance.get("expense"));
-
-        List<PlannedOperation> operations = plannedService.getPlanedActiveOperation(user);
-        model.addAttribute("plannedOperations",operations);
+        model.addAttribute("balance",financialService.getBalance(user.getId()));
+        model.addAttribute("plannedOperations",plannedService.getPlanedActiveOperation(user));
 
 
         MonthKeeper monthKeeper = new MonthKeeper(month, messagesService);
         model.addAttribute("month", monthKeeper);
-
-        List<PlannedBudget> budgets = budgetService.getPlannedBudgets(user, monthKeeper.getCurrent());
-        model.addAttribute("plannedBudgets", budgets);
-
-        List<Currency> currencyList = currencyService.getCurrences();
-        model.addAttribute("currency", currencyList);
+        model.addAttribute("plannedBudgets", budgetService.getPlannedBudgets(user, monthKeeper.getCurrent()));
+        model.addAttribute("currency", currencyService.getCurrences());
 
         return "welcome";
     }

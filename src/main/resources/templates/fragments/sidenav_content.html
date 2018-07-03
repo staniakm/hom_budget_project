@@ -28,10 +28,14 @@
                aria-pressed="true" th:text="#{label.form.button.load_budget_from_file}">...</a>
         </li>
     </ul>
-<hr>
     <ul>
-        <p th:text="${'Suma: '+accountSum}">...</p>
-        <hr>
+
+        <li>
+            <hr>
+                <p th:text="${'Suma: '+accountSum}">...</p>
+            <hr>
+        </li>
+
         <th:block th:each="field: ${accounts}">
         <li>
            <p th:text="${field.getName()+': '+field.getAmount()}">...</p>
@@ -47,8 +51,12 @@
                aria-pressed="true" th:text="#{label.form.button.add_investment}">...</a>
         </li>
     </ul>
-    <p th:text="${'Suma: '+investmentSum}">...</p>
-    <hr>
+    <li>
+        <hr>
+            <p th:text="${'Suma: '+investmentSum}">...</p>
+        <hr>
+    </li>
+
     <ul>
         <th:block th:each="field : ${investments}">
             <li>

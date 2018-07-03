@@ -22,8 +22,8 @@
                 <p th:text="#{label.form.loggedAs}+' ' +${loggedUser}"> </p>
                 </br>
                 <p style="float: left" th:text="#{label.form.balance}" >... </p>
-                <p style="color: green; float: right;" th:if="${balance>=0}" th:text="${' +' + balance} ">...</p>
-                <p style="color: red; float: right" th:unless="${balance>=0}" th:text="${' '+balance}">...</p>
+                <p style="color: green; float: right;" th:if="${balance.get('balance')>=0}" th:text="${' +' + balance.get('balance')} ">...</p>
+                <p style="color: red; float: right" th:unless="${balance.get('balance')>=0}" th:text="${' '+balance.get('balance')}">...</p>
 
             </div>
         </div>
