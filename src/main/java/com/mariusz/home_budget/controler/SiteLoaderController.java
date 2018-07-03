@@ -1,6 +1,7 @@
 package com.mariusz.home_budget.controler;
 
-import com.mariusz.home_budget.entity.*;
+import com.mariusz.home_budget.entity.AppUser;
+import com.mariusz.home_budget.entity.MonthKeeper;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class SiteLoaderController {
@@ -24,6 +21,7 @@ public class SiteLoaderController {
     private final BudgetService budgetService;
     private final MessagesService messagesService;
     private final CurrencyService currencyService;
+
 
 
     @Autowired
@@ -41,31 +39,23 @@ public class SiteLoaderController {
     @GetMapping(value = {"/welcome","/previousMonth","/nextMonth"})
     public String summaryPage(Model model, @RequestParam(value = "month", required = false) Integer month){
 
-        String userName = authenticationFacade.getAuthenticatedUser();
         AppUser user = authenticationFacade.getApplicationUser();
 
-        model.addAttribute(LOGGED_USER, userName);
+        model.addAttribute(LOGGED_USER, user.getName());
 
-        model.addAttribute("balance",financialService.getBalance(user.getId()));
+        model.addAttribute("balance",financialService.getCurrentMonthAccountBalance(user.getId()));
         model.addAttribute("plannedOperations",plannedService.getPlanedActiveOperation(user));
-
 
         MonthKeeper monthKeeper = new MonthKeeper(month, messagesService);
         model.addAttribute("month", monthKeeper);
         model.addAttribute("plannedBudgets", budgetService.getPlannedBudgets(user, monthKeeper.getCurrent()));
         model.addAttribute("currency", currencyService.getCurrences());
 
+        model.addAttribute("accountSum",financialService.getTotalAmount(user));
+        model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));
+
         return "welcome";
     }
-
-    @GetMapping("/analyze")
-    public String getAnalyzePage (Model model){
-        model.addAttribute(LOGGED_USER, authenticationFacade.getAuthenticatedUser());
-        model.addAttribute("fragmentHtml","analyze_contents");
-        model.addAttribute("fragment","empty");
-        return "redirect:/summaryAnalyze";
-    }
-
 
 
     @GetMapping("/settings")

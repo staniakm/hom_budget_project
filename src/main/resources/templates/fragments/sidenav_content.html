@@ -45,6 +45,31 @@
     </ul>
 </div>
 
+<div class="item nav" th:fragment="summary_nav">
+    <div style="float: left; width: 100%">
+        <p th:text="#{label.form.loggedAs}+' ' +${loggedUser}"></p>
+        </br>
+        <p style="float: left" th:text="#{label.form.balance}">... </p>
+        <p style="color: green; text-align: right;" th:if="${balance.get('balance')>=0}"
+           th:text="${' +' + balance.get('balance')} ">...</p>
+        <p style="color: red; text-align: right" th:unless="${balance.get('balance')>=0}"
+           th:text="${' '+balance.get('balance')}">...</p>
+        <p th:text="${'Przychody: '}" style="float: left"></p>
+        <p class="income" th:text="${balance.get('income')}" style="text-align: right"></p>
+        <p th:text="${'Wydatki: '}" style="float: left"></p>
+        <p class="expense" th:text="${balance.get('expense')}" style="text-align: right"></p>
+
+        <hr>
+        <p th:text="${'Portfele:'}" style="float: left"></p>
+        <p th:text="${accountSum}" style="text-align: right"></p>
+
+        <p th:text="${'Lokaty:'}" style="float: left"></p>
+        <p th:text="${investmentSum}" style="text-align: right"></p>
+
+
+    </div>
+</div>
+
 <div class="item nav" th:fragment="investment_nav">
     <ul>
         <li><a th:href="@{/registerInvestment}" class="btn btn-primary btn-sm active" role="button"

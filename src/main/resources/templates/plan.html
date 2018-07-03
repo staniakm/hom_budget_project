@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,15 +10,15 @@
 <body>
 <div class="container">
     <div id="header" th:replace="fragments/header_content :: header_menu"></div>
-    <div  th:replace="fragments/sub_menu :: plan_submenu"></div>
+    <div th:replace="fragments/sub_menu :: plan_submenu"></div>
     <div id="site_content">
         <div class="sidebar">
-    <div class="item nav" th:replace="fragments/sidenav_content :: plan_nav"></div>
+            <div class="item nav" th:replace="fragments/sidenav_content :: plan_nav"></div>
         </div>
         <div class="content">
-    <div class="item content" th:replace="${'fragments/plan_contents'} :: ${fragment}">
-    </div>
-    </div>
+            <div class="item content" th:replace="${'fragments/plan_contents'} :: ${fragment}">
+            </div>
+        </div>
     </div>
     <div class="item footer" th:replace="fragments/footer::footer ">Footer</div>
 

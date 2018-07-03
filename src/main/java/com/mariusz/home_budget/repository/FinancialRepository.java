@@ -76,4 +76,7 @@ public class FinancialRepository {
         return expenseRepository.getExpenseByIdAndUser(operationId,userId);
     }
 
+    public void clearTokens() {
+        customRepository.clearTokens();
+    }
 }

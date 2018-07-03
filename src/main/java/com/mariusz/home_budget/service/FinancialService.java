@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface FinancialService {
 
-    Map<String, BigDecimal> getBalance(Long user_id);
+    Map<String, BigDecimal> getCurrentMonthAccountBalance(Long user_id);
 
     Optional<String> addOperation(MoneyFlowForm newOperation);
 
@@ -40,4 +40,6 @@ public interface FinancialService {
     void deleteMoneyOperation(Long id, AppUser user, String operationType);
 
     BigDecimal getInvestmentsSum(AppUser user);
+
+    void clearTokens();
 }

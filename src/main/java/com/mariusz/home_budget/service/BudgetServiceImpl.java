@@ -4,7 +4,6 @@ import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.PlannedBudget;
 import com.mariusz.home_budget.entity.form.BudgetForm;
 import com.mariusz.home_budget.repository.BudgetRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,11 +14,9 @@ import java.util.Optional;
 @Service
 public class BudgetServiceImpl implements BudgetService {
     private final BudgetRepository budgetRepository;
-    private final ApplicationUserService applicationUserService;
 
-    public BudgetServiceImpl(BudgetRepository budgetRepository, ApplicationUserService applicationUserService) {
+    public BudgetServiceImpl(BudgetRepository budgetRepository) {
         this.budgetRepository = budgetRepository;
-        this.applicationUserService = applicationUserService;
     }
 
 

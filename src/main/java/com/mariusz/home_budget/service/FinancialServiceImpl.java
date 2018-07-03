@@ -21,7 +21,6 @@ public class FinancialServiceImpl implements FinancialService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final FinancialRepository financialRepository;
-
     private final UserRepository userRepository;
     private final MoneyHoldersRepository moneyHoldersRepository;
     private final BudgetService budgetService;
@@ -40,7 +39,7 @@ public class FinancialServiceImpl implements FinancialService {
 
 
     @Override
-    public Map<String, BigDecimal> getBalance(Long id) {
+    public Map<String, BigDecimal> getCurrentMonthAccountBalance(Long id) {
 
         Balance balance = financialRepository.getBalance(id,LocalDate.now().getYear(),LocalDate.now().getMonthValue());
         Map<String, BigDecimal> map = new HashMap<>();
@@ -212,6 +211,11 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public BigDecimal getInvestmentsSum(AppUser user) {
       return getInvestments(user).stream().map(Investment::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
+    }
+
+    @Override
+    public void clearTokens() {
+        financialRepository.clearTokens();
     }
 
 

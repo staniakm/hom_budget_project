@@ -27,6 +27,8 @@ import java.util.Optional;
 @Controller
 public class FinancialController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    //### HTML ###//
+    private static final String ANALYZE_PAGE = "analyze";
 
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
@@ -46,7 +48,6 @@ public class FinancialController {
         if (operation.equalsIgnoreCase("income") || operation.equalsIgnoreCase("expense")) {
             AppUser user = authenticationFacade.getApplicationUser();
             model.addAttribute("loggedUser", user.getName());
-            model.addAttribute("fragmentHtml", "analyze_contents");
             model.addAttribute("fragment", "addIncome");
             model.addAttribute("nav", "account_nav");
 
@@ -71,13 +72,12 @@ public class FinancialController {
     }
 
 
-    @GetMapping("/summaryAnalyze")
+    @GetMapping(value = {"/summaryAnalyze","/analyze"})
     public String summaryAnalyze(Model model) {
         model.addAttribute("currentDate", LocalDate.now());
 
         AppUser user = authenticationFacade.getApplicationUser();
         model.addAttribute("loggedUser", user.getName());
-        model.addAttribute("fragmentHtml", "analyze_contents");
         model.addAttribute("fragment", "show_account_summary");
         model.addAttribute("nav", "account_nav");
 
@@ -85,7 +85,7 @@ public class FinancialController {
         model.addAttribute("accountSum",financialService.getTotalAmount(user));
         model.addAttribute("moneyFlows", financialService.getMoneyFlows(user));
 
-        return "analyze";
+        return ANALYZE_PAGE;
     }
 
 
@@ -117,7 +117,6 @@ public class FinancialController {
 
         AppUser user = authenticationFacade.getApplicationUser();
         model.addAttribute("loggedUser", user.getName());
-        model.addAttribute("fragmentHtml", "analyze_contents");
         model.addAttribute("fragment", "show_investment_summary");
 
         model.addAttribute("nav", "investment_nav");
@@ -125,7 +124,7 @@ public class FinancialController {
         model.addAttribute("investments", activeInvestments);
         model.addAttribute("investment",activeInvestments);
         model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));
-        return "analyze";
+        return ANALYZE_PAGE;
     }
 
     @GetMapping("/getInvestment")
@@ -133,7 +132,6 @@ public class FinancialController {
         model.addAttribute("currentDate", LocalDate.now());
         AppUser user = authenticationFacade.getApplicationUser();
         model.addAttribute("loggedUser", user.getName());
-        model.addAttribute("fragmentHtml", "analyze_contents");
         model.addAttribute("fragment", "show_investment_summary");
         model.addAttribute("nav", "investment_nav");
 
@@ -142,14 +140,13 @@ public class FinancialController {
         model.addAttribute("accountSum",financialService.getTotalAmount(user));
         model.addAttribute("investmentSum", financialService.getInvestmentsSum(user));
 
-        return "analyze";
+        return ANALYZE_PAGE;
     }
 
     @GetMapping("/registerInvestment")
     public String registerInvestment(Model model) {
         AppUser user = authenticationFacade.getApplicationUser();
         model.addAttribute("loggedUser", user.getName());
-        model.addAttribute("fragmentHtml", "analyze_contents");
         model.addAttribute("fragment", "addInvestment");
         model.addAttribute("nav", "investment_nav");
 
@@ -159,8 +156,9 @@ public class FinancialController {
         model.addAttribute("operators", Arrays.asList(LengthKeeper.values()));
         model.addAttribute("currentDate", LocalDate.now());
         model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));
+        model.addAttribute("moneyHolders", financialService.getMoneyHolders(user));
 
-        return "analyze";
+        return ANALYZE_PAGE;
     }
 
 

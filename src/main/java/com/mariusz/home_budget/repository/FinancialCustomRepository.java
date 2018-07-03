@@ -3,12 +3,15 @@ package com.mariusz.home_budget.repository;
 import com.mariusz.home_budget.entity.Balance;
 import com.mariusz.home_budget.entity.MoneyFlowSimple;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SuppressWarnings("ALL")
@@ -32,10 +35,10 @@ public class FinancialCustomRepository {
     }
 
     public List<MoneyFlowSimple> getMoneyFlow(@Param("user_id")Long user_id, @Param("year") int year, @Param("month") int month){
-        String sql = "select id, user_id, date, description, amount, operation from (\n" +
-                "SELECT id, user_id, date, description, amount, 'income' as operation FROM `income`\n" +
+        String sql = "select id, user_id, date, description, amount, operation, category from (\n" +
+                "SELECT id, user_id, date, description, amount, 'income' as operation, ifnull(category,'-') as category FROM `income`\n" +
                 "union \n" +
-                "select id, user_id, date, description, amount, 'expense' as operation from expense\n" +
+                "select id, user_id, date, description, amount, 'expense' as operation, ifnull(category,'-') as category from expense\n" +
                 ") as x\n" +
                 "where x.user_id=? and year(x.date) = ? and month(x.date) = ? order by x.date";
         List<MoneyFlowSimple> moneyFlowSimples = jdbcTemplate.query(sql,
@@ -49,5 +52,11 @@ public class FinancialCustomRepository {
                 "where b.user_id = e.user_id and e.category = b.category and year(b.date) = year(e.date) and month(b.date)=month(e.date) group by e.category, e.user_id),0)\n" +
                 "where b.user_id = ? and year(b.date) = ? and month(b.date)=?";
         jdbcTemplate.update(sql,user_id,year,month);
+    }
+
+    @Modifying
+    public void clearTokens() {
+        String sql = "delete from verification_tokens where expiry_date < ?";
+        jdbcTemplate.update(sql, LocalDateTime.now());
     }
 }

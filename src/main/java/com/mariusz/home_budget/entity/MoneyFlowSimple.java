@@ -15,6 +15,7 @@ public class MoneyFlowSimple {
     private String description;
     private BigDecimal amount;
     private String operation;
+    private String category;
 
 
 }

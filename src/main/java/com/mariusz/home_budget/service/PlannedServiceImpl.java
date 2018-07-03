@@ -21,15 +21,17 @@ import java.util.Optional;
 public class PlannedServiceImpl implements PlannedService {
 
     private final PlannedRepository plannedRepository;
-//    private  final UserRepository userRepository;
     private final AuthenticationFacade authenticationFacade;
     private final MoneyHoldersRepository moneyHoldersRepository;
     private final FinancialService financialService;
 
     @Autowired
-    public PlannedServiceImpl(PlannedRepository plannedRepository, UserRepository userRepository, AuthenticationFacade authenticationFacade, MoneyHoldersRepository moneyHoldersRepository, FinancialService financialService) {
+    public PlannedServiceImpl(PlannedRepository plannedRepository
+            , AuthenticationFacade authenticationFacade
+            , MoneyHoldersRepository moneyHoldersRepository
+            , FinancialService financialService)
+    {
         this.plannedRepository = plannedRepository;
-//        this.userRepository = userRepository;
         this.authenticationFacade = authenticationFacade;
         this.moneyHoldersRepository = moneyHoldersRepository;
         this.financialService = financialService;

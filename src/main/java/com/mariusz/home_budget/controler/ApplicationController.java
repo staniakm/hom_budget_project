@@ -31,7 +31,6 @@ public class ApplicationController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final MessageSource messages;
-
     private final ApplicationUserService applicationUserService;
     private final ApplicationEventPublisher applicationEventPublisher;
 
