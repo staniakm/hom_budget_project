@@ -169,8 +169,8 @@
     <table style="width: 100%">
         <tr>
             <th style="width: 20%" th:text="#{form.date}">Date</th>
-            <th style="width: 50%" th:text="#{form.description}">Description</th>
-            <th style="width: 10%" th:text="#{form.budget.category}">Description</th>
+            <th style="width: 40%" th:text="#{form.description}">Description</th>
+            <th style="width: 15%" th:text="#{form.budget.category}">Description</th>
             <th style="width: 10%" th:text="#{form.amount}">Amount</th>
             <th style="width: 10%" th:text="#{form.plan.delete}">Delete</th>
 
@@ -178,8 +178,8 @@
             <th:block th:each="field : ${moneyFlows}">
                 <tr>
                     <td style="width: 20%" th:text="${field.getDate()}">A Smoke Test'</td>
-                    <td style=" width: 50%; word-break: break-all" th:text="${field.getDescription()}">A Smoke Test'</td>
-                    <td style=" width: 10%; word-break: break-all" th:text="${field.getCategory()}">A Smoke Test'</td>
+                    <td style=" width: 40%; word-break: break-all" th:text="${field.getDescription()}">A Smoke Test'</td>
+                    <td style=" width: 15%; word-break: break-all" th:text="${field.getCategory()}">A Smoke Test'</td>
                     <td style="width: 10%" th:classappend="${field.getOperation().equalsIgnoreCase('income')} ? income : expense" th:text="${field.getAmount()}">A Smoke Test'</td>
                     <td style="width: 10px; text-align: center">
                         <form method="POST" th:action="@{/deleteOperation(operationId=${field.getId()}, operationType=${field.getOperation()})}">
