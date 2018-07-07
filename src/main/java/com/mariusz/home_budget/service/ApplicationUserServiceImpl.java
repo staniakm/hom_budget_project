@@ -1,10 +1,10 @@
 package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.AppUser;
+import com.mariusz.home_budget.entity.VerificationToken;
 import com.mariusz.home_budget.entity.form.UserForm;
 import com.mariusz.home_budget.repository.UserRepository;
 import com.mariusz.home_budget.repository.VerificationTokenRepository;
-import com.mariusz.home_budget.entity.VerificationToken;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -14,8 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -24,7 +22,6 @@ import java.util.Optional;
 @Service
 public class ApplicationUserServiceImpl implements ApplicationUserService, UserDetailsService {
     private static final int PASSWORD_LENGTH = 6;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private static final String TOKEN_INVALID = "invalidToken";
     private static final String TOKEN_EXPIRED = "expired";
