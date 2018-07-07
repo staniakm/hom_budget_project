@@ -1,5 +1,6 @@
 package com.mariusz.home_budget.controler;
 
+import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.form.WalletForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
@@ -44,10 +45,10 @@ public class SettingsController {
 
     @PostMapping("/addWallet")
     public String registerNewWallet(@ModelAttribute("walletForm") WalletForm walletForm) {
-        Authentication authentication = authenticationFacade.getAuthentication();
+        AppUser user = authenticationFacade.getApplicationUser();
 
-        walletForm.setUser(authentication.getName());
-        Optional<String> errorOccur = financialService.addMoneyHolder(walletForm);
+        walletForm.setUser(user.getName());
+        Optional<String> errorOccur = financialService.addMoneyHolder(walletForm, user);
 
         if (errorOccur.isPresent()){
             return "redirect:/settings";

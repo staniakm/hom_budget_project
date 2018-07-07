@@ -17,7 +17,7 @@ public interface FinancialService {
 
     Optional<String> addOperation(MoneyFlowForm newOperation);
 
-    Optional<String> addMoneyHolder(WalletForm walletForm);
+    Optional<String> addMoneyHolder(WalletForm walletForm, AppUser user);
 
     List<MoneyHolder> getMoneyHolders(AppUser user);
 

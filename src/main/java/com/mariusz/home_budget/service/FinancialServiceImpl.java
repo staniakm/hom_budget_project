@@ -5,34 +5,32 @@ import com.mariusz.home_budget.entity.form.InvestmentForm;
 import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.entity.form.WalletForm;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
-import com.mariusz.home_budget.repository.*;
+import com.mariusz.home_budget.repository.FinancialRepository;
+import com.mariusz.home_budget.repository.MoneyHoldersRepository;
 import com.mariusz.home_budget.validators.Validators;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class FinancialServiceImpl implements FinancialService {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final FinancialRepository financialRepository;
-    private final UserRepository userRepository;
     private final MoneyHoldersRepository moneyHoldersRepository;
     private final BudgetService budgetService;
 
     @Autowired
     public FinancialServiceImpl(FinancialRepository financialRepository
-            , UserRepository userRepository
             , MoneyHoldersRepository moneyHoldersRepository
             , BudgetService budgetService)
     {
         this.financialRepository = financialRepository;
-        this.userRepository = userRepository;
         this.moneyHoldersRepository = moneyHoldersRepository;
         this.budgetService = budgetService;
     }
@@ -47,8 +45,6 @@ public class FinancialServiceImpl implements FinancialService {
         map.put("expense",balance.getExpense());
         map.put("balance",balance.getIncome().subtract(balance.getExpense()));
         return map;
-
-
     }
 
     @Override
@@ -108,27 +104,21 @@ public class FinancialServiceImpl implements FinancialService {
 
 
     public void saveIncome(Income income){
-
         MoneyHolder moneyHolder = income.getMoneyHolder();
         moneyHolder.addIncome(income.getAmount());
-
         moneyHoldersRepository.save(moneyHolder);
-
         financialRepository.save(income);
     }
 
     public void saveExpense(Expense expense){
         MoneyHolder moneyHolder = expense.getMoneyHolder();
         moneyHolder.addExpense(expense.getAmount());
-
-
         moneyHoldersRepository.save(moneyHolder);
         financialRepository.save(expense);
     }
 
     @Override
     public List<MoneyFlowSimple> getMoneyFlows(AppUser user) {
-
         return financialRepository.getMoneyFlows(user);
     }
 
@@ -164,14 +154,12 @@ public class FinancialServiceImpl implements FinancialService {
 
     @Override
     public List<Investment> getInvestments(AppUser user) {
-
         return financialRepository.getInvestments(user);
     }
 
     @Override
     public List<Investment> getInvestmentsById(AppUser user, Long id) {
         return financialRepository.getInvestmentsById(user, id);
-
     }
 
     @Override
@@ -182,7 +170,6 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public BigDecimal getTotalAmount(AppUser user) {
         BigDecimal amount = moneyHoldersRepository.findAllByUser(user.getId()).stream().map(MoneyHolder::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
-
         return amount==null?BigDecimal.ZERO:amount;
     }
 
@@ -220,15 +207,11 @@ public class FinancialServiceImpl implements FinancialService {
 
 
     @Override
-    public Optional<String> addMoneyHolder(WalletForm walletForm) {
-
+    public Optional<String> addMoneyHolder(WalletForm walletForm, AppUser user) {
         BigDecimal cashAmount;
-
         String amount = walletForm.getCash().replace(",",".").trim();
         MoneyHolderType moneyHolderType;
-
         if (walletForm.getName()==null || walletForm.getName().trim().length()==0){
-            logger.info("Name must be valid");
             return Optional.of("Name must be valid");
         }
 
@@ -248,14 +231,8 @@ public class FinancialServiceImpl implements FinancialService {
             try {
                 cashAmount = new BigDecimal(amount);
             }catch (Exception ex){
-                logger.info("Amount must be in valid format");
                 return Optional.of("Amount must be in valid format");
             }
-        }
-
-        AppUser user = userRepository.findByName(walletForm.getUser());
-        if (user==null){
-            return Optional.of("User details are incorrect. Please login again.");
         }
 
         MoneyHolder wallet = new MoneyHolder();
