@@ -89,14 +89,14 @@ public class ApplicationController {
             return new ModelAndView("U0/register", "userForm", userAccount);
         }
 
-        Optional<AppUser> user = applicationUserService.getUserByName(userAccount.getName());
-        if (!user.isPresent()) {
+        AppUser user = applicationUserService.getUserByName(userAccount.getName());
+        if (user==null) {
             result.rejectValue("email", "message.regError");
         }else {
             try {
                 String appUrl = getAppUrl(request);
                 applicationEventPublisher.publishEvent(new OnRegistrationCompleteEvent
-                        (user.get(), request.getLocale(), appUrl));
+                        (user, request.getLocale(), appUrl));
             } catch (Exception me) {
                 return new ModelAndView("U0/emailError", "userForm", userAccount);
             }

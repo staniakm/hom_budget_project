@@ -23,6 +23,7 @@ import java.util.Optional;
 
 @Service
 public class ApplicationUserServiceImpl implements ApplicationUserService, UserDetailsService {
+    private static final int PASSWORD_LENGTH = 6;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private static final String TOKEN_INVALID = "invalidToken";
@@ -44,8 +45,10 @@ public class ApplicationUserServiceImpl implements ApplicationUserService, UserD
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        AppUser appUser = userRepository.findByName(email)
-                .orElseThrow(() -> new UsernameNotFoundException(email));
+        AppUser appUser = userRepository.findByName(email);
+        if (appUser==null)
+            throw new UsernameNotFoundException(email);
+//                .orElseThrow(() -> new UsernameNotFoundException(email));
 
         return toUser(appUser);
     }
@@ -66,22 +69,27 @@ public class ApplicationUserServiceImpl implements ApplicationUserService, UserD
     @Transactional
     public Optional<String> registerUser(UserForm userForm) {
 
-        logger.info("User registration process");
-        String name = userForm.getName().trim();
-        String pass = userForm.getPassword().trim();
-        String passConfirmation = userForm.getConfirmedPassword().trim();
+        if (userForm.getName()==null || userForm.getName().trim().length()==0){
+            return Optional.of("Email address cannot be empty.");
+        }
 
-        if (name==null || name.length()==0 || !emailValidator.isValid(name)){
+        if ( !emailValidator.isValid(userForm.getName().trim())){
             return Optional.of("Email address must be valid.");
         }
 
-        if (pass==null || pass.length()<6){
+        if (userForm.getPassword()==null || userForm.getPassword().trim().length()<PASSWORD_LENGTH){
             return Optional.of("Password should be at least 6 chars long.");
-        }else if (!pass.equals(passConfirmation)){
-                return Optional.of("Confirmation password is not theses same as password.");
         }
 
-        if (userRepository.findByName(name).isPresent()){
+        if (userForm.getConfirmedPassword()==null || userForm.getConfirmedPassword().trim().length()<PASSWORD_LENGTH){
+            return Optional.of("Confirm password should be at least 6 chars long.");
+        }
+
+        if (!userForm.getPassword().trim().equals(userForm.getConfirmedPassword().trim())){
+                return Optional.of("Confirmation password must be these same as password.");
+        }
+
+        if (userRepository.findByName(userForm.getName().trim()) != null){
             return Optional.of("User name already taken.");
         }
 
@@ -94,9 +102,12 @@ public class ApplicationUserServiceImpl implements ApplicationUserService, UserD
     }
 
     @Override
-    public Optional<AppUser> getUserByName(String name) {
-       return userRepository.findByName(name);
+    public AppUser getUserByName(String name) {
+        AppUser user =userRepository.findByName(name);
+        if (user==null)
+            throw new UsernameNotFoundException(name);
 
+       return user;
     }
 
     @Override

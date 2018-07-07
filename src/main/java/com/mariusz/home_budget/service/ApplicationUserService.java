@@ -9,7 +9,7 @@ public interface ApplicationUserService {
 
     Optional<String> registerUser(UserForm userForm);
 
-    Optional<AppUser> getUserByName(String name);
+    AppUser getUserByName(String name);
 
     AppUser getUserByToken(String verificationToken);
 

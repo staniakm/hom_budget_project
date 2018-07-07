@@ -253,8 +253,8 @@ public class FinancialServiceImpl implements FinancialService {
             }
         }
 
-        Optional<AppUser> user = userRepository.findByName(walletForm.getUser());
-        if (!user.isPresent()){
+        AppUser user = userRepository.findByName(walletForm.getUser());
+        if (user==null){
             return Optional.of("User details are incorrect. Please login again.");
         }
 
@@ -262,7 +262,7 @@ public class FinancialServiceImpl implements FinancialService {
         wallet.setAmount(cashAmount);
         wallet.setName(walletForm.getName());
         wallet.setType(moneyHolderType);
-        wallet.setUser(user.get());
+        wallet.setUser(user);
         moneyHoldersRepository.save(wallet);
 
         return Optional.empty();

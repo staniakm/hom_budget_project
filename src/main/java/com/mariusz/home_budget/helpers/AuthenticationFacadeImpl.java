@@ -30,7 +30,8 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
 
     @Override
     public AppUser getApplicationUser() {
-        return userService.getUserByName(getAuthenticatedUser()).orElseThrow(()->new UsernameNotFoundException(""));
+        return userService.getUserByName(getAuthenticatedUser());
+                //.orElseThrow(()->new UsernameNotFoundException(""));
 
     }
 
