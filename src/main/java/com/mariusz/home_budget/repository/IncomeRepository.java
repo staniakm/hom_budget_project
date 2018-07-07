@@ -10,11 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface IncomeRepository extends JpaRepository<Income, Long> {
-//
-//    @Transactional
-//    @Modifying
-//    @Query(value = "delete from income  where user_id = :user and id=:id", nativeQuery=true)
-//    void deleteByIdAndUser(@Param("id") Long operationId,@Param("user") Long user_id);
 
     @Query(value = "select * from income  where user_id = :user and id=:id", nativeQuery=true)
     Income getIncomeByIdAndUser(@Param("id") Long operationId,@Param("user") Long user_id);
