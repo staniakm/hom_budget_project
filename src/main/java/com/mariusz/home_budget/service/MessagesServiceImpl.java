@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 public class MessagesServiceImpl implements MessagesService {
 
 
+    private final Messages messages;
+
     @Autowired
-    Messages messages;
+    public MessagesServiceImpl(Messages messages) {
+        this.messages = messages;
+    }
 
     @Override
     public String getMessage(String code) {
