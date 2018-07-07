@@ -9,11 +9,11 @@ import java.util.Optional;
 
 public interface PlannedService {
 
-    Optional<String> savePlannedOperation(PlanForm planForm, String name);
+    Optional<String> savePlannedOperation(PlanForm planForm, AppUser user);
 
     List<PlannedOperation> getPlanedActiveOperation(AppUser user);
 
-    void finishPlan(Long id);
+    void finishPlan(Long id, AppUser user);
 
-    void deletePlan(Long id);
+    void deletePlan(Long id, AppUser user);
 }

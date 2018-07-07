@@ -51,19 +51,19 @@ public class PlanController {
 
     @GetMapping("/plan")
     public String getPlanPage (Model model){
-        Authentication authentication = authenticationFacade.getAuthentication();
-        model.addAttribute(LOGGED_USER, authentication.getName());
+        AppUser user = authenticationFacade.getApplicationUser();
+        model.addAttribute(LOGGED_USER, user.getName());
         model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"empty_content");
         return "plan";
     }
 
     @GetMapping("/planExpenses")
     public String planExpenses(Model model){
-        model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"planner");
-        Authentication authentication = authenticationFacade.getAuthentication();
-        model.addAttribute(LOGGED_USER, authentication.getName());
-
         AppUser user = authenticationFacade.getApplicationUser();
+        model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"planner");
+        model.addAttribute(LOGGED_USER, user.getName());
+
+
 
         PlanForm planForm = new PlanForm();
         model.addAttribute("planForm", planForm);
@@ -78,8 +78,8 @@ public class PlanController {
 
     @GetMapping("/planCashFlow")
     public String planCashFlow(Model model){
-        Authentication authentication = authenticationFacade.getAuthentication();
-        model.addAttribute(LOGGED_USER, authentication.getName());
+        AppUser user = authenticationFacade.getApplicationUser();
+        model.addAttribute(LOGGED_USER, user.getName());
         model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"cash_flow");
         model.addAttribute("currentDate", LocalDate.now());
 
@@ -89,8 +89,9 @@ public class PlanController {
 
     @GetMapping("/planBudget")
     public String planBudget(Model model){
+        AppUser user = authenticationFacade.getApplicationUser();
         model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"budget");
-        model.addAttribute(LOGGED_USER, authenticationFacade.getAuthenticatedUser());
+        model.addAttribute(LOGGED_USER, user);
 
         List<String> categories = Arrays.asList("Samochód","Jedzenie","Rachunki");
 
@@ -103,7 +104,8 @@ public class PlanController {
 
     @PostMapping("/addBudget")
         public String addBudget(@ModelAttribute("budgetForm") BudgetForm budgetForm){
-        Optional<String> error = budgetService.savePlannedBudget(budgetForm, authenticationFacade.getApplicationUser());
+        AppUser user = authenticationFacade.getApplicationUser();
+        Optional<String> error = budgetService.savePlannedBudget(budgetForm, user);
         if(error.isPresent())
             logger.info(error.get());
         else
@@ -113,8 +115,8 @@ public class PlanController {
 
     @PostMapping("/addPlan")
     public String registerPlan(@ModelAttribute("planForm") PlanForm planForm){
-        Authentication authentication = authenticationFacade.getAuthentication();
-        Optional<String> error = plannedService.savePlannedOperation(planForm, authentication.getName());
+        AppUser user = authenticationFacade.getApplicationUser();
+        Optional<String> error = plannedService.savePlannedOperation(planForm, user);
         if(error.isPresent())
             logger.info(error.get());
         else
@@ -124,13 +126,15 @@ public class PlanController {
 
     @PostMapping("/finishPlan")
     public String finishOperation(@RequestParam("operationId") Long id){
-        plannedService.finishPlan(id);
+        AppUser user = authenticationFacade.getApplicationUser();
+        plannedService.finishPlan(id, user);
         return "redirect:/welcome";
     }
 
     @PostMapping("/deletePlan")
     public String deleteOperation(@RequestParam("operationId") Long id){
-        plannedService.deletePlan(id);
+        AppUser user = authenticationFacade.getApplicationUser();
+        plannedService.deletePlan(id, user);
         return "redirect:/welcome";
     }
 

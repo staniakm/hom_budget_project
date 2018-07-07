@@ -2,12 +2,10 @@ package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.*;
 import com.mariusz.home_budget.entity.form.PlanForm;
-import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
 import com.mariusz.home_budget.repository.MoneyHoldersRepository;
 import com.mariusz.home_budget.repository.PlannedRepository;
-import com.mariusz.home_budget.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,25 +19,22 @@ import java.util.Optional;
 public class PlannedServiceImpl implements PlannedService {
 
     private final PlannedRepository plannedRepository;
-    private final AuthenticationFacade authenticationFacade;
     private final MoneyHoldersRepository moneyHoldersRepository;
     private final FinancialService financialService;
 
     @Autowired
     public PlannedServiceImpl(PlannedRepository plannedRepository
-            , AuthenticationFacade authenticationFacade
             , MoneyHoldersRepository moneyHoldersRepository
             , FinancialService financialService)
     {
         this.plannedRepository = plannedRepository;
-        this.authenticationFacade = authenticationFacade;
         this.moneyHoldersRepository = moneyHoldersRepository;
         this.financialService = financialService;
     }
 
 
     @Override
-    public Optional<String> savePlannedOperation(PlanForm planForm, String userName) {
+    public Optional<String> savePlannedOperation(PlanForm planForm, AppUser user) {
 
         //TODO split validation to separated methods
 
@@ -110,7 +105,7 @@ public class PlannedServiceImpl implements PlannedService {
         }
 
         //user
-        AppUser user = authenticationFacade.getApplicationUser();
+//        AppUser user = authenticationFacade.getApplicationUser();
 //        Optional<AppUser> user = userRepository.findByName(userName);
 //        if (!user.isPresent()){
 //            return Optional.of("User details are incorrect. Please login again.");
@@ -146,8 +141,7 @@ public class PlannedServiceImpl implements PlannedService {
     }
 
     @Override
-    public void finishPlan(Long id) {
-        AppUser user = authenticationFacade.getApplicationUser();
+    public void finishPlan(Long id, AppUser user) {
 
        Optional<PlannedOperation> operation = plannedRepository.findByIdAndUser(id,user.getId());
        if (operation.isPresent()){
@@ -180,9 +174,7 @@ public class PlannedServiceImpl implements PlannedService {
     }
 
     @Override
-    public void deletePlan(Long id) {
-        AppUser user = authenticationFacade.getApplicationUser();
-
+    public void deletePlan(Long id, AppUser user) {
         Optional<PlannedOperation> operation = plannedRepository.findByIdAndUser(id,user.getId());
         if (operation.isPresent()) {
             PlannedOperation plannedOperation = operation.get();
