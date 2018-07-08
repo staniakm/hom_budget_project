@@ -35,9 +35,7 @@ public class PlannedServiceImpl implements PlannedService {
 
     @Override
     public Optional<String> savePlannedOperation(PlanForm planForm, AppUser user) {
-
         //TODO split validation to separated methods
-
         PeriodicTypes periodic;
         MoneyFlowTypes moneyFlowTypes;
         LocalDate operationDate;
