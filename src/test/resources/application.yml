@@ -1,15 +1,15 @@
 spring:
   datasource:
-    url: jdbc:h2:~/testdb;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MySQL
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
     generate-ddl: true
   flyway:
-    url: jdbc:h2:~/testdb;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;MODE=MYSQL
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;MODE=MySQL
     user: "sa"
     password: ""
-    schemas: public
-    init-sqls: CREATE SCHEMA IF NOT EXISTS "public";
+    schemas: PUBLIC
+#    init-sqls: CREATE SCHEMA IF NOT EXISTS "PUBLIC";
     enabled: true

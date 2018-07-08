@@ -12,10 +12,10 @@ import java.util.List;
 public interface BudgetRepository extends JpaRepository<PlannedBudget, Long> {
 
     @Query(value = "select * from planned_budget b where b.user_id = :user and year(date)=:year and month(date)=:month", nativeQuery=true)
-    List<PlannedBudget> findAllForCurrentMonth(@Param("user") Long id
+    List<PlannedBudget> findAllForCurrentMonth(@Param("user") Long user_id
             , @Param("year") int year, @Param("month") int month);
 
     @Query(value = "select * from planned_budget b where b.user_id = :user and b.category=:category and year(date)=:year and month(date)=:month", nativeQuery=true)
-    PlannedBudget getOneByCategory(@Param("user") Long id, @Param("category") String category,
+    PlannedBudget getOneByCategory(@Param("user") Long userId, @Param("category") String category,
                                    @Param("year") int year, @Param("month") int month);
 }
