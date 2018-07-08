@@ -47,12 +47,16 @@ public class FinancialServiceImpl implements FinancialService {
         return map;
     }
 
+//    @Override
+//    public Optional<String> addOperation(MoneyFlowForm newOperation, AppUser user) {
+//        return Optional.empty();
+//    }
+
     @Override
-    public Optional<String> addOperation(MoneyFlowForm newOperation) {
+    public Optional<String> addOperation(MoneyFlowForm newOperation, AppUser user) {
 
         BigDecimal operationAmount;
         Long holderId;
-        AppUser user = newOperation.getUser();
 
         LocalDate date = newOperation.getDate();
         String amount = newOperation.getAmount();

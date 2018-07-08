@@ -14,10 +14,10 @@
 <div class="item nav" th:fragment="account_nav">
     <ul>
         <li>
-            <a th:href="@{/registerFlow(val='income')}" class="btn btn-primary btn-sm active" role="button"
+            <a th:href="@{/registerOperation(val='income')}" class="btn btn-primary btn-sm active" role="button"
                aria-pressed="true" th:text="#{label.form.button.add_income}">...</a></li>
         <li>
-            <a th:href="@{/registerFlow(val='expense')}" class="btn btn-primary btn-sm active" role="button"
+            <a th:href="@{/registerOperation(val='expense')}" class="btn btn-primary btn-sm active" role="button"
                aria-pressed="true" th:text="#{label.form.button.add_expense}">...</a></li>
         <li>
            <a th:href="@{/recalculateBudget}" class="btn btn-primary btn-sm active" role="button"

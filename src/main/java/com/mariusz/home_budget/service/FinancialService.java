@@ -15,7 +15,7 @@ public interface FinancialService {
 
     Map<String, BigDecimal> getCurrentMonthAccountBalance(Long user_id);
 
-    Optional<String> addOperation(MoneyFlowForm newOperation);
+    Optional<String> addOperation(MoneyFlowForm newOperation, AppUser user);
 
     Optional<String> addMoneyHolder(WalletForm walletForm, AppUser user);
 

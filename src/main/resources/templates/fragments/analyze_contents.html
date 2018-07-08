@@ -11,7 +11,7 @@
     <span th:if="${operation == 'expense'}">
         <h1 th:text="#{label.form.button.add_expense}">...</h1></span>
 
-    <form onsubmit="return validateForm()" class="new_user" id="new_user" th:action="@{/registerMoneyFlow}"
+    <form onsubmit="return validateForm()" class="new_user" id="new_user" th:action="@{/registerOperation}"
           th:object="${operationForm}" method="POST" accept-charset="UTF-8">
         <table style="width: 50%">
             <tr>

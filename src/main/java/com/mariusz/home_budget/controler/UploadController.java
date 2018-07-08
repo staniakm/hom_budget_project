@@ -57,7 +57,7 @@ public class UploadController {
             for (MoneyFlowForm form : moneyFlows
                  ) {
                 logger.info("Loging "+form.toString());
-               Optional<String> error= financialService.addOperation(form);
+               Optional<String> error= financialService.addOperation(form, user);
                 if (error.isPresent()){
                     logger.info("Error with parsed data: "+error.get());
                 }

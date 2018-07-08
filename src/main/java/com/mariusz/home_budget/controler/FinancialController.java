@@ -40,7 +40,7 @@ public class FinancialController {
         this.financialService = financialService;
     }
 
-    @GetMapping("/registerFlow")
+    @GetMapping("/registerOperation")
     public String registerMoneyFlow(@RequestParam("val") String operation
             , Model model) {
         model.addAttribute("operation", operation);
@@ -89,7 +89,7 @@ public class FinancialController {
     }
 
 
-    @PostMapping("/registerMoneyFlow")
+    @PostMapping("/registerOperation")
     public String registerNewMoneyFlow(@Valid MoneyFlowForm newOperation, BindingResult bindingResult, Model model
     ) {
 
@@ -101,9 +101,7 @@ public class FinancialController {
 
         AppUser user = authenticationFacade.getApplicationUser();
 
-        newOperation.setUser(user);
-
-        Optional<String> errorOccur = financialService.addOperation(newOperation);
+        Optional<String> errorOccur = financialService.addOperation(newOperation, user);
         if (errorOccur.isPresent()) {
             return "redirect:/registerFlow?val=" + newOperation.getOperation();
         }
