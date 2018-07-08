@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface BudgetService {
     List<PlannedBudget> getPlannedBudgets(AppUser user, Integer month);
 
-    Optional<String> savePlannedBudget(BudgetForm budgetForm, AppUser name);
+    Optional<String> savePlannedBudget(BudgetForm budgetForm, AppUser user);
 
     void updateBudget(AppUser user, String category, BigDecimal amount);
 }

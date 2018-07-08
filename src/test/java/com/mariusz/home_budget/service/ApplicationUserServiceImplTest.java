@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestComponent;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,12 +25,12 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+//@ContextConfiguration
 public class ApplicationUserServiceImplTest {
 
 
 
-    @Configuration
+    @TestConfiguration
     static class EmployeeServiceImplContextConfiguration{
         private UserRepository userRepository = mock(UserRepository.class);
         private VerificationTokenRepository verificationTokenRepository = mock(VerificationTokenRepository.class);

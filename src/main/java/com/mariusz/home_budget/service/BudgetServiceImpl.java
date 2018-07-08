@@ -3,7 +3,9 @@ package com.mariusz.home_budget.service;
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.PlannedBudget;
 import com.mariusz.home_budget.entity.form.BudgetForm;
+import com.mariusz.home_budget.mapper.ObjectMapper;
 import com.mariusz.home_budget.repository.BudgetRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,8 +17,12 @@ import java.util.Optional;
 public class BudgetServiceImpl implements BudgetService {
     private final BudgetRepository budgetRepository;
 
-    public BudgetServiceImpl(BudgetRepository budgetRepository) {
+    private final ObjectMapper mapper;
+
+    @Autowired
+    public BudgetServiceImpl(BudgetRepository budgetRepository, ObjectMapper mapper) {
         this.budgetRepository = budgetRepository;
+        this.mapper = mapper;
     }
 
 
@@ -38,12 +44,7 @@ public class BudgetServiceImpl implements BudgetService {
         PlannedBudget budget = budgetRepository.getOneByCategory(user.getId()
                 , budgetForm.getCategory(),LocalDate.now().getYear(), LocalDate.now().getMonthValue() );
         if (budget==null) {
-            budget = new PlannedBudget();
-            budget.setUser(user);
-            budget.setCategory(budgetForm.getCategory());
-            budget.setDate(LocalDate.now());
-            budget.setPlanned(operationAmount);
-            budget.setSpend(BigDecimal.ZERO);
+            budget = mapper.mapToBudget(budgetForm,user,operationAmount);
         }else {
             budget.setPlanned(operationAmount);
         }
