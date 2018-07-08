@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface FinancialService {
 
-    Map<String, BigDecimal> getCurrentMonthAccountBalance(Long user_id);
+    Map<String, BigDecimal> getCurrentMonthAccountBalance(AppUser user);
 
     Optional<String> addOperation(MoneyFlowForm newOperation, AppUser user);
 
@@ -31,7 +31,7 @@ public interface FinancialService {
 
     List<Investment> getInvestments(AppUser user);
 
-    List<Investment> getInvestmentsById(AppUser user, Long id);
+    Investment getInvestmentsById(AppUser user, Long id);
 
     void recalculateBudget(AppUser user);
 

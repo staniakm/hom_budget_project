@@ -14,5 +14,5 @@ public interface InvestmentRepository extends JpaRepository<Investment, Long> {
     List<Investment> getInvestment(@Param("user") Long user);
 
     @Query(value = "select * from investment i where i.user_id = :user and id=:id", nativeQuery=true)
-    List<Investment> getInvestmentById(@Param("user") Long user, @Param("id") Long investmentId);
+    Investment getInvestmentById(@Param("user") Long user, @Param("id") Long investmentId);
 }

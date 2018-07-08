@@ -104,13 +104,6 @@ public class PlannedServiceImpl implements PlannedService {
             return Optional.of("Description must be filled.");
         }
 
-        //user
-//        AppUser user = authenticationFacade.getApplicationUser();
-//        Optional<AppUser> user = userRepository.findByName(userName);
-//        if (!user.isPresent()){
-//            return Optional.of("User details are incorrect. Please login again.");
-//        }
-
         Optional<MoneyHolder> moneyHolder = moneyHoldersRepository
                 .findByUserAndId(user.getId(),moneySource);
 

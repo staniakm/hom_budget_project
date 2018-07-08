@@ -43,7 +43,7 @@ public class SiteLoaderController {
 
         model.addAttribute(LOGGED_USER, user.getName());
 
-        model.addAttribute("balance",financialService.getCurrentMonthAccountBalance(user.getId()));
+        model.addAttribute("balance",financialService.getCurrentMonthAccountBalance(user));
         model.addAttribute("plannedOperations",plannedService.getPlanedActiveOperation(user));
 
         MonthKeeper monthKeeper = new MonthKeeper(month, messagesService);
