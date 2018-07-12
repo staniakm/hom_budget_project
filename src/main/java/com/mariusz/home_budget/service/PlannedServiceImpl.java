@@ -20,16 +20,13 @@ public class PlannedServiceImpl implements PlannedService {
 
     private final PlannedRepository plannedRepository;
     private final MoneyHoldersRepository moneyHoldersRepository;
-    private final FinancialService financialService;
 
     @Autowired
     public PlannedServiceImpl(PlannedRepository plannedRepository
-            , MoneyHoldersRepository moneyHoldersRepository
-            , FinancialService financialService)
+            , MoneyHoldersRepository moneyHoldersRepository)
     {
         this.plannedRepository = plannedRepository;
         this.moneyHoldersRepository = moneyHoldersRepository;
-        this.financialService = financialService;
     }
 
 
@@ -132,38 +129,7 @@ public class PlannedServiceImpl implements PlannedService {
 //        return plannedRepository.getPlanedActivitiesOperations(user.getId());
     }
 
-    @Override
-    public void finishPlan(Long id, AppUser user) {
 
-       Optional<PlannedOperation> operation = plannedRepository.findByUserAndIdAndActiveIsTrueAndFinishedIsFalse(user, id);
-       if (operation.isPresent()){
-          PlannedOperation plannedOperation = operation.get();
-          plannedOperation.setFinished(true);
-
-          if(plannedOperation.getPlanedType().getType().equalsIgnoreCase("income")){
-              Income moneyOperation = new Income();
-              moneyOperation.setMoneyHolder(plannedOperation.getMoneyHolder());
-              moneyOperation.setUser(plannedOperation.getUser());
-              moneyOperation.setDescription(plannedOperation.getDescription());
-              moneyOperation.setDate(LocalDateTime.now());
-              moneyOperation.setAmount(plannedOperation.getAmount());
-              financialService.saveIncome(moneyOperation);
-
-          }else if (plannedOperation.getPlanedType().getType().equalsIgnoreCase("expense")){
-              Expense moneyOperation = new Expense();
-              moneyOperation.setMoneyHolder(plannedOperation.getMoneyHolder());
-              moneyOperation.setUser(plannedOperation.getUser());
-              moneyOperation.setDescription(plannedOperation.getDescription());
-              moneyOperation.setDate(LocalDateTime.now());
-              moneyOperation.setAmount(plannedOperation.getAmount());
-              financialService.saveExpense(moneyOperation);
-          }
-
-          plannedRepository.save(plannedOperation);
-       }
-
-
-    }
 
     @Override
     public void deletePlan(Long planId, AppUser user) {
@@ -174,4 +140,14 @@ public class PlannedServiceImpl implements PlannedService {
             plannedRepository.save(plannedOperation);
         }
         }
+
+    @Override
+    public Optional<PlannedOperation> findByUserAndIdAndActiveIsTrueAndFinishedIsFalse(AppUser user, Long id) {
+        return plannedRepository.findByUserAndIdAndActiveIsTrueAndFinishedIsFalse(user,id);
+    }
+
+    @Override
+    public void savePlannedOperation(PlannedOperation plannedOperation) {
+        plannedRepository.save(plannedOperation);
+    }
 }

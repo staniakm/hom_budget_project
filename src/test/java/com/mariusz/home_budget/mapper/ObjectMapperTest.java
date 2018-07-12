@@ -4,17 +4,12 @@ import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.PlannedBudget;
 import com.mariusz.home_budget.entity.form.BudgetForm;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 
 public class ObjectMapperTest {
 

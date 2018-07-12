@@ -1,19 +1,15 @@
 package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
-import com.mariusz.home_budget.entity.MoneyHolder;
 import com.mariusz.home_budget.entity.form.BudgetForm;
 import com.mariusz.home_budget.entity.form.PlanForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
-import com.mariusz.home_budget.service.BudgetService;
 import com.mariusz.home_budget.service.FinancialService;
-import com.mariusz.home_budget.service.PlannedService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,20 +29,14 @@ public class PlanController {
     private static final String LOGGED_USER = "loggedUser";
     private static final String FRAGMENT_HTML_REPLACE_NAME = "fragment";
 
-
-    private final PlannedService plannedService;
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
-    private final BudgetService budgetService;
 
     @Autowired
-    public PlanController(PlannedService plannedService, AuthenticationFacade authenticationFacade
-            , FinancialService financialService, BudgetService budgetService) {
+    public PlanController( AuthenticationFacade authenticationFacade, FinancialService financialService) {
 
-        this.plannedService = plannedService;
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
-        this.budgetService = budgetService;
     }
 
     @GetMapping("/plan")
@@ -105,7 +95,7 @@ public class PlanController {
     @PostMapping("/addBudget")
         public String addBudget(@ModelAttribute("budgetForm") BudgetForm budgetForm){
         AppUser user = authenticationFacade.getApplicationUser();
-        Optional<String> error = budgetService.savePlannedBudget(budgetForm, user);
+        Optional<String> error = financialService.savePlannedBudget(budgetForm, user);
         if(error.isPresent())
             logger.info(error.get());
         else
@@ -116,7 +106,7 @@ public class PlanController {
     @PostMapping("/addPlan")
     public String registerPlan(@ModelAttribute("planForm") PlanForm planForm){
         AppUser user = authenticationFacade.getApplicationUser();
-        Optional<String> error = plannedService.savePlannedOperation(planForm, user);
+        Optional<String> error = financialService.savePlannedOperation(planForm, user);
         if(error.isPresent())
             logger.info(error.get());
         else
@@ -127,14 +117,14 @@ public class PlanController {
     @PostMapping("/finishPlan")
     public String finishOperation(@RequestParam("operationId") Long id){
         AppUser user = authenticationFacade.getApplicationUser();
-        plannedService.finishPlan(id, user);
+        financialService.finishPlan(id, user);
         return "redirect:/welcome";
     }
 
     @PostMapping("/deletePlan")
     public String deleteOperation(@RequestParam("operationId") Long id){
         AppUser user = authenticationFacade.getApplicationUser();
-        plannedService.deletePlan(id, user);
+        financialService.deletePlan(id, user);
         return "redirect:/welcome";
     }
 

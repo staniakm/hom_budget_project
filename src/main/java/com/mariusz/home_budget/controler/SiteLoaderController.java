@@ -17,22 +17,14 @@ public class SiteLoaderController {
 
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
-    private final PlannedService plannedService;
-    private final BudgetService budgetService;
     private final MessagesService messagesService;
-    private final CurrencyService currencyService;
-
-
 
     @Autowired
     public SiteLoaderController(AuthenticationFacade authenticationFacade, FinancialService financialService
-            , PlannedService plannedService, BudgetService budgetService, MessagesService messagesService, CurrencyService currencyService) {
+            , MessagesService messagesService) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
-        this.plannedService = plannedService;
-        this.budgetService = budgetService;
         this.messagesService = messagesService;
-        this.currencyService = currencyService;
     }
 
     //Verification process done by Spring security.
@@ -44,12 +36,12 @@ public class SiteLoaderController {
         model.addAttribute(LOGGED_USER, user.getName());
 
         model.addAttribute("balance",financialService.getCurrentMonthAccountBalance(user));
-        model.addAttribute("plannedOperations",plannedService.getPlanedActiveOperation(user));
+        model.addAttribute("plannedOperations",financialService.getPlanedActiveOperation(user));
 
         MonthKeeper monthKeeper = new MonthKeeper(month, messagesService);
         model.addAttribute("month", monthKeeper);
-        model.addAttribute("plannedBudgets", budgetService.getPlannedBudgets(user, monthKeeper.getCurrent()));
-        model.addAttribute("currency", currencyService.getCurrences());
+        model.addAttribute("plannedBudgets", financialService.getPlannedBudgets(user, monthKeeper.getCurrent()));
+        model.addAttribute("currency", financialService.getCurrences());
 
         model.addAttribute("accountSum",financialService.getTotalAmount(user));
         model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));

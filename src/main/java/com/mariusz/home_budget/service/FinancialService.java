@@ -2,9 +2,7 @@ package com.mariusz.home_budget.service;
 
 
 import com.mariusz.home_budget.entity.*;
-import com.mariusz.home_budget.entity.form.InvestmentForm;
-import com.mariusz.home_budget.entity.form.MoneyFlowForm;
-import com.mariusz.home_budget.entity.form.WalletForm;
+import com.mariusz.home_budget.entity.form.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -42,4 +40,19 @@ public interface FinancialService {
     BigDecimal getInvestmentsSum(AppUser user);
 
     void clearTokens();
+
+    List<PlannedBudget> getPlannedBudgets(AppUser user, Integer month);
+
+    List<PlannedOperation> getPlanedActiveOperation(AppUser user);
+
+    List<Currency> getCurrences();
+
+    void finishPlan(Long id, AppUser user);
+
+    Optional<String> savePlannedBudget(BudgetForm budgetForm, AppUser user);
+
+    Optional<String> savePlannedOperation(PlanForm planForm, AppUser user);
+
+    void deletePlan(Long id, AppUser user);
+
 }

@@ -13,7 +13,11 @@ public interface PlannedService {
 
     List<PlannedOperation> getPlanedActiveOperation(AppUser user);
 
-    void finishPlan(Long id, AppUser user);
+
 
     void deletePlan(Long id, AppUser user);
+
+    Optional<PlannedOperation> findByUserAndIdAndActiveIsTrueAndFinishedIsFalse(AppUser user, Long id);
+
+    void savePlannedOperation(PlannedOperation plannedOperation);
 }

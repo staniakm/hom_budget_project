@@ -1,9 +1,7 @@
 package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.*;
-import com.mariusz.home_budget.entity.form.InvestmentForm;
-import com.mariusz.home_budget.entity.form.MoneyFlowForm;
-import com.mariusz.home_budget.entity.form.WalletForm;
+import com.mariusz.home_budget.entity.form.*;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
 import com.mariusz.home_budget.mapper.ObjectMapper;
 import com.mariusz.home_budget.repository.FinancialRepository;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,16 +25,20 @@ public class FinancialServiceImpl implements FinancialService {
     private final MoneyHoldersRepository moneyHoldersRepository;
     private final BudgetService budgetService;
     private final ObjectMapper mapper;
+    private final PlannedService plannedService;
+    private final CurrencyService currencyService;
 
     @Autowired
     public FinancialServiceImpl(FinancialRepository financialRepository
             , MoneyHoldersRepository moneyHoldersRepository
-            , BudgetService budgetService, ObjectMapper mapper)
+            , BudgetService budgetService, ObjectMapper mapper, PlannedService plannedService, CurrencyService currencyService)
     {
         this.financialRepository = financialRepository;
         this.moneyHoldersRepository = moneyHoldersRepository;
         this.budgetService = budgetService;
         this.mapper = mapper;
+        this.plannedService = plannedService;
+        this.currencyService = currencyService;
     }
 
     /**
@@ -115,7 +118,7 @@ public class FinancialServiceImpl implements FinancialService {
 
     /**
      * Save operation "income" in DB
-     * @param income - income to save
+     * @param income - income to savePlannedOperation
      */
     public void saveIncome(Income income){
         MoneyHolder moneyHolder = income.getMoneyHolder();
@@ -126,7 +129,7 @@ public class FinancialServiceImpl implements FinancialService {
 
     /**
      * Save operation "expense" in DB
-     * @param expense - expanse to save
+     * @param expense - expanse to savePlannedOperation
      */
     public void saveExpense(Expense expense){
         MoneyHolder moneyHolder = expense.getMoneyHolder();
@@ -261,6 +264,21 @@ public class FinancialServiceImpl implements FinancialService {
         financialRepository.clearTokens();
     }
 
+    @Override
+    public List<PlannedBudget> getPlannedBudgets(AppUser user, Integer month) {
+        return budgetService.getPlannedBudgets(user,month);
+    }
+
+    @Override
+    public List<PlannedOperation> getPlanedActiveOperation(AppUser user) {
+        return plannedService.getPlanedActiveOperation(user);
+    }
+
+    @Override
+    public List<Currency> getCurrences() {
+        return currencyService.getCurrences();
+    }
+
 
     /**
      * Register new money holder
@@ -317,5 +335,53 @@ public class FinancialServiceImpl implements FinancialService {
     public List<MoneyHolder> getMoneyHolders(AppUser user) {
        return moneyHoldersRepository.findAllByUser(user);
 
+    }
+
+    @Override
+    public void finishPlan(Long id, AppUser user) {
+
+        Optional<PlannedOperation> operation = plannedService.findByUserAndIdAndActiveIsTrueAndFinishedIsFalse(user, id);
+        if (operation.isPresent()){
+            PlannedOperation plannedOperation = operation.get();
+            plannedOperation.setFinished(true);
+
+            if(plannedOperation.getPlanedType().getType().equalsIgnoreCase("income")){
+                Income moneyOperation = new Income();
+                moneyOperation.setMoneyHolder(plannedOperation.getMoneyHolder());
+                moneyOperation.setUser(plannedOperation.getUser());
+                moneyOperation.setDescription(plannedOperation.getDescription());
+                moneyOperation.setDate(LocalDateTime.now());
+                moneyOperation.setAmount(plannedOperation.getAmount());
+                this.saveIncome(moneyOperation);
+
+            }else if (plannedOperation.getPlanedType().getType().equalsIgnoreCase("expense")){
+                Expense moneyOperation = new Expense();
+                moneyOperation.setMoneyHolder(plannedOperation.getMoneyHolder());
+                moneyOperation.setUser(plannedOperation.getUser());
+                moneyOperation.setDescription(plannedOperation.getDescription());
+                moneyOperation.setDate(LocalDateTime.now());
+                moneyOperation.setAmount(plannedOperation.getAmount());
+                this.saveExpense(moneyOperation);
+            }
+
+            plannedService.savePlannedOperation(plannedOperation);
+        }
+
+
+    }
+
+    @Override
+    public Optional<String> savePlannedBudget(BudgetForm budgetForm, AppUser user) {
+        return budgetService.savePlannedBudget(budgetForm,user);
+    }
+
+    @Override
+    public Optional<String> savePlannedOperation(PlanForm planForm, AppUser user) {
+        return plannedService.savePlannedOperation(planForm,user);
+    }
+
+    @Override
+    public void deletePlan(Long planId, AppUser user) {
+        plannedService.deletePlan(planId, user);
     }
 }
