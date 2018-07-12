@@ -80,7 +80,7 @@ public class FinancialServiceImpl implements FinancialService {
 
         holderId = Long.parseLong(newOperation.getMoneyHolder());
         Optional<MoneyHolder> moneyHolder = moneyHoldersRepository
-                            .findByUserAndId(user.getId(),holderId);
+                            .findByUserAndId(user,holderId);
 
         if (!moneyHolder.isPresent()){
             return Optional.of("Incorrect money holder for logged user");
@@ -210,7 +210,7 @@ public class FinancialServiceImpl implements FinancialService {
      */
     @Override
     public BigDecimal getTotalAmount(AppUser user) {
-        BigDecimal amount = moneyHoldersRepository.findAllByUser(user.getId()).stream().map(MoneyHolder::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
+        BigDecimal amount = moneyHoldersRepository.findAllByUser(user).stream().map(MoneyHolder::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
         return amount==null?BigDecimal.ZERO:amount;
     }
 
@@ -223,7 +223,7 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public void deleteMoneyOperation(Long operationId, AppUser user, String operationType) {
         if (operationType.equalsIgnoreCase("income")){
-            Income income =financialRepository.getIncome(operationId, user.getId());
+            Income income =financialRepository.getIncome(user, operationId);
             if (income!=null){
                 MoneyHolder moneyHolder = income.getMoneyHolder();
                 moneyHolder.setAmount(moneyHolder.getAmount().subtract(income.getAmount()));
@@ -231,7 +231,7 @@ public class FinancialServiceImpl implements FinancialService {
                 financialRepository.deleteIncome(income);
             }
         }else if (operationType.equalsIgnoreCase("expense")){
-            Expense expense =financialRepository.getExpense(operationId, user.getId());
+            Expense expense =financialRepository.getExpense(operationId, user);
             if (expense!=null){
                 MoneyHolder moneyHolder = expense.getMoneyHolder();
                 moneyHolder.setAmount(moneyHolder.getAmount().add(expense.getAmount()));
@@ -315,7 +315,7 @@ public class FinancialServiceImpl implements FinancialService {
      */
     @Override
     public List<MoneyHolder> getMoneyHolders(AppUser user) {
-       return moneyHoldersRepository.findAllByUser(user.getId());
+       return moneyHoldersRepository.findAllByUser(user);
 
     }
 }

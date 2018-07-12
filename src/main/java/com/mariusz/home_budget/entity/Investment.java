@@ -36,7 +36,7 @@ public class Investment {
     private LengthKeeper length;
 
     @Column(name = "is_active")
-    private boolean isActive;
+    private boolean active;
 
     public String calculateTillEnd() {
         if (endDate.isBefore(LocalDate.now())){

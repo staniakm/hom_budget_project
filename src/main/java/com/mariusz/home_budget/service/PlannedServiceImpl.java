@@ -103,7 +103,7 @@ public class PlannedServiceImpl implements PlannedService {
         }
 
         Optional<MoneyHolder> moneyHolder = moneyHoldersRepository
-                .findByUserAndId(user.getId(),moneySource);
+                .findByUserAndId(user,moneySource);
 
         if (!moneyHolder.isPresent()){
             return Optional.of("Incorrect money holder for logged user");
@@ -118,8 +118,8 @@ public class PlannedServiceImpl implements PlannedService {
                 .periodicity(periodic)
                 .planedType(moneyFlowTypes)
                 .moneyHolder(moneyHolder.get())
-                .isActive(true)
-                .isFinished(false)
+                .active(true)
+                .finished(false)
                 .build();
         plannedRepository.save(plannedOperation);
 
@@ -128,13 +128,14 @@ public class PlannedServiceImpl implements PlannedService {
 
     @Override
     public List<PlannedOperation> getPlanedActiveOperation(AppUser user) {
-        return plannedRepository.getPlanedActivitiesOperations(user.getId());
+        return plannedRepository.findByUserAndActiveTrueAndFinishedFalseOrderByDueDateAsc(user);
+//        return plannedRepository.getPlanedActivitiesOperations(user.getId());
     }
 
     @Override
     public void finishPlan(Long id, AppUser user) {
 
-       Optional<PlannedOperation> operation = plannedRepository.findByIdAndUser(id,user.getId());
+       Optional<PlannedOperation> operation = plannedRepository.findByUserAndIdAndActiveIsTrueAndFinishedIsFalse(user, id);
        if (operation.isPresent()){
           PlannedOperation plannedOperation = operation.get();
           plannedOperation.setFinished(true);
@@ -165,8 +166,8 @@ public class PlannedServiceImpl implements PlannedService {
     }
 
     @Override
-    public void deletePlan(Long id, AppUser user) {
-        Optional<PlannedOperation> operation = plannedRepository.findByIdAndUser(id,user.getId());
+    public void deletePlan(Long planId, AppUser user) {
+        Optional<PlannedOperation> operation = plannedRepository.findByUserAndIdAndActiveIsTrueAndFinishedIsFalse(user, planId);
         if (operation.isPresent()) {
             PlannedOperation plannedOperation = operation.get();
             plannedOperation.setActive(false);

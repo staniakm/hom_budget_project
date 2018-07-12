@@ -40,7 +40,7 @@ public class PlannedOperation {
     @JsonIgnore
     private AppUser user;
 
-    private boolean isFinished;
-    private boolean isActive;
+    private boolean finished;
+    private boolean active;
 
 }

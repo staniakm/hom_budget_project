@@ -13,12 +13,10 @@ import java.time.LocalDate;
 @Component
 public class ObjectMapper {
 
-    public String greet(){
-        return "Mariusz";
-    }
 
     public PlannedBudget mapToBudget(BudgetForm budgetForm, AppUser user, BigDecimal operationAmount ){
-       PlannedBudget budget = new PlannedBudget();
+
+        PlannedBudget budget = new PlannedBudget();
         budget.setUser(user);
         budget.setCategory(budgetForm.getCategory());
         budget.setDate(LocalDate.now());

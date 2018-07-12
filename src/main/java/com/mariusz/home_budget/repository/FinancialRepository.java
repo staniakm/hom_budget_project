@@ -43,11 +43,12 @@ public class FinancialRepository {
     }
 
     public List<Investment> getInvestments(AppUser user) {
-        return investmentRepository.getInvestment(user.getId());
+        return investmentRepository.findAllByUserAndActiveTrue(user);
     }
 
     public Investment getInvestmentsById(AppUser user, Long id) {
-        return investmentRepository.getInvestmentById(user.getId(), id);
+        return investmentRepository.findByUserAndId(user,id);
+//        return investmentRepository.getInvestmentById(user.getId(), id);
     }
 
     public List<MoneyFlowSimple> getMoneyFlows(AppUser user) {
@@ -68,12 +69,12 @@ public class FinancialRepository {
         expenseRepository.delete(expense);
     }
 
-    public Income getIncome(Long operationId, Long userId) {
-       return incomeRepository.getIncomeByIdAndUser(operationId,userId);
+    public Income getIncome( AppUser user,Long operationId) {
+       return incomeRepository.findByUserAndId(user,operationId);
     }
 
-    public Expense getExpense(Long operationId, Long userId) {
-        return expenseRepository.getExpenseByIdAndUser(operationId,userId);
+    public Expense getExpense(Long operationId, AppUser user) {
+        return expenseRepository.findByUserAndId(user,operationId);
     }
 
     public void clearTokens() {
