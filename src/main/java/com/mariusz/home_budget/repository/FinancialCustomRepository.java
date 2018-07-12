@@ -23,6 +23,8 @@ public class FinancialCustomRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    //TODO move complex calculations to database store procedures
+
     @SuppressWarnings("SqlResolve")
     public Balance getBalance(@Param("user_id")Long user_id, @Param("year") int year, @Param("month") int month){
         String sql = "select ifnull((select sum(amount) as suma from income where user_id=? and year(date) = ? " +

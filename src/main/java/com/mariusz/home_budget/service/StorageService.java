@@ -7,8 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public interface StorageService {
 
-    public Resource loadFile(String filename);
-    public void deleteAll(String path);
-    public boolean store(MultipartFile file, String fileName , String fileLocation);
+    Resource loadFile(String filename);
+    void deleteAll(String path);
+    boolean store(MultipartFile file, String fileName, String fileLocation);
 
 }

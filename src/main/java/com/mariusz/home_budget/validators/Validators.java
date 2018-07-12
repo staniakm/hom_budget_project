@@ -1,6 +1,5 @@
 package com.mariusz.home_budget.validators;
 
-import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -9,11 +8,6 @@ import java.util.Optional;
 
 @Component
 public class Validators {
-
-    public static Optional<String> validateBigDecimal(String amount) {
-
-        return Optional.empty();
-    }
 
     @Bean
     public EmailValidator emailValidator(){

@@ -26,7 +26,7 @@ public class UploadController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    StorageService storageService;
+    private StorageService storageService;
 
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
