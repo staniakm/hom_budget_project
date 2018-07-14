@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class FinancialController {
+public class MoneyOperationController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     //### HTML ###//
     private static final String ANALYZE_PAGE = "analyze";
@@ -34,7 +34,7 @@ public class FinancialController {
     private final FinancialService financialService;
 
     @Autowired
-    public FinancialController(AuthenticationFacade authenticationFacade, FinancialService financialService
+    public MoneyOperationController(AuthenticationFacade authenticationFacade, FinancialService financialService
     ) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
@@ -62,13 +62,6 @@ public class FinancialController {
             model.addAttribute("categories", categories);
         }
         return "analyze";
-    }
-
-    @GetMapping("/recalculateBudget")
-    public String recalculateBudget(Model model) {
-        AppUser user = authenticationFacade.getApplicationUser();
-        financialService.recalculateBudget(user);
-        return "redirect:/summaryAnalyze";
     }
 
 
@@ -108,91 +101,11 @@ public class FinancialController {
         return "redirect:/summaryAnalyze";
     }
 
-
-    @GetMapping("/summaryInvestment")
-    public String summaryInvestment(Model model) {
-        model.addAttribute("currentDate", LocalDate.now());
-
-        AppUser user = authenticationFacade.getApplicationUser();
-        model.addAttribute("loggedUser", user.getName());
-        model.addAttribute("fragment", "show_investment_summary");
-
-        model.addAttribute("nav", "investment_nav");
-        List<Investment> activeInvestments = financialService.getInvestments(user);
-        model.addAttribute("investments", activeInvestments);
-        model.addAttribute("investment",activeInvestments);
-        model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));
-        return ANALYZE_PAGE;
-    }
-
-    @GetMapping("/getInvestment")
-    public String getInvestment( @RequestParam("val") Long id,Model model) {
-        model.addAttribute("currentDate", LocalDate.now());
-        AppUser user = authenticationFacade.getApplicationUser();
-        model.addAttribute("loggedUser", user.getName());
-        model.addAttribute("fragment", "show_investment_summary");
-        model.addAttribute("nav", "investment_nav");
-
-        model.addAttribute("investment", financialService.getInvestmentsById(user, id));
-        model.addAttribute("investments", financialService.getInvestments(user));
-        model.addAttribute("accountSum",financialService.getTotalAmount(user));
-        model.addAttribute("investmentSum", financialService.getInvestmentsSum(user));
-
-        return ANALYZE_PAGE;
-    }
-
-    @GetMapping("/registerInvestment")
-    public String registerInvestment(Model model) {
-        AppUser user = authenticationFacade.getApplicationUser();
-        model.addAttribute("loggedUser", user.getName());
-        model.addAttribute("fragment", "addInvestment");
-        model.addAttribute("nav", "investment_nav");
-
-        InvestmentForm investmentForm = new InvestmentForm();
-
-        model.addAttribute("investmentForm", investmentForm);
-        model.addAttribute("operators", Arrays.asList(LengthKeeper.values()));
-        model.addAttribute("currentDate", LocalDate.now());
-        model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));
-        model.addAttribute("moneyHolders", financialService.getMoneyHolders(user));
-
-        return ANALYZE_PAGE;
-    }
-
-
-    @PostMapping("/registerInvestment")
-    public String registerNewInvestment(@Valid InvestmentForm investmentForm
-            , BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
-            for (int i = 0; i < bindingResult.getErrorCount(); i++) {
-                logger.info(bindingResult.getAllErrors().get(i).toString());
-            }
-            model.addAttribute("message", "Validation errors");
-            return "redirect:/registerInvestment";
-        }
-
-        AppUser user = authenticationFacade.getApplicationUser();
-
-        Optional<String> error = financialService.addInvestment(investmentForm, user);
-
-        if (error.isPresent()) {
-            return "redirect:/registerInvestment";
-        }
-
-        return "redirect:/summaryInvestment";
-    }
-
     @PostMapping("/deleteOperation")
     public String deleteOperation(@RequestParam("operationId") Long id,@RequestParam("operationType") String operationType){
         AppUser user = authenticationFacade.getApplicationUser();
         financialService.deleteMoneyOperation(id, user, operationType);
         return "redirect:/recalculateBudget";
-    }
-
-    @GetMapping("/loadCsv")
-    public String loadBudgetFile( @RequestParam("type") String type,Model model) {
-        return "redirect:/upload";
     }
 
 }

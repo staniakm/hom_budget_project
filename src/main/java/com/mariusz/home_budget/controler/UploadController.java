@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,11 @@ public class UploadController {
         this.financialService = financialService;
     }
 
+
+    @GetMapping("/loadCsv")
+    public String loadBudgetFile( @RequestParam("type") String type,Model model) {
+        return "redirect:/upload";
+    }
 
     // CHANGE IT ACCORDING TO YOUR LOCATION
   //  private final String UPLOAD_FILE_LOCATION="/resources";

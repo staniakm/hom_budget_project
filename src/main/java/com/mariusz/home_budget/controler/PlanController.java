@@ -1,7 +1,6 @@
 package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.AppUser;
-import com.mariusz.home_budget.entity.form.BudgetForm;
 import com.mariusz.home_budget.entity.form.PlanForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -39,6 +37,10 @@ public class PlanController {
         this.financialService = financialService;
     }
 
+    /**
+     * Load main plan page
+     *
+     */
     @GetMapping("/plan")
     public String getPlanPage (Model model){
         AppUser user = authenticationFacade.getApplicationUser();
@@ -47,13 +49,16 @@ public class PlanController {
         return "plan";
     }
 
+    /**
+     * return page that allow to register new planned operation
+     * PlanForm object linked with html form
+     *
+     */
     @GetMapping("/planExpenses")
     public String planExpenses(Model model){
         AppUser user = authenticationFacade.getApplicationUser();
         model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"planner");
         model.addAttribute(LOGGED_USER, user.getName());
-
-
 
         PlanForm planForm = new PlanForm();
         model.addAttribute("planForm", planForm);
@@ -76,33 +81,11 @@ public class PlanController {
         return "plan";
     }
 
-
-    @GetMapping("/planBudget")
-    public String planBudget(Model model){
-        AppUser user = authenticationFacade.getApplicationUser();
-        model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"budget");
-        model.addAttribute(LOGGED_USER, user);
-
-        List<String> categories = Arrays.asList("Samochód","Jedzenie","Rachunki");
-
-        model.addAttribute("categories",categories);
-        BudgetForm budgetForm = new BudgetForm();
-        model.addAttribute("budgetForm",budgetForm);
-
-        return "plan";
-    }
-
-    @PostMapping("/addBudget")
-        public String addBudget(@ModelAttribute("budgetForm") BudgetForm budgetForm){
-        AppUser user = authenticationFacade.getApplicationUser();
-        Optional<String> error = financialService.savePlannedBudget(budgetForm, user);
-        if(error.isPresent())
-            logger.info(error.get());
-        else
-            logger.info("No error detected during plan saving process");
-        return "redirect:/planBudget";
-    }
-
+    /**
+     * Save new planned operation
+     * @param planForm - simple form for planned operation
+     *
+     */
     @PostMapping("/addPlan")
     public String registerPlan(@ModelAttribute("planForm") PlanForm planForm){
         AppUser user = authenticationFacade.getApplicationUser();
@@ -114,17 +97,27 @@ public class PlanController {
         return "redirect:/planExpenses";
     }
 
+    /**
+     * Finish planned operation. Founds will be transfer to linked money holder
+     * @param operationId - operation id
+     *
+     */
     @PostMapping("/finishPlan")
-    public String finishOperation(@RequestParam("operationId") Long id){
+    public String finishOperation(@RequestParam("operationId") Long operationId){
         AppUser user = authenticationFacade.getApplicationUser();
-        financialService.finishPlan(id, user);
+        financialService.finishPlan(operationId, user);
         return "redirect:/welcome";
     }
 
+    /**
+     * Delete planed operation. Money will not be transferred to money holder.
+     * @param operationId - planned operation id
+     *
+     */
     @PostMapping("/deletePlan")
-    public String deleteOperation(@RequestParam("operationId") Long id){
+    public String deleteOperation(@RequestParam("operationId") Long operationId){
         AppUser user = authenticationFacade.getApplicationUser();
-        financialService.deletePlan(id, user);
+        financialService.deletePlan(operationId, user);
         return "redirect:/welcome";
     }
 
