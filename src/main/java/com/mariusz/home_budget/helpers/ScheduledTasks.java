@@ -25,7 +25,7 @@ public class ScheduledTasks {
     //second, minute, hour, day of month, month, day(s) of week
 
     /**
-     * scheduler responsible for clearing old tokens
+     * scheduler responsible for clearing old tokens every night as 1:00
      */
     @Scheduled(cron = "0 0 1 * * ?")
     public void deleteOldTokens() {
@@ -33,7 +33,7 @@ public class ScheduledTasks {
     }
 
     /**
-     * scheduler responsible for clearing inactive accounts
+     * scheduler responsible for clearing inactive accounts every night as 1:30
      */
     @Scheduled(cron = "0 30 1 * * ?")
     public void deleteInactiveAccounts(){

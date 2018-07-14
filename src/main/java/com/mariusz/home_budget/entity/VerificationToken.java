@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "verification_tokens")
@@ -35,7 +35,8 @@ public class VerificationToken {
     }
 
     private LocalDateTime calculateDate(){
-        return LocalDateTime.now().plus(EXPIRATION,ChronoUnit.MINUTES);
+       return LocalDate.now().atTime(23, 59, 59);
+//        return LocalDateTime.now().plus(EXPIRATION,ChronoUnit.MINUTES);
     }
 
 
