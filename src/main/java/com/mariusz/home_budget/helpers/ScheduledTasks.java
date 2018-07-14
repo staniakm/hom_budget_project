@@ -6,8 +6,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
 @Service
 @Transactional
 public class ScheduledTasks {
@@ -30,11 +28,16 @@ public class ScheduledTasks {
      * scheduler responsible for clearing old tokens
      */
     @Scheduled(cron = "0 0 1 * * ?")
-    public void scheduleTaskWithFixedRate() {
-        System.out.println("Scheduled task started "+ LocalDateTime.now());
+    public void deleteOldTokens() {
         scheduleService.clearTokens();
-}
+    }
 
-
+    /**
+     * scheduler responsible for clearing inactive accounts
+     */
+    @Scheduled(cron = "0 30 1 * * ?")
+    public void deleteInactiveAccounts(){
+        scheduleService.clearInactiveAccounts();
+    }
 
 }
