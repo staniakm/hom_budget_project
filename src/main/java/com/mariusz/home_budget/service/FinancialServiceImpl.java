@@ -255,15 +255,6 @@ public class FinancialServiceImpl implements FinancialService {
       return getInvestments(user).stream().map(Investment::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
     }
 
-    /**
-     * Clear tokens. Used in scheduler
-     */
-    @Override
-    public void clearTokens() {
-        //TODO move to separate class
-        financialRepository.clearTokens();
-    }
-
     @Override
     public List<PlannedBudget> getPlannedBudgets(AppUser user, Integer month) {
         return budgetService.getPlannedBudgets(user,month);

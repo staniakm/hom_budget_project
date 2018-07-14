@@ -39,8 +39,6 @@ public interface FinancialService {
 
     BigDecimal getInvestmentsSum(AppUser user);
 
-    void clearTokens();
-
     List<PlannedBudget> getPlannedBudgets(AppUser user, Integer month);
 
     List<PlannedOperation> getPlanedActiveOperation(AppUser user);
