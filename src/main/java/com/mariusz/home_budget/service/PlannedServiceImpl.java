@@ -1,6 +1,8 @@
 package com.mariusz.home_budget.service;
 
-import com.mariusz.home_budget.entity.*;
+import com.mariusz.home_budget.entity.AppUser;
+import com.mariusz.home_budget.entity.MoneyHolder;
+import com.mariusz.home_budget.entity.PlannedOperation;
 import com.mariusz.home_budget.entity.form.PlanForm;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,10 +127,7 @@ public class PlannedServiceImpl implements PlannedService {
     @Override
     public List<PlannedOperation> getPlanedActiveOperation(AppUser user) {
         return plannedRepository.findByUserAndActiveTrueAndFinishedFalseOrderByDueDateAsc(user);
-//        return plannedRepository.getPlanedActivitiesOperations(user.getId());
     }
-
-
 
     @Override
     public void deletePlan(Long planId, AppUser user) {

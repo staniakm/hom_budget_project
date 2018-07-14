@@ -5,7 +5,6 @@ import com.mariusz.home_budget.entity.Currency;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 

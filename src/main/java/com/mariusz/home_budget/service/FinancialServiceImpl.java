@@ -297,7 +297,7 @@ public class FinancialServiceImpl implements FinancialService {
             }
         }
 
-        if (amount==null || amount.length()==0){
+        if (amount.length() == 0){
             cashAmount = BigDecimal.ZERO;
         }else {
             try {
