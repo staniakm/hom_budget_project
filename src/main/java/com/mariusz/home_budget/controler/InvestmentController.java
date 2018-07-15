@@ -6,6 +6,7 @@ import com.mariusz.home_budget.entity.form.InvestmentForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.LengthKeeper;
 import com.mariusz.home_budget.service.FinancialService;
+import com.mariusz.home_budget.service.InvestmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,13 @@ public class InvestmentController {
 
 
     private final AuthenticationFacade authenticationFacade;
+    private final InvestmentService investmentService;
     private final FinancialService financialService;
 
     @Autowired
-    public InvestmentController(AuthenticationFacade authenticationFacade, FinancialService financialService) {
+    public InvestmentController(AuthenticationFacade authenticationFacade, InvestmentService investmentService, FinancialService financialService) {
         this.authenticationFacade = authenticationFacade;
+        this.investmentService = investmentService;
         this.financialService = financialService;
     }
 
@@ -49,10 +52,10 @@ public class InvestmentController {
         model.addAttribute("fragment", "show_investment_summary");
 
         model.addAttribute("nav", "investment_nav");
-        List<Investment> activeInvestments = financialService.getInvestments(user);
+        List<Investment> activeInvestments = investmentService.getInvestments(user);
         model.addAttribute("investments", activeInvestments);
         model.addAttribute("investment",activeInvestments);
-        model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));
+        model.addAttribute("investmentSum",investmentService.getInvestmentsSum(user));
         return ANALYZE_PAGE;
     }
 
@@ -64,10 +67,10 @@ public class InvestmentController {
         model.addAttribute("fragment", "show_investment_summary");
         model.addAttribute("nav", "investment_nav");
 
-        model.addAttribute("investment", financialService.getInvestmentsById(user, id));
-        model.addAttribute("investments", financialService.getInvestments(user));
+        model.addAttribute("investment", investmentService.getInvestmentsById(user, id));
+        model.addAttribute("investments", investmentService.getInvestments(user));
         model.addAttribute("accountSum",financialService.getTotalAmount(user));
-        model.addAttribute("investmentSum", financialService.getInvestmentsSum(user));
+        model.addAttribute("investmentSum", investmentService.getInvestmentsSum(user));
 
         return ANALYZE_PAGE;
     }
@@ -84,7 +87,7 @@ public class InvestmentController {
         model.addAttribute("investmentForm", investmentForm);
         model.addAttribute("operators", Arrays.asList(LengthKeeper.values()));
         model.addAttribute("currentDate", LocalDate.now());
-        model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));
+        model.addAttribute("investmentSum",investmentService.getInvestmentsSum(user));
         model.addAttribute("moneyHolders", financialService.getMoneyHolders(user));
 
         return ANALYZE_PAGE;
@@ -105,7 +108,7 @@ public class InvestmentController {
 
         AppUser user = authenticationFacade.getApplicationUser();
 
-        Optional<String> error = financialService.addInvestment(investmentForm, user);
+        Optional<String> error = investmentService.addInvestment(investmentForm, user);
 
         if (error.isPresent()) {
             return "redirect:/registerInvestment";

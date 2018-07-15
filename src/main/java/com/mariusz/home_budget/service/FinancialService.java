@@ -25,19 +25,7 @@ public interface FinancialService {
 
     List<MoneyFlowSimple> getMoneyFlows(AppUser user);
 
-    Optional<String> addInvestment(InvestmentForm investmentForm, AppUser user);
-
-    List<Investment> getInvestments(AppUser user);
-
-    Investment getInvestmentsById(AppUser user, Long id);
-
-
-
-    BigDecimal getTotalAmount(AppUser user);
-
     void deleteMoneyOperation(Long id, AppUser user, String operationType);
-
-    BigDecimal getInvestmentsSum(AppUser user);
 
     List<PlannedBudget> getPlannedBudgets(AppUser user, Integer month);
 
@@ -54,5 +42,9 @@ public interface FinancialService {
     Optional<String> savePlannedOperation(PlanForm planForm, AppUser user);
 
     void deletePlan(Long id, AppUser user);
+
+    BigDecimal getTotalAmount(AppUser user);
+
+    BigDecimal getInvestmentsSum(AppUser user);
 
 }

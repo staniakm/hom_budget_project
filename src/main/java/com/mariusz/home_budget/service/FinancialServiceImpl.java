@@ -1,9 +1,11 @@
 package com.mariusz.home_budget.service;
 
 import com.mariusz.home_budget.entity.*;
-import com.mariusz.home_budget.entity.form.*;
+import com.mariusz.home_budget.entity.form.BudgetForm;
+import com.mariusz.home_budget.entity.form.MoneyFlowForm;
+import com.mariusz.home_budget.entity.form.PlanForm;
+import com.mariusz.home_budget.entity.form.WalletForm;
 import com.mariusz.home_budget.helpers.MoneyHolderType;
-import com.mariusz.home_budget.mapper.ObjectMapper;
 import com.mariusz.home_budget.repository.FinancialRepository;
 import com.mariusz.home_budget.repository.MoneyHoldersRepository;
 import com.mariusz.home_budget.validators.Validators;
@@ -24,19 +26,20 @@ public class FinancialServiceImpl implements FinancialService {
     private final FinancialRepository financialRepository;
     private final MoneyHoldersRepository moneyHoldersRepository;
     private final BudgetService budgetService;
-    private final ObjectMapper mapper;
+    private final InvestmentService investmentService;
+
     private final PlannedService plannedService;
     private final CurrencyService currencyService;
 
     @Autowired
     public FinancialServiceImpl(FinancialRepository financialRepository
             , MoneyHoldersRepository moneyHoldersRepository
-            , BudgetService budgetService, ObjectMapper mapper, PlannedService plannedService, CurrencyService currencyService)
+            , BudgetService budgetService, InvestmentService investmentService, PlannedService plannedService, CurrencyService currencyService)
     {
         this.financialRepository = financialRepository;
         this.moneyHoldersRepository = moneyHoldersRepository;
         this.budgetService = budgetService;
-        this.mapper = mapper;
+        this.investmentService = investmentService;
         this.plannedService = plannedService;
         this.currencyService = currencyService;
     }
@@ -148,65 +151,6 @@ public class FinancialServiceImpl implements FinancialService {
         return financialRepository.getMoneyFlows(user);
     }
 
-    /**
-     * Save new "investment" in DB
-     * @param investmentForm (basic information about new investment. Provided by web form)
-     * @param user (current logged user)
-     * @return - if Optional is not empty then error occur else investment is saved in DB.
-     */
-    @Override
-    public Optional<String> addInvestment(InvestmentForm investmentForm, AppUser user) {
-
-        BigDecimal amount = new BigDecimal(investmentForm.getAmount());
-        LocalDate endDate = investmentForm.getDate().plusDays(investmentForm.getInvestmentLength().getDays()*investmentForm.getLength());
-        BigDecimal percentage = new BigDecimal(investmentForm.getPercentage());
-
-        if (amount.compareTo(BigDecimal.ZERO)<=0){
-            return Optional.of("Amount can't be zero or less then zero");
-        }
-
-        if (percentage.compareTo(BigDecimal.ZERO)<=0){
-            return Optional.of("Percentage can't be zero or less then zero");
-        }
-
-        Investment investment = mapper.mapToInvestment(user, amount,endDate,percentage, investmentForm);
-        financialRepository.save(investment);
-
-        return Optional.empty();
-    }
-
-    /**
-     * Get list of  user all investments.
-     * @param user (current logged user)
-     * @return - list of investments
-     */
-    @Override
-    public List<Investment> getInvestments(AppUser user) {
-        return financialRepository.getInvestments(user);
-    }
-
-    /**
-     * Get investment by id. Only investments assigned to current user can be returned.
-     * @param user (current logged user)
-     * @param investmentId (investment id)
-     * @return - return investment
-     */
-    @Override
-    public Investment getInvestmentsById(AppUser user, Long investmentId) {
-        return financialRepository.getInvestmentsById(user, investmentId);
-    }
-
-
-    /**
-     * Get total amount of money from all wallets
-     * @param user (current logged user)
-     * @return - BigDecimal as sum of money in all user wallets
-     */
-    @Override
-    public BigDecimal getTotalAmount(AppUser user) {
-        BigDecimal amount = moneyHoldersRepository.findAllByUser(user).stream().map(MoneyHolder::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
-        return amount==null?BigDecimal.ZERO:amount;
-    }
 
     /**
      * Delete one of registered operations.
@@ -236,15 +180,6 @@ public class FinancialServiceImpl implements FinancialService {
 
     }
 
-    /**
-     * Sum total amount of money from all investments
-     * @param user - current logged user
-     * @return - BigDecimal as a investments sum
-     */
-    @Override
-    public BigDecimal getInvestmentsSum(AppUser user) {
-      return getInvestments(user).stream().map(Investment::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
-    }
 
     @Override
     public List<PlannedBudget> getPlannedBudgets(AppUser user, Integer month) {
@@ -370,5 +305,21 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public void deletePlan(Long planId, AppUser user) {
         plannedService.deletePlan(planId, user);
+    }
+
+    /**
+     * Get total amount of money from all wallets
+     * @param user (current logged user)
+     * @return - BigDecimal as sum of money in all user wallets
+     */
+    @Override
+    public BigDecimal getTotalAmount(AppUser user) {
+        BigDecimal amount = moneyHoldersRepository.findAllByUser(user).stream().map(MoneyHolder::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
+        return amount==null?BigDecimal.ZERO:amount;
+    }
+
+    @Override
+    public BigDecimal getInvestmentsSum(AppUser user) {
+        return investmentService.getInvestmentsSum(user);
     }
 }
