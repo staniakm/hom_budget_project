@@ -6,6 +6,7 @@ import com.mariusz.home_budget.entity.PlannedBudget;
 import com.mariusz.home_budget.entity.form.BudgetForm;
 import com.mariusz.home_budget.mapper.ObjectMapper;
 import com.mariusz.home_budget.repository.BudgetRepository;
+import com.mariusz.home_budget.repository.FinancialCustomRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,10 +32,11 @@ public class BudgetServiceImplTest {
     static class EmployeeServiceImplContextConfiguration{
         private BudgetRepository budgetRepository = mock(BudgetRepository.class);
         private ObjectMapper mapper = new ObjectMapper();
+        private FinancialCustomRepository customRepository = mock(FinancialCustomRepository.class);
         @Bean
         public BudgetService budgetService(){
 
-            return new BudgetServiceImpl(budgetRepository,mapper);
+            return new BudgetServiceImpl(budgetRepository, customRepository, mapper);
         }
 
         @Bean BudgetRepository budgetRepository(){

@@ -56,11 +56,6 @@ public class FinancialRepository {
 
     }
 
-    public void recalculateBudget(Long id, int year, int monthValue) {
-        customRepository.recalculateBudgets(id,year,monthValue);
-    }
-
-
     public void deleteIncome(Income income) {
         incomeRepository.delete(income);
     }

@@ -31,7 +31,7 @@ public interface FinancialService {
 
     Investment getInvestmentsById(AppUser user, Long id);
 
-    void recalculateBudget(AppUser user);
+
 
     BigDecimal getTotalAmount(AppUser user);
 

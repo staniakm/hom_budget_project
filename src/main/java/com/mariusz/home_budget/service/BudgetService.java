@@ -14,4 +14,6 @@ public interface BudgetService {
     Optional<String> savePlannedBudget(BudgetForm budgetForm, AppUser user);
 
     Optional<PlannedBudget> updateBudget(AppUser user, String category, BigDecimal amount);
+
+    void recalculateBudget(AppUser user);
 }

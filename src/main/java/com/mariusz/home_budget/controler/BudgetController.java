@@ -3,7 +3,7 @@ package com.mariusz.home_budget.controler;
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.form.BudgetForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
-import com.mariusz.home_budget.service.FinancialService;
+import com.mariusz.home_budget.service.BudgetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +25,12 @@ public class BudgetController {
     private static final String FRAGMENT_HTML_REPLACE_NAME = "fragment";
 
     private final AuthenticationFacade authenticationFacade;
-    private final FinancialService financialService;
+    private final BudgetService budgetService;
 
     @Autowired
-    public BudgetController( AuthenticationFacade authenticationFacade, FinancialService financialService) {
-
+    public BudgetController(AuthenticationFacade authenticationFacade, BudgetService budgetService) {
         this.authenticationFacade = authenticationFacade;
-        this.financialService = financialService;
+        this.budgetService = budgetService;
     }
 
     /**
@@ -59,7 +58,8 @@ public class BudgetController {
     @PostMapping("/addBudget")
     public String addBudget(@ModelAttribute("budgetForm") BudgetForm budgetForm){
         AppUser user = authenticationFacade.getApplicationUser();
-        Optional<String> error = financialService.savePlannedBudget(budgetForm, user);
+        Optional<String> error = budgetService.savePlannedBudget(budgetForm, user);
+
         if(error.isPresent())
             logger.info(error.get());
         else
@@ -70,7 +70,7 @@ public class BudgetController {
     @GetMapping("/recalculateBudget")
     public String recalculateBudget() {
         AppUser user = authenticationFacade.getApplicationUser();
-        financialService.recalculateBudget(user);
+        budgetService.recalculateBudget(user);
         return "redirect:/summaryAnalyze";
     }
 }

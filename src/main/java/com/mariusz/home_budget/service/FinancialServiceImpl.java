@@ -196,15 +196,6 @@ public class FinancialServiceImpl implements FinancialService {
         return financialRepository.getInvestmentsById(user, investmentId);
     }
 
-    /**
-     * Recalculate budgets for current logged user for current month.
-     * @param user (current logged user)
-     */
-    @Override
-    public void recalculateBudget(AppUser user) {
-        //TODO change to allow recalculate budgets for other months
-        financialRepository.recalculateBudget(user.getId(), LocalDate.now().getYear(), LocalDate.now().getMonthValue());
-    }
 
     /**
      * Get total amount of money from all wallets

@@ -5,6 +5,7 @@ import com.mariusz.home_budget.entity.PlannedBudget;
 import com.mariusz.home_budget.entity.form.BudgetForm;
 import com.mariusz.home_budget.mapper.ObjectMapper;
 import com.mariusz.home_budget.repository.BudgetRepository;
+import com.mariusz.home_budget.repository.FinancialCustomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,14 @@ import java.util.Optional;
 @Service
 public class BudgetServiceImpl implements BudgetService {
     private final BudgetRepository budgetRepository;
+    private final FinancialCustomRepository customRepository;
 
     private final ObjectMapper mapper;
 
     @Autowired
-    public BudgetServiceImpl(BudgetRepository budgetRepository, ObjectMapper mapper) {
+    public BudgetServiceImpl(BudgetRepository budgetRepository, FinancialCustomRepository customRepository, ObjectMapper mapper) {
         this.budgetRepository = budgetRepository;
+        this.customRepository = customRepository;
         this.mapper = mapper;
     }
 
@@ -62,5 +65,15 @@ public class BudgetServiceImpl implements BudgetService {
             return Optional.of(budgetRepository.save(budget));
         }
         return Optional.empty();
+    }
+
+    /**
+     * Recalculate budgets for current logged user for current month.
+     * @param user (current logged user)
+     */
+    @Override
+    public void recalculateBudget(AppUser user) {
+        //TODO change to allow recalculate budgets for other months
+        customRepository.recalculateBudgets(user.getId(), LocalDate.now().getYear(), LocalDate.now().getMonthValue());
     }
 }
