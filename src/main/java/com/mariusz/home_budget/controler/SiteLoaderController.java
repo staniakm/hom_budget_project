@@ -41,7 +41,7 @@ public class SiteLoaderController {
         MonthKeeper monthKeeper = new MonthKeeper(month, messagesService);
         model.addAttribute("month", monthKeeper);
         model.addAttribute("plannedBudgets", financialService.getPlannedBudgets(user, monthKeeper.getCurrent()));
-        model.addAttribute("currency", financialService.getCurrences());
+        model.addAttribute("currency", financialService.getCurrences(user));
 
         model.addAttribute("accountSum",financialService.getTotalAmount(user));
         model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));

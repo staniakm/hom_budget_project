@@ -270,6 +270,11 @@ public class FinancialServiceImpl implements FinancialService {
         return currencyService.getCurrences();
     }
 
+    @Override
+    public List<Currency> getCurrences(AppUser user) {
+        return currencyService.getCurrences(user);
+    }
+
 
     /**
      * Register new money holder

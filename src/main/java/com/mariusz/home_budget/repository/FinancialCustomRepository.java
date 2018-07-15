@@ -1,17 +1,21 @@
 package com.mariusz.home_budget.repository;
 
-import com.mariusz.home_budget.entity.Balance;
-import com.mariusz.home_budget.entity.MoneyFlowSimple;
+import com.mariusz.home_budget.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -82,5 +86,42 @@ public class FinancialCustomRepository {
             currencies.put(id, url);
         }
         return currencies;
+    }
+
+    public List<String> getCurrenciesId(AppUser user) {
+        String sql = "SELECT currency_list FROM `user_currency` WHERE user_id = ?;";
+
+        return jdbcTemplate.queryForList(sql,String.class, user.getId());
+    }
+
+    public List<Currency> getListOfCurencies(List<Integer> params) {
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("currencies", params);
+
+        List<Currency> list = namedParameterJdbcTemplate.query("SELECT id, currency, code, date, rate FROM `currency` where id IN (:currencies)",
+                parameters, new RowMapper<Currency>() {
+                    @Override
+                    public Currency mapRow(ResultSet resultSet, int i) throws SQLException {
+                        return toCurrency(resultSet);
+                    }
+
+                    private Currency toCurrency(ResultSet resultSet) throws SQLException {
+                        Currency currency = new Currency();
+                        Rate rate = new Rate();
+                        rate.setEffectiveDate(resultSet.getString("date"));
+                        rate.setMid(resultSet.getDouble("rate"));
+                        rate.setNo("");
+                        currency.setCode(resultSet.getString("code"));
+                        currency.setCurrency(resultSet.getString("currency"));
+                        currency.setRates(new Rate[]{rate});
+                        currency.setTable("");
+                        return currency;
+
+                    }
+
+                });
+return list;
     }
 }

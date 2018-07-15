@@ -45,6 +45,8 @@ public interface FinancialService {
 
     List<Currency> getCurrences();
 
+    List<Currency> getCurrences(AppUser user);
+
     void finishPlan(Long id, AppUser user);
 
     Optional<String> savePlannedBudget(BudgetForm budgetForm, AppUser user);
