@@ -7,4 +7,5 @@ import java.util.List;
 public interface CurrencyService {
 
     List<Currency> getCurrences();
+    Currency getCurrency(String link);
 }

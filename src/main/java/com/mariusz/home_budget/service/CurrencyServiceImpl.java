@@ -13,8 +13,6 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public List<Currency> getCurrences() {
         List<Currency> curencyList = new ArrayList<>();
-
-
         List<String> URLs = Lists.newArrayList(
                 "http://api.nbp.pl/api/exchangerates/rates/a/eur/?format=json",
                 "http://api.nbp.pl/api/exchangerates/rates/a/usd/?format=json",
@@ -29,4 +27,11 @@ public class CurrencyServiceImpl implements CurrencyService {
         return curencyList;
 
     }
+
+    @Override
+    public Currency getCurrency(String link) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(link,Currency.class);
+    }
+
 }

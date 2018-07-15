@@ -8,10 +8,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("ALL")
 @Repository
@@ -59,5 +64,23 @@ public class FinancialCustomRepository {
     public void clearTokens() {
         String sql = "delete from verification_tokens where expiry_date < ?";
         jdbcTemplate.update(sql, LocalDateTime.now());
+    }
+
+    public void updateCurrencyRate(Long currency_id, LocalDate date, BigDecimal rate){
+        String sql = "update currency c\n" +
+                "set c.date = ?, c.rate=? where c.id = ?";
+        jdbcTemplate.update(sql,date,rate,currency_id);
+    }
+
+    public Map<Long, String> getCurrencies() {
+        Map<Long, String> currencies = new HashMap<>();
+        String sql = "SELECT id, link FROM `currency`;";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql);
+        while (rs.next()){
+            Long id = rs.getLong("id");
+            String url = rs.getString("link");
+            currencies.put(id, url);
+        }
+        return currencies;
     }
 }

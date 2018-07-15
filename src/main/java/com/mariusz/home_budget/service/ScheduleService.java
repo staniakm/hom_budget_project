@@ -4,4 +4,6 @@ public interface ScheduleService {
     void clearTokens();
 
     void clearInactiveAccounts();
+
+    void updateCurrencyRate();
 }

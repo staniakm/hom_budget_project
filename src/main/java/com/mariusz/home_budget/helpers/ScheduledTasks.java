@@ -40,4 +40,14 @@ public class ScheduledTasks {
         scheduleService.clearInactiveAccounts();
     }
 
+    /**
+     * scheduler responsible for update currency rate every night as 5:00
+     */
+    @Scheduled(cron = "0 0 5 * * ?")
+    public void updateCurrencyRate(){
+        System.out.println("Currency update task");
+        scheduleService.updateCurrencyRate();
+    }
+
+
 }
