@@ -6,6 +6,7 @@ import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.CsvParser;
 import com.mariusz.home_budget.service.FinancialService;
+import com.mariusz.home_budget.service.MoneyHolderService;
 import com.mariusz.home_budget.service.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,20 +32,23 @@ public class UploadController {
 
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
-@Autowired
-    public UploadController(AuthenticationFacade authenticationFacade, FinancialService financialService) {
+    private final MoneyHolderService moneyHolderService;
+
+    @Autowired
+    public UploadController(AuthenticationFacade authenticationFacade, FinancialService financialService, MoneyHolderService moneyHolderService) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
+        this.moneyHolderService = moneyHolderService;
     }
 
 
     @GetMapping("/loadCsv")
-    public String loadBudgetFile( @RequestParam("type") String type,Model model) {
+    public String loadBudgetFile(@RequestParam("type") String type, Model model) {
         return "redirect:/upload";
     }
 
     // CHANGE IT ACCORDING TO YOUR LOCATION
-  //  private final String UPLOAD_FILE_LOCATION="/resources";
+    //  private final String UPLOAD_FILE_LOCATION="/resources";
 
     @PostMapping("/upload")
     public String singleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
@@ -55,20 +59,20 @@ public class UploadController {
         }
 
         AppUser user = authenticationFacade.getApplicationUser();
-        MoneyHolder holder = financialService.getMoneyHolders(user).get(0);
-        CsvParser parser = new CsvParser(file, user, holder.getId()+"");
+        MoneyHolder holder = moneyHolderService.getMoneyHolders(user).get(0);
+        CsvParser parser = new CsvParser(file, user, holder.getId() + "");
         List<MoneyFlowForm> moneyFlows = parser.printCsv();
-        if (!moneyFlows.isEmpty()){
-            logger.info("Number of operations: "+moneyFlows.size());
+        if (!moneyFlows.isEmpty()) {
+            logger.info("Number of operations: " + moneyFlows.size());
             for (MoneyFlowForm form : moneyFlows
-                 ) {
-                logger.info("Loging "+form.toString());
-               Optional<String> error= financialService.addOperation(form, user);
-                if (error.isPresent()){
-                    logger.info("Error with parsed data: "+error.get());
+                    ) {
+                logger.info("Loging " + form.toString());
+                Optional<String> error = financialService.addOperation(form, user);
+                if (error.isPresent()) {
+                    logger.info("Error with parsed data: " + error.get());
                 }
             }
-        }else {
+        } else {
             redirectAttributes.addFlashAttribute("message", "Incorrect date in file");
             return "redirect:uploadStatus";
 

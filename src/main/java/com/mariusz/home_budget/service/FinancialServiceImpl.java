@@ -24,22 +24,21 @@ import java.util.Optional;
 public class FinancialServiceImpl implements FinancialService {
 
     private final FinancialRepository financialRepository;
-    private final MoneyHoldersRepository moneyHoldersRepository;
     private final BudgetService budgetService;
     private final InvestmentService investmentService;
+    private final MoneyHolderService moneyHolderService;
 
     private final PlannedService plannedService;
     private final CurrencyService currencyService;
 
     @Autowired
     public FinancialServiceImpl(FinancialRepository financialRepository
-            , MoneyHoldersRepository moneyHoldersRepository
-            , BudgetService budgetService, InvestmentService investmentService, PlannedService plannedService, CurrencyService currencyService)
+            , BudgetService budgetService, InvestmentService investmentService, MoneyHolderService moneyHolderService, PlannedService plannedService, CurrencyService currencyService)
     {
         this.financialRepository = financialRepository;
-        this.moneyHoldersRepository = moneyHoldersRepository;
         this.budgetService = budgetService;
         this.investmentService = investmentService;
+        this.moneyHolderService = moneyHolderService;
         this.plannedService = plannedService;
         this.currencyService = currencyService;
     }
@@ -85,7 +84,7 @@ public class FinancialServiceImpl implements FinancialService {
         }
 
         holderId = Long.parseLong(newOperation.getMoneyHolder());
-        Optional<MoneyHolder> moneyHolder = moneyHoldersRepository
+        Optional<MoneyHolder> moneyHolder = moneyHolderService
                             .findByUserAndId(user,holderId);
 
         if (!moneyHolder.isPresent()){
@@ -126,7 +125,7 @@ public class FinancialServiceImpl implements FinancialService {
     public void saveIncome(Income income){
         MoneyHolder moneyHolder = income.getMoneyHolder();
         moneyHolder.addIncome(income.getAmount());
-        moneyHoldersRepository.save(moneyHolder);
+        moneyHolderService.save(moneyHolder);
         financialRepository.save(income);
     }
 
@@ -137,7 +136,7 @@ public class FinancialServiceImpl implements FinancialService {
     public void saveExpense(Expense expense){
         MoneyHolder moneyHolder = expense.getMoneyHolder();
         moneyHolder.addExpense(expense.getAmount());
-        moneyHoldersRepository.save(moneyHolder);
+        moneyHolderService.save(moneyHolder);
         financialRepository.save(expense);
     }
 
@@ -165,7 +164,7 @@ public class FinancialServiceImpl implements FinancialService {
             if (income!=null){
                 MoneyHolder moneyHolder = income.getMoneyHolder();
                 moneyHolder.setAmount(moneyHolder.getAmount().subtract(income.getAmount()));
-                moneyHoldersRepository.save(moneyHolder);
+                moneyHolderService.save(moneyHolder);
                 financialRepository.deleteIncome(income);
             }
         }else if (operationType.equalsIgnoreCase("expense")){
@@ -173,7 +172,7 @@ public class FinancialServiceImpl implements FinancialService {
             if (expense!=null){
                 MoneyHolder moneyHolder = expense.getMoneyHolder();
                 moneyHolder.setAmount(moneyHolder.getAmount().add(expense.getAmount()));
-                moneyHoldersRepository.save(moneyHolder);
+                moneyHolderService.save(moneyHolder);
                 financialRepository.deleteExpense(expense);
             }
         }
@@ -243,20 +242,9 @@ public class FinancialServiceImpl implements FinancialService {
         wallet.setName(walletForm.getName());
         wallet.setType(moneyHolderType);
         wallet.setUser(user);
-        moneyHoldersRepository.save(wallet);
+        moneyHolderService.save(wallet);
 
         return Optional.empty();
-    }
-
-    /**
-     * Get list of all money holders for current logged user.
-     * @param user - current logged user
-     * @return - list of money holders
-     */
-    @Override
-    public List<MoneyHolder> getMoneyHolders(AppUser user) {
-       return moneyHoldersRepository.findAllByUser(user);
-
     }
 
     @Override
@@ -307,16 +295,6 @@ public class FinancialServiceImpl implements FinancialService {
         plannedService.deletePlan(planId, user);
     }
 
-    /**
-     * Get total amount of money from all wallets
-     * @param user (current logged user)
-     * @return - BigDecimal as sum of money in all user wallets
-     */
-    @Override
-    public BigDecimal getTotalAmount(AppUser user) {
-        BigDecimal amount = moneyHoldersRepository.findAllByUser(user).stream().map(MoneyHolder::getAmount).reduce(BigDecimal.ZERO,BigDecimal::add);
-        return amount==null?BigDecimal.ZERO:amount;
-    }
 
     @Override
     public BigDecimal getInvestmentsSum(AppUser user) {

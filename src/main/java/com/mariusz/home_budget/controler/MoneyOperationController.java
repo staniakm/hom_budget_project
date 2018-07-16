@@ -2,12 +2,10 @@ package com.mariusz.home_budget.controler;
 
 
 import com.mariusz.home_budget.entity.AppUser;
-import com.mariusz.home_budget.entity.Investment;
-import com.mariusz.home_budget.entity.form.InvestmentForm;
 import com.mariusz.home_budget.entity.form.MoneyFlowForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
-import com.mariusz.home_budget.helpers.LengthKeeper;
 import com.mariusz.home_budget.service.FinancialService;
+import com.mariusz.home_budget.service.MoneyHolderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +30,14 @@ public class MoneyOperationController {
 
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
+    private final MoneyHolderService moneyHolderService;
 
     @Autowired
-    public MoneyOperationController(AuthenticationFacade authenticationFacade, FinancialService financialService
-    ) {
+    public MoneyOperationController(AuthenticationFacade authenticationFacade, FinancialService financialService,
+                                    MoneyHolderService moneyHolderService) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
+        this.moneyHolderService = moneyHolderService;
     }
 
     @GetMapping("/registerOperation")
@@ -53,9 +53,9 @@ public class MoneyOperationController {
 
             MoneyFlowForm flowForm = new MoneyFlowForm();
             model.addAttribute("operationForm", flowForm);
-            model.addAttribute("moneyHolders", financialService.getMoneyHolders(user));
-            model.addAttribute("accounts", financialService.getMoneyHolders(user));
-            model.addAttribute("accountSum",financialService.getTotalAmount(user));
+            model.addAttribute("moneyHolders", moneyHolderService.getMoneyHolders(user));
+            model.addAttribute("accounts", moneyHolderService.getMoneyHolders(user));
+            model.addAttribute("accountSum",moneyHolderService.getTotalAmount(user));
 
             //TODO load list form DB
             List<String> categories = Arrays.asList("Nieokreślona", "Samochód", "Jedzenie", "Rachunki");
@@ -74,8 +74,8 @@ public class MoneyOperationController {
         model.addAttribute("fragment", "show_account_summary");
         model.addAttribute("nav", "account_nav");
 
-        model.addAttribute("accounts",financialService.getMoneyHolders(user));
-        model.addAttribute("accountSum",financialService.getTotalAmount(user));
+        model.addAttribute("accounts",moneyHolderService.getMoneyHolders(user));
+        model.addAttribute("accountSum",moneyHolderService.getTotalAmount(user));
         model.addAttribute("moneyFlows", financialService.getMoneyFlows(user));
 
         return ANALYZE_PAGE;

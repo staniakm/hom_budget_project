@@ -18,13 +18,15 @@ public class SiteLoaderController {
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
     private final MessagesService messagesService;
+    private final MoneyHolderService moneyHolderService;
 
     @Autowired
     public SiteLoaderController(AuthenticationFacade authenticationFacade, FinancialService financialService
-            , MessagesService messagesService) {
+            , MessagesService messagesService, MoneyHolderService moneyHolderService) {
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
         this.messagesService = messagesService;
+        this.moneyHolderService = moneyHolderService;
     }
 
     //Verification process done by Spring security.
@@ -43,7 +45,7 @@ public class SiteLoaderController {
         model.addAttribute("plannedBudgets", financialService.getPlannedBudgets(user, monthKeeper.getCurrent()));
         model.addAttribute("currency", financialService.getCurrences(user));
 
-        model.addAttribute("accountSum",financialService.getTotalAmount(user));
+        model.addAttribute("accountSum",moneyHolderService.getTotalAmount(user));
         model.addAttribute("investmentSum",financialService.getInvestmentsSum(user));
 
         return "welcome";

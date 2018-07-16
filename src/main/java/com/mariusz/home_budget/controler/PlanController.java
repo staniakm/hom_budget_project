@@ -6,6 +6,7 @@ import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
 import com.mariusz.home_budget.service.FinancialService;
+import com.mariusz.home_budget.service.MoneyHolderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,14 @@ public class PlanController {
 
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
+    private final MoneyHolderService moneyHolderService;
 
     @Autowired
-    public PlanController( AuthenticationFacade authenticationFacade, FinancialService financialService) {
+    public PlanController(AuthenticationFacade authenticationFacade, FinancialService financialService, MoneyHolderService moneyHolderService) {
 
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
+        this.moneyHolderService = moneyHolderService;
     }
 
     /**
@@ -65,7 +68,7 @@ public class PlanController {
         model.addAttribute("operators", Arrays.asList(PeriodicTypes.values()));
         model.addAttribute("currentDate",LocalDate.now());
         model.addAttribute("moneyFlowType",Arrays.asList(MoneyFlowTypes.values()));
-        model.addAttribute("moneyHolders",financialService.getMoneyHolders(user));
+        model.addAttribute("moneyHolders",moneyHolderService.getMoneyHolders(user));
 
         return "plan";
     }

@@ -17,8 +17,6 @@ public interface FinancialService {
 
     Optional<String> addMoneyHolder(WalletForm walletForm, AppUser user);
 
-    List<MoneyHolder> getMoneyHolders(AppUser user);
-
     void saveIncome(Income income);
 
     void saveExpense(Expense expense);
@@ -42,8 +40,6 @@ public interface FinancialService {
     Optional<String> savePlannedOperation(PlanForm planForm, AppUser user);
 
     void deletePlan(Long id, AppUser user);
-
-    BigDecimal getTotalAmount(AppUser user);
 
     BigDecimal getInvestmentsSum(AppUser user);
 

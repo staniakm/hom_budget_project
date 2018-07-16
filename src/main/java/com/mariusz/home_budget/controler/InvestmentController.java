@@ -5,8 +5,8 @@ import com.mariusz.home_budget.entity.Investment;
 import com.mariusz.home_budget.entity.form.InvestmentForm;
 import com.mariusz.home_budget.helpers.AuthenticationFacade;
 import com.mariusz.home_budget.helpers.LengthKeeper;
-import com.mariusz.home_budget.service.FinancialService;
 import com.mariusz.home_budget.service.InvestmentService;
+import com.mariusz.home_budget.service.MoneyHolderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +33,13 @@ public class InvestmentController {
 
     private final AuthenticationFacade authenticationFacade;
     private final InvestmentService investmentService;
-    private final FinancialService financialService;
+    private final MoneyHolderService moneyHolderService;
 
     @Autowired
-    public InvestmentController(AuthenticationFacade authenticationFacade, InvestmentService investmentService, FinancialService financialService) {
+    public InvestmentController(AuthenticationFacade authenticationFacade, InvestmentService investmentService, MoneyHolderService moneyHolderService) {
         this.authenticationFacade = authenticationFacade;
         this.investmentService = investmentService;
-        this.financialService = financialService;
+        this.moneyHolderService = moneyHolderService;
     }
 
 
@@ -69,7 +69,6 @@ public class InvestmentController {
 
         model.addAttribute("investment", investmentService.getInvestmentsById(user, id));
         model.addAttribute("investments", investmentService.getInvestments(user));
-        model.addAttribute("accountSum",financialService.getTotalAmount(user));
         model.addAttribute("investmentSum", investmentService.getInvestmentsSum(user));
 
         return ANALYZE_PAGE;
@@ -88,7 +87,7 @@ public class InvestmentController {
         model.addAttribute("operators", Arrays.asList(LengthKeeper.values()));
         model.addAttribute("currentDate", LocalDate.now());
         model.addAttribute("investmentSum",investmentService.getInvestmentsSum(user));
-        model.addAttribute("moneyHolders", financialService.getMoneyHolders(user));
+        model.addAttribute("moneyHolders", moneyHolderService.getMoneyHolders(user));
 
         return ANALYZE_PAGE;
     }
