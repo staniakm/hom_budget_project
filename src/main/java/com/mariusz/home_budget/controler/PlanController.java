@@ -7,6 +7,7 @@ import com.mariusz.home_budget.helpers.MoneyFlowTypes;
 import com.mariusz.home_budget.helpers.PeriodicTypes;
 import com.mariusz.home_budget.service.FinancialService;
 import com.mariusz.home_budget.service.MoneyHolderService;
+import com.mariusz.home_budget.service.PlannedService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,15 @@ public class PlanController {
     private final AuthenticationFacade authenticationFacade;
     private final FinancialService financialService;
     private final MoneyHolderService moneyHolderService;
+    private final PlannedService plannedService;
 
     @Autowired
-    public PlanController(AuthenticationFacade authenticationFacade, FinancialService financialService, MoneyHolderService moneyHolderService) {
+    public PlanController(AuthenticationFacade authenticationFacade, FinancialService financialService, MoneyHolderService moneyHolderService, PlannedService plannedService) {
 
         this.authenticationFacade = authenticationFacade;
         this.financialService = financialService;
         this.moneyHolderService = moneyHolderService;
+        this.plannedService = plannedService;
     }
 
     /**
@@ -92,7 +95,7 @@ public class PlanController {
     @PostMapping("/addPlan")
     public String registerPlan(@ModelAttribute("planForm") PlanForm planForm){
         AppUser user = authenticationFacade.getApplicationUser();
-        Optional<String> error = financialService.savePlannedOperation(planForm, user);
+        Optional<String> error = plannedService.savePlannedOperation(planForm, user);
         if(error.isPresent())
             logger.info(error.get());
         else
@@ -120,7 +123,7 @@ public class PlanController {
     @PostMapping("/deletePlan")
     public String deleteOperation(@RequestParam("operationId") Long operationId){
         AppUser user = authenticationFacade.getApplicationUser();
-        financialService.deletePlan(operationId, user);
+        plannedService.deletePlan(operationId, user);
         return "redirect:/welcome";
     }
 

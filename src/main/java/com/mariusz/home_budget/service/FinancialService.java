@@ -29,7 +29,7 @@ public interface FinancialService {
 
     List<PlannedOperation> getPlanedActiveOperation(AppUser user);
 
-    List<Currency> getCurrences();
+//    List<Currency> getCurrences();
 
     List<Currency> getCurrences(AppUser user);
 

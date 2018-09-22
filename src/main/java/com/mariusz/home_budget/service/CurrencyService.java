@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CurrencyService {
 
-    List<Currency> getCurrences();
+//    List<Currency> getCurrences();
     List<Currency> getCurrences(AppUser user);
     Currency getCurrency(String link);
 }

@@ -190,10 +190,10 @@ public class FinancialServiceImpl implements FinancialService {
         return plannedService.getPlanedActiveOperation(user);
     }
 
-    @Override
-    public List<Currency> getCurrences() {
-        return currencyService.getCurrences();
-    }
+//    @Override
+//    public List<Currency> getCurrences() {
+//        return currencyService.getCurrences();
+//    }
 
     @Override
     public List<Currency> getCurrences(AppUser user) {
