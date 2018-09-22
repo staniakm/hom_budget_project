@@ -1,6 +1,5 @@
 package com.mariusz.home_budget.service;
 
-import com.google.common.collect.Lists;
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.Currency;
 import com.mariusz.home_budget.repository.FinancialCustomRepository;
@@ -14,8 +13,12 @@ import java.util.List;
 @Service
 public class CurrencyServiceImpl implements CurrencyService {
 
+    private final FinancialCustomRepository customRepository;
+
     @Autowired
-    private FinancialCustomRepository customRepository;
+    public CurrencyServiceImpl(FinancialCustomRepository customRepository) {
+        this.customRepository = customRepository;
+    }
 
 //    @Override
 //    public List<Currency> getCurrences() {
