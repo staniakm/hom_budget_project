@@ -62,7 +62,6 @@ public class ApplicationUserService implements UserDetailsService {
                 .build();
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Transactional
     public Optional<String> registerUser(UserForm userForm) {
 

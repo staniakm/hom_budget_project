@@ -3,6 +3,7 @@ package com.mariusz.home_budget.service;
 import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.Currency;
 import com.mariusz.home_budget.repository.FinancialCustomRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,14 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CurrencyService {
 
     private final FinancialCustomRepository customRepository;
-
-    @Autowired
-    public CurrencyService(FinancialCustomRepository customRepository) {
-        this.customRepository = customRepository;
-    }
 
 //    @Override
 //    public List<Currency> getCurrences() {
