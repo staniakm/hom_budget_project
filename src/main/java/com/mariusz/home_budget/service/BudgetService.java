@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BudgetService implements BudgetService {
+public class BudgetService{
     private final BudgetRepository budgetRepository;
     private final FinancialCustomRepository customRepository;
 
@@ -29,13 +29,11 @@ public class BudgetService implements BudgetService {
     }
 
 
-    @Override
     public List<PlannedBudget> getPlannedBudgets(AppUser user, Integer month) {
 
         return budgetRepository.findAllForCurrentMonth(user.getId(), LocalDate.now().getYear(), month);
     }
 
-    @Override
     public Optional<String> savePlannedBudget(BudgetForm budgetForm, AppUser user) {
         String amount = budgetForm.getAmount();
         BigDecimal operationAmount = new BigDecimal(amount);
@@ -56,7 +54,6 @@ public class BudgetService implements BudgetService {
         return Optional.empty();
     }
 
-    @Override
     public Optional<PlannedBudget> updateBudget(AppUser user, String category, BigDecimal amount) {
         PlannedBudget budget = budgetRepository.getOneByCategory(user.getId(), category
                 , LocalDate.now().getYear(), LocalDate.now().getMonthValue());
@@ -72,7 +69,6 @@ public class BudgetService implements BudgetService {
      *
      * @param user (current logged user)
      */
-    @Override
     public void recalculateBudget(AppUser user) {
         //TODO change to allow recalculate budgets for other months
         customRepository.recalculateBudgets(user.getId(), LocalDate.now().getYear(), LocalDate.now().getMonthValue());

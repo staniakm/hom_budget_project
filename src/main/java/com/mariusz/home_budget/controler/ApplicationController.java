@@ -4,8 +4,7 @@ import com.mariusz.home_budget.entity.AppUser;
 import com.mariusz.home_budget.entity.form.UserForm;
 import com.mariusz.home_budget.listener.OnRegistrationCompleteEvent;
 import com.mariusz.home_budget.service.ApplicationUserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
@@ -27,8 +26,8 @@ import java.util.Locale;
 import java.util.Optional;
 
 @Controller
+@Slf4j
 public class ApplicationController {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final MessageSource messages;
     private final ApplicationUserService applicationUserService;
@@ -44,31 +43,31 @@ public class ApplicationController {
     }
 
 
-    @GetMapping(value = {"/","/index","/main"})
-    public String getMain(){
+    @GetMapping(value = {"/", "/index", "/main"})
+    public String getMain() {
         return "U0/index";
     }
 
     @GetMapping("/about")
-    public String getAbout(){
+    public String getAbout() {
         return "U0/about";
     }
 
     //user enter login page.
     @GetMapping("/login")
-    public String getLoginPage(){
+    public String getLoginPage() {
         return "U0/login";
     }
 
     //contact me page
     @GetMapping("/contact")
-    public String getContactPage(){
+    public String getContactPage() {
         return "U0/contact";
     }
 
     //page load while enters register page.
     @GetMapping("/register")
-    public String registerPage(Model model){
+    public String registerPage(Model model) {
 
         UserForm userForm = new UserForm();
         model.addAttribute("userForm", userForm);
@@ -77,20 +76,20 @@ public class ApplicationController {
 
     //user try to register new account. Validation and registration.
     @PostMapping("/register")
-    public ModelAndView registerUser(Model model , @ModelAttribute("userForm") UserForm userAccount
-                , BindingResult result, HttpServletRequest request) {
-        logger.info("New account");
+    public ModelAndView registerUser(Model model, @ModelAttribute("userForm") UserForm userAccount
+            , BindingResult result, HttpServletRequest request) {
+        log.info("New account");
         Optional<String> errorOccur = applicationUserService.registerUser(userAccount);
 
-        if (errorOccur.isPresent()){
+        if (errorOccur.isPresent()) {
             model.addAttribute("errorMessage", errorOccur.get());
             return new ModelAndView("U0/register", "userForm", userAccount);
         }
 
         AppUser user = applicationUserService.getUserByName(userAccount.getName());
-        if (user==null) {
+        if (user == null) {
             result.rejectValue("email", "message.regError");
-        }else {
+        } else {
             try {
                 String appUrl = getAppUrl(request);
                 applicationEventPublisher.publishEvent(new OnRegistrationCompleteEvent
