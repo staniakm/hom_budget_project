@@ -14,13 +14,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CurrencyServiceImplTest {
+public class CurrencyServiceTest {
 
     @Autowired
     private CurrencyService currencyService;
@@ -31,7 +30,7 @@ public class CurrencyServiceImplTest {
 
     @Before
     public void setUp(){
-        currencyService = new CurrencyServiceImpl(customRepository);
+        currencyService = new CurrencyService(customRepository);
     }
 
     @Test

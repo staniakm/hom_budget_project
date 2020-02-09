@@ -25,7 +25,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class BudgetServiceImplTest {
+public class BudgetServiceTest {
 
     @Autowired
     private BudgetService budgetService;
@@ -42,7 +42,7 @@ public class BudgetServiceImplTest {
 
     @Before
     public void setup() {
-        budgetService = new BudgetServiceImpl(budgetRepository, customRepository, mapper);
+        budgetService = new BudgetService(budgetRepository, customRepository, mapper);
         AppUser user = new AppUser();
         user.setName("Mariusz");
         user.setId(1L);
