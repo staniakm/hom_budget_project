@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration
-public class ApplicationUserServiceImplTest {
+public class ApplicationUserServiceTest {
 
 
 
@@ -37,7 +37,7 @@ public class ApplicationUserServiceImplTest {
         public ApplicationUserService applicationUserService(){
             PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-            return new ApplicationUserServiceImpl(passwordEncoder,userRepository,emailValidator,verificationTokenRepository);
+            return new ApplicationUserService(passwordEncoder,userRepository,emailValidator,verificationTokenRepository);
         }
 
         @Bean

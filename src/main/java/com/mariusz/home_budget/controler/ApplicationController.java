@@ -66,8 +66,6 @@ public class ApplicationController {
         return "U0/contact";
     }
 
-
-
     //page load while enters register page.
     @GetMapping("/register")
     public String registerPage(Model model){

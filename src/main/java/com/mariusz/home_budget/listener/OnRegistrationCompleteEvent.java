@@ -2,6 +2,7 @@ package com.mariusz.home_budget.listener;
 
 import com.mariusz.home_budget.entity.AppUser;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.Locale;

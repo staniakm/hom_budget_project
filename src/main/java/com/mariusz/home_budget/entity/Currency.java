@@ -10,6 +10,4 @@ public class Currency {
     private String currency;
     private String code;
     private Rate[] rates;
-
-
 }

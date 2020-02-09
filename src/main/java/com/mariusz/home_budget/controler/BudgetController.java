@@ -37,17 +37,17 @@ public class BudgetController {
      * Page that allow to create new planned budget for current month
      */
     @GetMapping("/planBudget")
-    public String planBudget(Model model){
+    public String planBudget(Model model) {
         AppUser user = authenticationFacade.getApplicationUser();
-        model.addAttribute(FRAGMENT_HTML_REPLACE_NAME,"budget");
+        model.addAttribute(FRAGMENT_HTML_REPLACE_NAME, "budget");
         model.addAttribute(LOGGED_USER, user);
 
         //TODO load categories from database
-        List<String> categories = Arrays.asList("Samochód","Jedzenie","Rachunki");
+        List<String> categories = Arrays.asList("Samochód", "Jedzenie", "Rachunki");
 
-        model.addAttribute("categories",categories);
+        model.addAttribute("categories", categories);
         BudgetForm budgetForm = new BudgetForm();
-        model.addAttribute("budgetForm",budgetForm);
+        model.addAttribute("budgetForm", budgetForm);
 
         return "plan";
     }
@@ -56,11 +56,11 @@ public class BudgetController {
      * Create new plan
      */
     @PostMapping("/addBudget")
-    public String addBudget(@ModelAttribute("budgetForm") BudgetForm budgetForm){
+    public String addBudget(@ModelAttribute("budgetForm") BudgetForm budgetForm) {
         AppUser user = authenticationFacade.getApplicationUser();
         Optional<String> error = budgetService.savePlannedBudget(budgetForm, user);
 
-        if(error.isPresent())
+        if (error.isPresent())
             logger.info(error.get());
         else
             logger.info("No error detected during plan saving process");

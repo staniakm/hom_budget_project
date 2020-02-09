@@ -1,7 +1,7 @@
 package com.mariusz.home_budget.controler;
 
 import com.mariusz.home_budget.entity.ShopingList;
-import com.mariusz.home_budget.service.ShoppingServiceImpl;
+import com.mariusz.home_budget.service.ShoppingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShopingController {
 
 
-    private final ShoppingServiceImpl shoppingService;
+    private final ShoppingService shoppingService;
 
     @Autowired
-    public ShopingController(ShoppingServiceImpl shoppingService) {
+    public ShopingController(ShoppingService shoppingService) {
         this.shoppingService = shoppingService;
     }
 
